@@ -6,37 +6,45 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class GeoPosition {
     private long id;
 
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
     private double latitude;
 
     private double longitude;
 
-    public GeoPosition(long id, double latitude, double longitude) {
+    private boolean isDead;
+
+    public GeoPosition(long id, double latitude, double longitude, boolean isDead) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.isDead = isDead;
     }
 
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
 
+
+    public double getLatitude() {
+        return latitude;
+    }
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public boolean getIsDead() {
+        return isDead;
+    }
+    public void setIsDead(boolean isDead) {
+        this.isDead = isDead;
     }
 }
