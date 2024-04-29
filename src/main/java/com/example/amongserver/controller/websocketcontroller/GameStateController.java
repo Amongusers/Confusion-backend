@@ -27,8 +27,8 @@ public class GameStateController {
         // отправим сообщения другим пользователям
     }
 
-    private void sendMessageToGeoPosition(GameState message) {
+    private void sendMessageToGeoPosition(GameState gameState) {
         // если сообщение отправляется в общий чат
-        simpleMessageTemplate.convertAndSend(GEMA_TOPIC, message);
+        simpleMessageTemplate.convertAndSend(GEMA_TOPIC, gameState);
     }
 }

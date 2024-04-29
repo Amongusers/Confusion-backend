@@ -26,9 +26,15 @@ public class UserController {
         // TODO: delete
         System.out.println(localUser);
         localUser.setReady(userGameDto.isReady());
-        service.update(localUser.getId(), localUser);
+        UserGameDto update = service.update(localUser.getId(), localUser);
+        if (!update.isReady()) {
+            System.out.println("Ошибка");
+        } else {
+            System.out.println("Всё чётко");
+        }
         allReady();
     }
+
 
     private void allReady() {
         List<UserGameDto> userList = service.getAll();
