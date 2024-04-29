@@ -9,10 +9,11 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GeoPosition {
     private long id;
-
+    
     private double latitude;
 
     private double longitude;
+    
     private boolean isDead;
 
     public GeoPosition(long id, double latitude, double longitude, boolean isDead) {
@@ -21,5 +22,4 @@ public class GeoPosition {
         this.longitude = longitude;
         this.isDead = isDead;
     }
-
 }
