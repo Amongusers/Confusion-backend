@@ -18,11 +18,29 @@ import static com.example.amongserver.constant.Const.*;
 @AllArgsConstructor
 public class GeoPositionController {
     private final SimpMessagingTemplate simpleMessageTemplate;
+    private ArrayList<Long> deadPlayers = new ArrayList<>();
 
     @MessageMapping("/sock")
-    public void geoPosSocket(GeoPosition geoPosition) {
-        sendMessageToGeoPosition(geoPosition); // отправим сообщения другим пользователям
+    public void geoPosSocket(GeoPosition res) {
+        System.out.println(
+                "RECEIVED: id=" + res.getId()
+                        + " | latitude=" + res.getLatitude()
+                        + " | longitude=" + res.getLongitude()
+                        + " | isDead=" + res.isDead()
+        );
+
+        if (deadPlayers.contains(res.getId())) {
+            System.out.println("Received player already dead!");
+            return;
+        }
+
+        if (res.isDead()) {
+            deadPlayers.add(res.getId());
+        }
+
+        sendMessageToGeoPosition(res); // отправим сообщения другим пользователям
     }
+
 
     private void sendMessageToGeoPosition(GeoPosition geoPosition) {
         // если сообщение отправляется в общий чат
