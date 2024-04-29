@@ -1,28 +1,38 @@
 package com.example.amongserver.controller.websocketcontroller;
 
-import com.example.amongserver.domain.entity.GameState;
-import com.example.amongserver.dto.UserVoteDto;
+import com.example.amongserver.dto.UserGameDto;
+import com.example.amongserver.service.UserGameDtoService;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.example.amongserver.constant.Const.*;
+import java.util.Timer;
+
+import static com.example.amongserver.constant.Const.LINK_CHAT;
+import static com.example.amongserver.constant.Const.VOTE_TOPIC;
 
 @RestController
 @RequestMapping(LINK_CHAT)
 @AllArgsConstructor
 public class VoteController {
     private final SimpMessagingTemplate simpleMessageTemplate;
+    private final UserGameDtoService userGameDtoService;
+    private final Timer timer;
     @MessageMapping("/vote")
-    public void geoPosSocket(UserVoteDto userVoteDto) {
-        sendMessageToGeoPosition(userVoteDto);
-        // отправим сообщения другим пользователям
+    public void geoPosSocket(UserGameDto userGameDto) {
+        UserGameDto localUser = userGameDtoService.getById(userGameDto.getId());
+        UserGameDto returnUser = userGameDtoService.vote(localUser.getId());
+        sendMessageToGeoPosition(returnUser);
     }
 
-    private void sendMessageToGeoPosition(UserVoteDto userVoteDto) {
+
+
+
+
+    private void sendMessageToGeoPosition(UserGameDto userGameDto) {
         // если сообщение отправляется в общий чат
-        simpleMessageTemplate.convertAndSend(VOTE_TOPIC, userVoteDto);
+        simpleMessageTemplate.convertAndSend(VOTE_TOPIC, userGameDto);
     }
 }

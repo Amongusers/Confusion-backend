@@ -28,7 +28,7 @@ public class User {
     private Boolean isImposter;
 
     @Column (name = "number_votes")
-    private int numberVotes;
+    private Integer numberVotes;
 
 
     public User(String login, boolean isReady, Boolean isImposter) {

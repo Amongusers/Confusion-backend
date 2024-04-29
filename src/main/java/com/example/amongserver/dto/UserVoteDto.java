@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserVoteDto {
     private Long id;
-    private int numberVotes;
+    private Integer numberVotes;
 }
