@@ -19,10 +19,10 @@ public class GameState {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "is_game_start")
-    private int isGame;
+    @Column(name = "game_state")
+    private int gameState;
 
-    public GameState(int isGame) {
-        this.isGame = isGame;
+    public GameState(int gameState) {
+        this.gameState = gameState;
     }
 }
