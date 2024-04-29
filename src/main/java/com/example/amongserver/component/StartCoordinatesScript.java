@@ -1,4 +1,4 @@
-package com.example.amongserver.service.script;
+package com.example.amongserver.component;
 
 import com.example.amongserver.domain.entity.StartCoordinates;
 import com.example.amongserver.reposirory.StartCoordinatesRepository;

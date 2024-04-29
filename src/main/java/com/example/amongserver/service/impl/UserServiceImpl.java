@@ -2,7 +2,6 @@ package com.example.amongserver.service.impl;
 
 
 import com.example.amongserver.domain.entity.User;
-import com.example.amongserver.dto.GameStateDto;
 import com.example.amongserver.reposirory.UserRepository;
 import com.example.amongserver.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +22,6 @@ public class UserServiceImpl implements UserService {
         user.setReady(false);
         user.setIsImposter(null);
         return repository.save(user);
-    }
-    @Override
-    public GameStateDto getGameStateDto() {
-// TODO: xxxxxxxx
-        return null;
     }
 
     @Override

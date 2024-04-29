@@ -20,17 +20,9 @@ public class GameState {
     private long id;
 
     @Column(name = "is_game_start")
-    private boolean isGameStart;
+    private int isGame;
 
-    @Column(name = "is_game_pause")
-    private boolean isGamePause;
-
-    @OneToMany(mappedBy = "gameState")
-    private List<User> users;
-
-    public GameState(boolean isGameStart, boolean isGamePause, List<User> users) {
-        this.isGameStart = isGameStart;
-        this.isGamePause = isGamePause;
-        this.users = users;
+    public GameState(int isGame) {
+        this.isGame = isGame;
     }
 }

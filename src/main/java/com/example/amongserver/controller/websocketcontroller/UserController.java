@@ -3,7 +3,6 @@ package com.example.amongserver.controller.websocketcontroller;
 
 
 import com.example.amongserver.domain.entity.User;
-import com.example.amongserver.dto.GameStateDto;
 import com.example.amongserver.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -72,6 +71,6 @@ public class UserController {
     private void sendMessageToUser(List<User> userList) {
         // если сообщение отправляется в общий чат
 
-        simpleMessageTemplate.convertAndSend(USER_TOPIC, new GameStateDto(1, false, false, userList));
+        simpleMessageTemplate.convertAndSend(USER_TOPIC, userList);
     }
 }
