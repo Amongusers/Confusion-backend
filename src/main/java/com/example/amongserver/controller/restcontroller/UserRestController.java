@@ -1,7 +1,7 @@
 package com.example.amongserver.controller.restcontroller;
 
-import com.example.amongserver.domain.entity.User;
-import com.example.amongserver.service.UserService;
+import com.example.amongserver.dto.UserGameDto;
+import com.example.amongserver.service.UserGameDtoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,19 +11,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserRestController {
 
-    private final UserService service;
+    private final UserGameDtoService service;
 
 
     @PostMapping("/user")
-    public User createUser(@RequestBody User user) {
-        return service.add(user);
+    public UserGameDto createUser(@RequestBody UserGameDto userGameDto) {
+        return service.add(userGameDto);
     }
     @GetMapping("/user")
-    public List<User> getAllUsers() {
+    public List<UserGameDto> getAllUsers() {
         return service.getAll();
     }
     @GetMapping("/user/{id}")
-    public User getById(@PathVariable long id) {
+    public UserGameDto getById(@PathVariable long id) {
         return service.getById(id);
     }
 }

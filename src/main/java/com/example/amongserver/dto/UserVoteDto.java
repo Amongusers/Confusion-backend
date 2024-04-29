@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserVoteDto {
-    private long id;
+    private Long id;
     private int numberVotes;
 }

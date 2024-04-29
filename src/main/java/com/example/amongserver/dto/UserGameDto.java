@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserGameDto {
 
-    private long id;
+    private Long id;
 
     private String login;
 

@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class StartCoordinates {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column (name = "latitude")
     private double latitude;

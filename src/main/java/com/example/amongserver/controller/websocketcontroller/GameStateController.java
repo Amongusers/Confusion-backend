@@ -23,7 +23,6 @@ public class GameStateController {
 
     @MessageMapping("/gema")
     public void geoPosSocket(GameState gameState) {
-        gameStateService.update(gameState.getId(), gameState);
         sendMessageToGeoPosition(gameStateService.update(gameState.getId(), gameState));
         // отправим сообщения другим пользователям
     }
