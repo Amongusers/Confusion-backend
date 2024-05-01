@@ -19,7 +19,6 @@ import static com.example.amongserver.constant.Const.VOTE_TOPIC;
 public class VoteController {
     private final SimpMessagingTemplate simpleMessageTemplate;
     private final UserGameDtoService userGameDtoService;
-    private final Timer timer;
     @MessageMapping("/vote")
     public void geoPosSocket(UserGameDto userGameDto) {
         UserGameDto localUser = userGameDtoService.getById(userGameDto.getId());
