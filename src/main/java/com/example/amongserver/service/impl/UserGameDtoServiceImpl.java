@@ -10,10 +10,8 @@ import com.example.amongserver.service.UserGameDtoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -77,40 +75,55 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
     }
 
     @Override
-    public UserGameDto vote(long id) {
-        Optional<User> userOptional = userRepository.findById(id);
+    public UserGameDto vote(UserGameDto userGameDto) {
+        Optional<User> userOptional = userRepository.findById(userGameDto.getId());
 
-        if (userOptional.isEmpty()) throw new RuntimeException("User with ID " + id + " not found");
+        if (userOptional.isEmpty()) throw new RuntimeException("User with ID " + userGameDto.getId() + " not found");
 
-        User user = userOptional.get();
-        user.setNumberVotes(user.getNumberVotes()+1);
-        userRepository.save(user);
-        // TODO: таймер
-        return UserMapper.toUserGameGto(user);
+        User userDB = userOptional.get();
+        userDB.setNumberVotes(userDB.getNumberVotes()+1);
+        userRepository.save(userDB);
 
-//        List<User> users = userRepository.findAll();
-//        Timer timer = new Timer();
-//        for (User user1 : users) {
-//            if (user1.getNumberVotes()!=null) {
-//                timer.schedule(new TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        return ;
-//                    }
-//                }, 60000);
-//                break;
-//            }
-//        }
-//
-//
-//        boolean isAllVoting = true;
-//        for (UserVoteDto userVoteDto : usersVoteDto) {
-//            if (userVoteDto.getNumberVotes()==null) {
-//                isAllVoting = false;
-//                break;
-//            }
-//        }
-//
+        // Проверяем, есть ли пользователи, у которых уже были голоса
+        List<User> users = userRepository.findAll();
+        boolean anyVotes = users.stream().anyMatch(u -> u.getNumberVotes() > 0);
+
+        // Если хотя бы один пользователь проголосовал, запускаем таймер
+        if (anyVotes) {
+            Timer timer = new Timer();
+            AtomicReference<UserGameDto> result = new AtomicReference<>(null); // Переменная для сохранения результата
+
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    // По истечению времени таймера проверяем, все ли проголосовали
+                    int numberVotes  = 0;
+                    for (User user : users) {
+                        numberVotes += user.getNumberVotes();
+                    }
+                    boolean allVoted = users.size() == numberVotes;
+                    if (allVoted) {
+                        // Если все проголосовали, выбираем пользователя с максимальным количеством голосов
+                        User maxVotedUser = users.stream()
+                                .max(Comparator.comparing(User::getNumberVotes))
+                                .orElse(null);
+
+                        // Преобразуем выбранного пользователя в UserGameDto и сохраняем его в переменной result
+                        if (maxVotedUser != null) {
+                            result.set(UserMapper.toUserGameGto(maxVotedUser));
+                        } else {
+                            result.set(null);
+                        }
+                    }
+                    // Здесь нет необходимости возвращать значение, так как мы сохраняем результат в переменной
+                }
+            }, 60000); // 1 минута
+
+            // Возвращаем результат, который был сохранен в переменной
+            return result.get();
+        }
+
+        return null; // Если нет голосов, возвращаем null
     }
 
 }
