@@ -31,19 +31,18 @@ public class GameCoordinatesController {
 
             // Сохраняем изменения в базе данных
             service.add(existingCoordinates);
-
-
-            List<StartCoordinates> startCoordinatesList = service.getAll();;
-            List<StartCoordinates> trueConditionCoordinates = new ArrayList<>();
-
-            for (StartCoordinates startCoordinates : startCoordinatesList) {
-                if (!startCoordinates.isCompleted()) {
-                    trueConditionCoordinates.add(startCoordinates);
-                }
-            }
-
-            sendCoordinatesToClients(trueConditionCoordinates);
         }
+
+        List<StartCoordinates> startCoordinatesList = service.getAll();;
+        List<StartCoordinates> trueConditionCoordinates = new ArrayList<>();
+
+        for (StartCoordinates startCoordinates : startCoordinatesList) {
+            if (!startCoordinates.isCompleted()) {
+                trueConditionCoordinates.add(startCoordinates);
+            }
+        }
+
+        sendCoordinatesToClients(trueConditionCoordinates);
     }
 
     private void sendCoordinatesToClients(List<StartCoordinates> coordinatesList) {
