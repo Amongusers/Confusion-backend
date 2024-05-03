@@ -7,6 +7,7 @@ import com.example.amongserver.dto.UserVoteDto;
 import com.example.amongserver.mapper.UserMapper;
 import com.example.amongserver.reposirory.UserRepository;
 import com.example.amongserver.service.UserGameDtoService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,13 @@ import java.util.stream.Collectors;
 public class UserGameDtoServiceImpl implements UserGameDtoService {
     private final UserRepository userRepository;
 
+    private boolean isVoteCansel;
+    private final Timer timer = new Timer();
 
+    @Override
+    public boolean isVoteCanceled() {
+        return isVoteCansel;
+    }
 
     @Override
     public UserGameDto add(UserGameDto userGameDto) {
@@ -86,44 +93,46 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
 
         // Проверяем, есть ли пользователи, у которых уже были голоса
         List<User> users = userRepository.findAll();
-        boolean anyVotes = users.stream().anyMatch(u -> u.getNumberVotes() > 0);
+
+        int totalVotes = users.stream().mapToInt(User::getNumberVotes).sum();
 
         // Если хотя бы один пользователь проголосовал, запускаем таймер
-        if (anyVotes) {
-            Timer timer = new Timer();
+
+        if (totalVotes==1) {
+
             AtomicReference<UserGameDto> result = new AtomicReference<>(null); // Переменная для сохранения результата
 
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    // По истечению времени таймера проверяем, все ли проголосовали
-                    int numberVotes  = 0;
-                    for (User user : users) {
-                        numberVotes += user.getNumberVotes();
-                    }
-                    boolean allVoted = users.size() == numberVotes;
-                    if (allVoted) {
-                        // Если все проголосовали, выбираем пользователя с максимальным количеством голосов
-                        User maxVotedUser = users.stream()
-                                .max(Comparator.comparing(User::getNumberVotes))
-                                .orElse(null);
-
-                        // Преобразуем выбранного пользователя в UserGameDto и сохраняем его в переменной result
-                        if (maxVotedUser != null) {
-                            result.set(UserMapper.toUserGameGto(maxVotedUser));
-                        } else {
-                            result.set(null);
-                        }
-                    }
-                    // Здесь нет необходимости возвращать значение, так как мы сохраняем результат в переменной
+                    isVoteCansel = true;
+                    result.set(getUserGameDto(users));
                 }
             }, 60000); // 1 минута
 
             // Возвращаем результат, который был сохранен в переменной
             return result.get();
+        } else if (totalVotes==users.size()) {
+            timer.cancel();
+            isVoteCansel = true;
+            return getUserGameDto(users);
+        }  else {
+            return null;
         }
-
-        return null; // Если нет голосов, возвращаем null
     }
 
+
+
+    private UserGameDto getUserGameDto(List<User> users) {
+        User maxVotedUser = users.stream()
+                .max(Comparator.comparing(User::getNumberVotes))
+                .orElse(null);
+
+        // Преобразуем выбранного пользователя в UserGameDto и сохраняем его в переменной result
+        if (maxVotedUser != null) {
+            return UserMapper.toUserGameGto(maxVotedUser);
+        } else {
+            return null;
+        }
+    }
 }
