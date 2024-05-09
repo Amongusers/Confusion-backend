@@ -1,7 +1,7 @@
 package com.example.amongserver.service.impl;
 
 import com.example.amongserver.domain.entity.GameState;
-import com.example.amongserver.reposirory.GemaStateRepository;
+import com.example.amongserver.reposirory.GameStateRepository;
 import com.example.amongserver.service.GameStateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class GameStateServiceImpl implements GameStateService {
-    private final GemaStateRepository gemaStateRepository;
+    private final GameStateRepository gemaStateRepository;
     @Override
     public GameState add(GameState gameState) {
         return gemaStateRepository.save(gameState);

@@ -1,17 +1,17 @@
 package com.example.amongserver.component;
 
 import com.example.amongserver.domain.entity.GameState;
-import com.example.amongserver.reposirory.GemaStateRepository;
+import com.example.amongserver.reposirory.GameStateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GameOneStartScript implements CommandLineRunner {
-    private final GemaStateRepository gemaStateRepository;
+    private final GameStateRepository gemaStateRepository;
 
     @Autowired
-    public GameOneStartScript(GemaStateRepository repository) {
+    public GameOneStartScript(GameStateRepository repository) {
         this.gemaStateRepository = repository;
     }
 

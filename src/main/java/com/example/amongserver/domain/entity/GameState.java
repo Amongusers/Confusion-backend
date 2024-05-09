@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Builder
@@ -20,6 +21,9 @@ public class GameState {
 
     @Column(name = "game_state")
     private int gameState;
+
+    @OneToMany(mappedBy = "gameState", cascade = CascadeType.ALL)
+    private List<User> userList;
 
     public GameState(int gameState) {
         this.gameState = gameState;

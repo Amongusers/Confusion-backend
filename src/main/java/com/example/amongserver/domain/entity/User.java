@@ -30,6 +30,18 @@ public class User {
     @Column (name = "number_votes")
     private Integer numberVotes;
 
+    @Column (name = "latitude")
+    private double latitude;
+
+    @Column (name = "longitude")
+    private double longitude;
+
+    @Column (name = "is_dead")
+    private boolean isDead;
+
+    @ManyToOne
+    private GameState gameState;
+
 
     public User(String login, boolean isReady, Boolean isImposter) {
         this.login = login;

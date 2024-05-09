@@ -8,22 +8,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserRestController {
 
     private final UserGameDtoService service;
 
 
-    @PostMapping("/user")
+    @PostMapping()
     public UserGameDto createUser(@RequestBody UserGameDto userGameDto) {
         return service.add(userGameDto);
     }
-    @GetMapping("/user")
+    @GetMapping()
     public List<UserGameDto> getAllUsers() {
         return service.getAll();
-    }
-    @GetMapping("/user/{id}")
-    public UserGameDto getById(@PathVariable long id) {
-        return service.getById(id);
     }
 }

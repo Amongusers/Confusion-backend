@@ -1,18 +1,16 @@
 package com.example.amongserver.service.impl;
 
 
+import com.example.amongserver.domain.entity.GameState;
 import com.example.amongserver.domain.entity.User;
 import com.example.amongserver.dto.UserGameDto;
-import com.example.amongserver.dto.UserVoteDto;
-import com.example.amongserver.mapper.UserMapper;
+import com.example.amongserver.mapper.UserGameMapper;
+import com.example.amongserver.reposirory.GameStateRepository;
 import com.example.amongserver.reposirory.UserRepository;
 import com.example.amongserver.service.UserGameDtoService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -21,6 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserGameDtoServiceImpl implements UserGameDtoService {
     private final UserRepository userRepository;
+    private final GameStateRepository gameStateRepository;
 
     private boolean isVoteCansel;
     private final Timer timer = new Timer();
@@ -32,13 +31,15 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
 
     @Override
     public UserGameDto add(UserGameDto userGameDto) {
-        User user = UserMapper.toUserEntity(userGameDto);
+        User user = UserGameMapper.toUserEntity(userGameDto);
         user.setReady(false);
         user.setIsImposter(null);
         //TODO: хз надо ли так
         user.setNumberVotes(0);
+        GameState gameState = gameStateRepository.getById(1L);
+        user.setGameState(gameState);
 
-        return UserMapper.toUserGameGto(userRepository
+        return UserGameMapper.toUserGameGto(userRepository
                 .save(user));
     }
 
@@ -46,26 +47,36 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
     public List<UserGameDto> getAll() {
         return userRepository.findAll()
                 .stream()
-                .map(UserMapper::toUserGameGto)
+                .map(UserGameMapper::toUserGameGto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserGameDto> getAllIsDead() {
+        return userRepository.findAllByIsDead(true)
+                .stream()
+                .map(UserGameMapper::toUserGameGto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public UserGameDto getById(long id) {
-        Optional<User> user = userRepository.findById(id);
-        if(user.isEmpty()) throw new RuntimeException("User with ID " + id + " not found");
-
-        return UserMapper.toUserGameGto(user.get());
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isEmpty()) {
+            throw new RuntimeException("User with ID " + id + " not found");
+        }
+        return UserGameMapper.toUserGameGto(userOptional.get());
     }
+
 
     @Override
     public List<UserGameDto> addAll(List<UserGameDto> userGameDtoList) {
         List<User> userList = userGameDtoList.stream()
-                .map(UserMapper::toUserEntity)
+                .map(UserGameMapper::toUserEntity)
                 .toList();
         return userRepository.saveAll(userList)
                 .stream()
-                .map(UserMapper::toUserGameGto)
+                .map(UserGameMapper::toUserGameGto)
                 .collect(Collectors.toList());
     }
 
@@ -80,7 +91,7 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
         user.setReady(userGameDto.isReady());
         if (userGameDto.getIsImposter() != null) user.setIsImposter(userGameDto.getIsImposter());
 
-        return UserMapper.toUserGameGto(userRepository.save(user));
+        return UserGameMapper.toUserGameGto(userRepository.save(user));
     }
 
     @Override
@@ -132,7 +143,7 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
 
         // Преобразуем выбранного пользователя в UserGameDto и сохраняем его в переменной result
         if (maxVotedUser != null) {
-            return UserMapper.toUserGameGto(maxVotedUser);
+            return UserGameMapper.toUserGameGto(maxVotedUser);
         } else {
             return null;
         }

@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface GemaStateRepository extends JpaRepository<GameState, Long> {
+public interface GameStateRepository extends JpaRepository<GameState, Long> {
 }
