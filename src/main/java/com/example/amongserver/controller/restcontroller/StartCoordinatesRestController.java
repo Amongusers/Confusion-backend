@@ -1,34 +1,26 @@
 package com.example.amongserver.controller.restcontroller;
 
 
-
-import com.example.amongserver.domain.entity.StartCoordinates;
-import com.example.amongserver.service.StartCoordinatesService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.*;
+import com.example.amongserver.domain.entity.GameCoordinates;
+import com.example.amongserver.service.GameCoordinatesService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("startCoordinates")
+@RequiredArgsConstructor
 public class StartCoordinatesRestController {
-    private final StartCoordinatesService service;
 
-    @Autowired
-    public StartCoordinatesRestController(StartCoordinatesService service, SimpMessagingTemplate simpleMessageTemplate) {
-        this.service = service;
-    }
+    private final GameCoordinatesService startCoordinatesService;
 
-    @PostMapping("/startCoordinates")
-    public StartCoordinates createUser(@RequestBody StartCoordinates startCoordinates) {
-        return service.add(startCoordinates);
-    }
-    @GetMapping("/startCoordinates")
-    public List<StartCoordinates> getAllUsers() {
-        return service.getAll();
-    }
-    @GetMapping("/startCoordinates/{id}")
-    public StartCoordinates getById(@PathVariable long id) {
-        return service.getById(id);
+
+
+    @GetMapping()
+    public List<GameCoordinates> getAllUsers() {
+        return startCoordinatesService.getAll();
     }
 }
