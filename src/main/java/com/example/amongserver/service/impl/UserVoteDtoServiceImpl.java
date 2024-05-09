@@ -81,4 +81,13 @@ public class UserVoteDtoServiceImpl implements UserVoteDtoService {
     public void setVoteCanceled(boolean isCanceled) {
         this.isVoteCansel=isCanceled;
     }
+
+    @Override
+    public void resetNumberVotes() {
+        List<User> userList = userRepository.findAll();
+        for (User user : userList) {
+            user.setNumberVotes(0);
+            userRepository.save(user);
+        }
+    }
 }

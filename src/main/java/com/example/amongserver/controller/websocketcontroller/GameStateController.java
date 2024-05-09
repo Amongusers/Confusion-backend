@@ -1,7 +1,7 @@
 package com.example.amongserver.controller.websocketcontroller;
 
 
-import com.example.amongserver.domain.entity.GameState;
+import com.example.amongserver.dto.GameStateDto;
 import com.example.amongserver.service.GameStateService;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -21,13 +21,13 @@ public class GameStateController {
 
 
     @MessageMapping("/game")
-    public void geoPosSocket(GameState gameState) {
-        sendMessageToGeoPosition(gameStateService.update(gameState.getId(), gameState));
+    public void geoPosSocket() {
+        sendMessageToGeoPosition(gameStateService.getGameState());
         // отправим сообщения другим пользователям
     }
 
-    private void sendMessageToGeoPosition(GameState gameState) {
+    private void sendMessageToGeoPosition(GameStateDto gameStateDto) {
         // если сообщение отправляется в общий чат
-        simpleMessageTemplate.convertAndSend(GEMA_TOPIC, gameState);
+        simpleMessageTemplate.convertAndSend(GEMA_TOPIC, gameStateDto);
     }
 }

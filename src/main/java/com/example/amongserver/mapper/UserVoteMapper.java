@@ -9,21 +9,18 @@ public class UserVoteMapper {
 
     public User toUserEntity(UserVoteDto userVoteDto) {
 
-        User user = User.builder()
-                .numberVotes(userVoteDto.getNumberVotes())
+
+        return User.builder()
+                .id(userVoteDto.getId())
+                .login(userVoteDto.getLogin())
                 .build();
-
-        if (userVoteDto.getId()!=null) {
-            user.setId(userVoteDto.getId());
-        }
-
-        return user;
     }
 
     public UserVoteDto toUserVoteDto(User user) {
 
         return UserVoteDto.builder()
-                .numberVotes(user.getNumberVotes())
+                .id(user.getId())
+                .login(user.getLogin())
                 .build();
     }
 }

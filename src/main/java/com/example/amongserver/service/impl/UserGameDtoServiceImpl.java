@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.example.amongserver.constant.Const.USER_TOPIC;
-
 @Service
 @RequiredArgsConstructor
 public class UserGameDtoServiceImpl implements UserGameDtoService {
@@ -31,6 +29,7 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
         user.setLatitude(null);
         user.setLongitude(null);
         user.setDead(false);
+        user.setNumberVotes(0);
         //TODO: хз надо ли так
         user.setNumberVotes(0);
         GameState gameState = gameStateRepository.getById(1L);
@@ -96,12 +95,6 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
         userList.get(impostorIndex).setIsImposter(true);
         return userRepository.saveAll(userList);
     }
-
-
-
-
-
-
 
 
 

@@ -35,6 +35,7 @@ public class VoteController {
     private void sendMessageToGeoPosition(UserVoteDto userVoteDto) {
         // если сообщение отправляется в общий чат
         userVoteDtoService.setVoteCanceled(false);
+        userVoteDtoService.resetNumberVotes();
         simpleMessageTemplate.convertAndSend(VOTE_TOPIC, userVoteDto);
     }
 }

@@ -13,4 +13,8 @@ public interface UserVoteDtoService {
     // Используется в VoteController
     boolean isVoteCanceled();
     void setVoteCanceled(boolean isCanceled);
+
+    // Очистка голосовани
+    // Используется в VoteController
+    void resetNumberVotes();
 }

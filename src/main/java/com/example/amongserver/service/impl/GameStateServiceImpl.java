@@ -1,6 +1,9 @@
 package com.example.amongserver.service.impl;
 
 import com.example.amongserver.domain.entity.GameState;
+import com.example.amongserver.domain.entity.User;
+import com.example.amongserver.dto.GameStateDto;
+import com.example.amongserver.mapper.GameStateMapper;
 import com.example.amongserver.reposirory.GameStateRepository;
 import com.example.amongserver.service.GameStateService;
 import lombok.RequiredArgsConstructor;
@@ -24,14 +27,32 @@ public class GameStateServiceImpl implements GameStateService {
         return gameState.get();
     }
 
+
+    // TODO : нужно улучшить
     @Override
-    public GameState update(long id, GameState gameState) {
-        Optional<GameState> gameStateOptional = gemaStateRepository.findById(id);
-        if (gameStateOptional.isEmpty()) throw new RuntimeException("User with ID " + id + " not found");
+    public GameStateDto getGameState() {
+        GameState gameState = gemaStateRepository.getById(1L);
+        boolean isAllReady = true;
+        int saveGameState;
+        for (User user : gameState.getUserList()) {
+            if (!user.isReady()) {
+                isAllReady = false;
+                break;
+            }
+        }
+        if (isAllReady) {
+            int totalVotes = gameState.getUserList()
+                    .stream().mapToInt(User::getNumberVotes).sum();
+            if (totalVotes==0) {
+                saveGameState = 1;
+            } else {
+                saveGameState = 2;
+            }
+        } else {
+            saveGameState = 0;
+        }
+        gameState.setGameState(saveGameState);
 
-        GameState updateGameState  = gameStateOptional.get();
-        updateGameState.setGameState(gameState.getGameState());
-
-        return gemaStateRepository.save(updateGameState);
+        return GameStateMapper.toGameStateGto(gemaStateRepository.save(gameState));
     }
 }
