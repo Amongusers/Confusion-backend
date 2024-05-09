@@ -13,14 +13,14 @@ import java.util.List;
 @RestController
 @RequestMapping("startCoordinates")
 @RequiredArgsConstructor
-public class StartCoordinatesRestController {
+public class GameCoordinatesRestController {
 
-    private final GameCoordinatesService startCoordinatesService;
+    private final GameCoordinatesService gameCoordinatesService;
 
 
 
     @GetMapping()
     public List<GameCoordinates> getAllUsers() {
-        return startCoordinatesService.getAll();
+        return gameCoordinatesService.getAll();
     }
 }

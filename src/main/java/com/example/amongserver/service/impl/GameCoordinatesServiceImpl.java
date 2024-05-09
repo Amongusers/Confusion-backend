@@ -24,8 +24,12 @@ public class GameCoordinatesServiceImpl implements GameCoordinatesService {
     }
 
     @Override
-    public void add(GameCoordinates startCoordinates) {
-        gameCoordinatesRepository.save(startCoordinates);
+    public void addAll(List<GameCoordinatesDto> gameCoordinatesDtoList) {
+        List<GameCoordinates> gameCoordinatesList = gameCoordinatesDtoList
+                .stream()
+                .map(GameCoordinatesMapper::toGameCoordinatesEntity)
+                .collect(Collectors.toList());
+        gameCoordinatesRepository.saveAll(gameCoordinatesList);
     }
 
     @Override

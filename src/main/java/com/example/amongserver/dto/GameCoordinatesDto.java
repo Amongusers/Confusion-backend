@@ -22,4 +22,10 @@ public class GameCoordinatesDto {
 
 
     private boolean completed;
+
+    public GameCoordinatesDto(double latitude, double longitude, boolean completed) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.completed = completed;
+    }
 }

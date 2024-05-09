@@ -13,7 +13,7 @@ public interface GameCoordinatesService {
 
 
     // Заполнение базы данных изначальными значениями
-    void add(GameCoordinates startCoordinates);
+    void addAll(List<GameCoordinatesDto> gameCoordinatesList);
 
     // Получение всех невыполненных заданий
     // Используется в GameCoordinatesController
