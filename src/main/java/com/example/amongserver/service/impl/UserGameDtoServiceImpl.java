@@ -7,13 +7,12 @@ import com.example.amongserver.dto.UserVoteDto;
 import com.example.amongserver.mapper.UserMapper;
 import com.example.amongserver.reposirory.UserRepository;
 import com.example.amongserver.service.UserGameDtoService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,7 +20,13 @@ import java.util.stream.Collectors;
 public class UserGameDtoServiceImpl implements UserGameDtoService {
     private final UserRepository userRepository;
 
+    private boolean isVoteCansel;
+    private final Timer timer = new Timer();
 
+    @Override
+    public boolean isVoteCanceled() {
+        return isVoteCansel;
+    }
 
     @Override
     public UserGameDto add(UserGameDto userGameDto) {
@@ -77,40 +82,57 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
     }
 
     @Override
-    public UserGameDto vote(long id) {
-        Optional<User> userOptional = userRepository.findById(id);
+    public UserGameDto vote(UserGameDto userGameDto) {
+        Optional<User> userOptional = userRepository.findById(userGameDto.getId());
 
-        if (userOptional.isEmpty()) throw new RuntimeException("User with ID " + id + " not found");
+        if (userOptional.isEmpty()) throw new RuntimeException("User with ID " + userGameDto.getId() + " not found");
 
-        User user = userOptional.get();
-        user.setNumberVotes(user.getNumberVotes()+1);
-        userRepository.save(user);
-        // TODO: таймер
-        return UserMapper.toUserGameGto(user);
+        User userDB = userOptional.get();
+        userDB.setNumberVotes(userDB.getNumberVotes()+1);
+        userRepository.save(userDB);
 
-//        List<User> users = userRepository.findAll();
-//        Timer timer = new Timer();
-//        for (User user1 : users) {
-//            if (user1.getNumberVotes()!=null) {
-//                timer.schedule(new TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        return ;
-//                    }
-//                }, 60000);
-//                break;
-//            }
-//        }
-//
-//
-//        boolean isAllVoting = true;
-//        for (UserVoteDto userVoteDto : usersVoteDto) {
-//            if (userVoteDto.getNumberVotes()==null) {
-//                isAllVoting = false;
-//                break;
-//            }
-//        }
-//
+        // Проверяем, есть ли пользователи, у которых уже были голоса
+        List<User> users = userRepository.findAll();
+
+        int totalVotes = users.stream().mapToInt(User::getNumberVotes).sum();
+
+        // Если хотя бы один пользователь проголосовал, запускаем таймер
+
+        if (totalVotes==1) {
+
+            AtomicReference<UserGameDto> result = new AtomicReference<>(null); // Переменная для сохранения результата
+
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isVoteCansel = true;
+                    result.set(getUserGameDto(users));
+                }
+            }, 60000); // 1 минута
+
+            // Возвращаем результат, который был сохранен в переменной
+            return result.get();
+        } else if (totalVotes==users.size()) {
+            timer.cancel();
+            isVoteCansel = true;
+            return getUserGameDto(users);
+        }  else {
+            return null;
+        }
     }
 
+
+
+    private UserGameDto getUserGameDto(List<User> users) {
+        User maxVotedUser = users.stream()
+                .max(Comparator.comparing(User::getNumberVotes))
+                .orElse(null);
+
+        // Преобразуем выбранного пользователя в UserGameDto и сохраняем его в переменной result
+        if (maxVotedUser != null) {
+            return UserMapper.toUserGameGto(maxVotedUser);
+        } else {
+            return null;
+        }
+    }
 }

@@ -10,5 +10,7 @@ public interface UserGameDtoService {
     UserGameDto getById(long id);
     List<UserGameDto> addAll (List<UserGameDto> userList);
     UserGameDto update(long id, UserGameDto userGameDto);
-    UserGameDto vote(long id);
+    UserGameDto vote(UserGameDto userGameDto);
+
+    boolean isVoteCanceled();
 }

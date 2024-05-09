@@ -10,7 +10,7 @@ public class Const {
     public static final String COORDINATES = "coordinates";
     public static final String USER = "user";
     public static final String GAME = "game";
-    public static final String VOTE = "game";
+    public static final String VOTE = "vote";
     public static final String LINK_API_V1 = LINK_API + "/" + "v1";
     public static final String LINK_CHAT = LINK_API_V1 + "/" + CHAT;
 
