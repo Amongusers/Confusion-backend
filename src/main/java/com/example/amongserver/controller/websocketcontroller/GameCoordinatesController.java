@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.amongserver.constant.Const.*;
+import static com.example.amongserver.constant.Const.COORDINATES_TOPIC;
+import static com.example.amongserver.constant.Const.LINK_CHAT;
 
 @RestController
 @RequestMapping(LINK_CHAT)

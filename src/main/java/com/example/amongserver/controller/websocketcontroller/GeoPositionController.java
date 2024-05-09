@@ -8,10 +8,10 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import java.util.ArrayList;
 
-import static com.example.amongserver.constant.Const.*;
+import static com.example.amongserver.constant.Const.GEOPOS_TOPIC;
+import static com.example.amongserver.constant.Const.LINK_CHAT;
 
 @RestController
 @RequestMapping(LINK_CHAT)

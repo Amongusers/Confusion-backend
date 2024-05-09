@@ -1,7 +1,6 @@
 package com.example.amongserver.service.impl;
 
 import com.example.amongserver.domain.entity.GameState;
-import com.example.amongserver.domain.entity.User;
 import com.example.amongserver.reposirory.GemaStateRepository;
 import com.example.amongserver.service.GameStateService;
 import lombok.RequiredArgsConstructor;
