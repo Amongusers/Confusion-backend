@@ -1,14 +1,13 @@
 package com.example.amongserver.controller.websocketcontroller;
 
 
-import com.example.amongserver.domain.GeoPosition;
+import com.example.amongserver.dto.UserGeoPositionDto;
+import com.example.amongserver.service.UserGeoPositionService;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
 
 import static com.example.amongserver.constant.Const.GEOPOS_TOPIC;
 import static com.example.amongserver.constant.Const.LINK_CHAT;
@@ -18,32 +17,20 @@ import static com.example.amongserver.constant.Const.LINK_CHAT;
 @AllArgsConstructor
 public class GeoPositionController {
     private final SimpMessagingTemplate simpleMessageTemplate;
-    private ArrayList<Long> deadPlayers = new ArrayList<>();
+    private final UserGeoPositionService userGeoPositionService;
 
     @MessageMapping("/sock")
-    public void geoPosSocket(GeoPosition res) {
-        System.out.println(
-                "RECEIVED: id=" + res.getId()
-                        + " | latitude=" + res.getLatitude()
-                        + " | longitude=" + res.getLongitude()
-                        + " | isDead=" + res.isDead()
-        );
-
-        if (deadPlayers.contains(res.getId())) {
-            System.out.println("Received player already dead!");
-            return;
+    public void geoPosSocket(UserGeoPositionDto userGeoPositionDto) {
+        UserGeoPositionDto userGeoPositionDtoUpdate
+                = userGeoPositionService.updateGeoPosition(userGeoPositionDto);
+        if (userGeoPositionDtoUpdate!=null) {
+            sendMessageToGeoPosition(userGeoPositionDtoUpdate);
         }
-
-        if (res.isDead()) {
-            deadPlayers.add(res.getId());
-        }
-
-        sendMessageToGeoPosition(res); // отправим сообщения другим пользователям
     }
 
 
-    private void sendMessageToGeoPosition(GeoPosition geoPosition) {
+    private void sendMessageToGeoPosition(UserGeoPositionDto userGeoPositionDto) {
         // если сообщение отправляется в общий чат
-        simpleMessageTemplate.convertAndSend(GEOPOS_TOPIC, geoPosition);
+        simpleMessageTemplate.convertAndSend(GEOPOS_TOPIC, userGeoPositionDto);
     }
 }

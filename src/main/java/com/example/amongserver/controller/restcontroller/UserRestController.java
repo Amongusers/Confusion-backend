@@ -21,6 +21,6 @@ public class UserRestController {
     }
     @GetMapping()
     public List<UserGameDto> getAllUsers() {
-        return service.getAll();
+        return service.getAllIsDead();
     }
 }

@@ -34,6 +34,9 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
         User user = UserGameMapper.toUserEntity(userGameDto);
         user.setReady(false);
         user.setIsImposter(null);
+        user.setLatitude(null);
+        user.setLongitude(null);
+        user.setDead(false);
         //TODO: хз надо ли так
         user.setNumberVotes(0);
         GameState gameState = gameStateRepository.getById(1L);

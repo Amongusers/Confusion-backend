@@ -31,10 +31,10 @@ public class User {
     private Integer numberVotes;
 
     @Column (name = "latitude")
-    private double latitude;
+    private Double latitude;
 
     @Column (name = "longitude")
-    private double longitude;
+    private Double longitude;
 
     @Column (name = "is_dead")
     private boolean isDead;
