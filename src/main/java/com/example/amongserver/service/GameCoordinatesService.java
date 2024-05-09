@@ -9,7 +9,7 @@ public interface GameCoordinatesService {
 
     // Получание всех координатат на client в начале игры
     // Используется в StartCoordinatesRestController
-    List<GameCoordinates> getAll();
+    List<GameCoordinatesDto> getAll();
 
 
     // Заполнение базы данных изначальными значениями

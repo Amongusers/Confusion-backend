@@ -11,23 +11,17 @@ import com.example.amongserver.service.UserGameDtoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.example.amongserver.constant.Const.USER_TOPIC;
 
 @Service
 @RequiredArgsConstructor
 public class UserGameDtoServiceImpl implements UserGameDtoService {
     private final UserRepository userRepository;
     private final GameStateRepository gameStateRepository;
-
-    private boolean isVoteCansel;
-    private final Timer timer = new Timer();
-
-    @Override
-    public boolean isVoteCanceled() {
-        return isVoteCansel;
-    }
 
     @Override
     public UserGameDto add(UserGameDto userGameDto) {
@@ -47,14 +41,6 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
     }
 
     @Override
-    public List<UserGameDto> getAll() {
-        return userRepository.findAll()
-                .stream()
-                .map(UserGameMapper::toUserGameGto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public List<UserGameDto> getAllIsDead() {
         return userRepository.findAllByIsDead(true)
                 .stream()
@@ -62,93 +48,80 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
                 .collect(Collectors.toList());
     }
 
+
+
+
+
     @Override
-    public UserGameDto getById(long id) {
+    public List<UserGameDto> updateUser(UserGameDto userGameDto) {
+        Long id = userGameDto.getId();
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isEmpty()) {
             throw new RuntimeException("User with ID " + id + " not found");
         }
-        return UserGameMapper.toUserGameGto(userOptional.get());
+        User userDB = userOptional.get();
+        userDB.setReady(userGameDto.isReady());
+        userRepository.save(userDB);
+        List<User> userList = allReady();
+        return userList
+                .stream()
+                .map(UserGameMapper::toUserGameGto)
+                .collect(Collectors.toList());
+    }
+    private List<User> allReady() {
+        List<User> userList = userRepository.findAll();
+        boolean isAllReady = true;
+        for (User user : userList) {
+            if (!user.isReady()) {
+                isAllReady = false;
+                break;
+            }
+        }
+        if (!isAllReady /*|| userList.size() < 3*/) {
+            return userRepository.saveAll(userList);
+        } else {
+            return createRole(userList);
+        }
+    }
+    private List<User> createRole(List<User> userList) {
+        for (User localUser : userList) {
+            localUser.setIsImposter(false);
+        }
+        /*if (!userList.isEmpty()) {
+            int impostorIndex = (int) (Math.random() * userList.size());
+            userList.get(impostorIndex).setIsImposter(true);
+            return userRepository.saveAll(userList);
+        }*/
+        int impostorIndex = (int) (Math.random() * userList.size());
+        userList.get(impostorIndex).setIsImposter(true);
+        return userRepository.saveAll(userList);
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
-    public List<UserGameDto> addAll(List<UserGameDto> userGameDtoList) {
-        List<User> userList = userGameDtoList.stream()
-                .map(UserGameMapper::toUserEntity)
-                .toList();
-        return userRepository.saveAll(userList)
+    public List<UserGameDto> getAll() {
+        return userRepository.findAll()
                 .stream()
                 .map(UserGameMapper::toUserGameGto)
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public UserGameDto update(long id, UserGameDto userGameDto) {
-        Optional<User> userOptional = userRepository.findById(id);
-
-        if (userOptional.isEmpty()) throw new RuntimeException("User with ID " + id + " not found");
-
-        User user = userOptional.get();
-        if (userGameDto.getLogin() != null) user.setLogin(userGameDto.getLogin());
-        user.setReady(userGameDto.isReady());
-        if (userGameDto.getIsImposter() != null) user.setIsImposter(userGameDto.getIsImposter());
-
-        return UserGameMapper.toUserGameGto(userRepository.save(user));
-    }
-
-    @Override
-    public UserGameDto vote(UserGameDto userGameDto) {
-        Optional<User> userOptional = userRepository.findById(userGameDto.getId());
-
-        if (userOptional.isEmpty()) throw new RuntimeException("User with ID " + userGameDto.getId() + " not found");
-
-        User userDB = userOptional.get();
-        userDB.setNumberVotes(userDB.getNumberVotes()+1);
-        userRepository.save(userDB);
-
-        // Проверяем, есть ли пользователи, у которых уже были голоса
-        List<User> users = userRepository.findAll();
-
-        int totalVotes = users.stream().mapToInt(User::getNumberVotes).sum();
-
-        // Если хотя бы один пользователь проголосовал, запускаем таймер
-
-        if (totalVotes==1) {
-
-            AtomicReference<UserGameDto> result = new AtomicReference<>(null); // Переменная для сохранения результата
-
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    isVoteCansel = true;
-                    result.set(getUserGameDto(users));
-                }
-            }, 60000); // 1 минута
-
-            // Возвращаем результат, который был сохранен в переменной
-            return result.get();
-        } else if (totalVotes==users.size()) {
-            timer.cancel();
-            isVoteCansel = true;
-            return getUserGameDto(users);
-        }  else {
-            return null;
-        }
-    }
 
 
 
-    private UserGameDto getUserGameDto(List<User> users) {
-        User maxVotedUser = users.stream()
-                .max(Comparator.comparing(User::getNumberVotes))
-                .orElse(null);
 
-        // Преобразуем выбранного пользователя в UserGameDto и сохраняем его в переменной result
-        if (maxVotedUser != null) {
-            return UserGameMapper.toUserGameGto(maxVotedUser);
-        } else {
-            return null;
-        }
-    }
 }

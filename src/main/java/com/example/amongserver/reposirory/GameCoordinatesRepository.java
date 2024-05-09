@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface GameCoordinatesRepository extends JpaRepository<GameCoordinates, Long> {
-    List<GameCoordinates> findAllByIsCompleted(boolean isCompleted);
+    List<GameCoordinates> findAllByCompleted(boolean isCompleted);
 }

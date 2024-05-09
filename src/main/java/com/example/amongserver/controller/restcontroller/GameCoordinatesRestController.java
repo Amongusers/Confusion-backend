@@ -2,6 +2,7 @@ package com.example.amongserver.controller.restcontroller;
 
 
 import com.example.amongserver.domain.entity.GameCoordinates;
+import com.example.amongserver.dto.GameCoordinatesDto;
 import com.example.amongserver.service.GameCoordinatesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ public class GameCoordinatesRestController {
 
 
     @GetMapping()
-    public List<GameCoordinates> getAllUsers() {
+    public List<GameCoordinatesDto> getAllUsers() {
         return gameCoordinatesService.getAll();
     }
 }

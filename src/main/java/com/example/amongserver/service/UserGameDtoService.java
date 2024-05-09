@@ -20,14 +20,11 @@ public interface UserGameDtoService {
     // используется в UserRestController
     List<UserGameDto> getAllIsDead();
 
-    // Поиск пользователя по id
-    // используется в UserController
-    UserGameDto getById(long id);
+    // Обновление данных пользователя
+    // Используется в UserController
+    // До начала игры
+
+    List<UserGameDto> updateUser (UserGameDto userGameDto);
 
 
-    List<UserGameDto> addAll (List<UserGameDto> userList);
-    UserGameDto update(long id, UserGameDto userGameDto);
-    UserGameDto vote(UserGameDto userGameDto);
-
-    boolean isVoteCanceled();
 }

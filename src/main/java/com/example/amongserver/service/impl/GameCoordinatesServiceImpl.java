@@ -3,6 +3,7 @@ package com.example.amongserver.service.impl;
 import com.example.amongserver.domain.entity.GameCoordinates;
 import com.example.amongserver.dto.GameCoordinatesDto;
 import com.example.amongserver.mapper.GameCoordinatesMapper;
+import com.example.amongserver.mapper.UserGameMapper;
 import com.example.amongserver.reposirory.GameCoordinatesRepository;
 import com.example.amongserver.service.GameCoordinatesService;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,11 @@ public class GameCoordinatesServiceImpl implements GameCoordinatesService {
     private final GameCoordinatesRepository gameCoordinatesRepository;
 
     @Override
-    public List<GameCoordinates> getAll() {
-        return gameCoordinatesRepository.findAll();
+    public List<GameCoordinatesDto> getAll() {
+        return gameCoordinatesRepository.findAll()
+                .stream()
+                .map(GameCoordinatesMapper::toGameCoordinatesDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -42,7 +46,7 @@ public class GameCoordinatesServiceImpl implements GameCoordinatesService {
         GameCoordinates gameCoordinatesClient = GameCoordinatesMapper.toGameCoordinatesEntity(gameCoordinatesDto);
         gameCoordinatesDB.setCompleted(gameCoordinatesClient.isCompleted());
         gameCoordinatesRepository.save(gameCoordinatesDB);
-        List<GameCoordinates> gameCoordinatesList = gameCoordinatesRepository.findAllByIsCompleted(false);
+        List<GameCoordinates> gameCoordinatesList = gameCoordinatesRepository.findAllByCompleted(false);
         return gameCoordinatesList
                 .stream()
                 .map(GameCoordinatesMapper::toGameCoordinatesDto)
