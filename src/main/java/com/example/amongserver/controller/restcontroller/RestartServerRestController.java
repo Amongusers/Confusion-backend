@@ -15,14 +15,6 @@ public class RestartServerRestController {
 
     @GetMapping("/restart")
     public void restartServer() {
-        new Thread(() -> {
-            try {
-                Thread.sleep(1000); // Добавим задержку для завершения текущих запросов
-                SpringApplication.exit(context, () -> 0);
-                SpringApplication.run(AmongServerApplication.class);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
+        AmongServerApplication.restart();
     }
 }
