@@ -12,15 +12,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserRestController {
 
-    private final UserGameDtoService service;
+    private final UserGameDtoService userGameDtoService;
 
 
     @PostMapping()
     public UserGameDto createUser(@RequestBody UserGameDto userGameDto) {
-        return service.add(userGameDto);
+        return userGameDtoService.add(userGameDto);
     }
     @GetMapping()
     public List<UserGameDto> getAllUsers() {
-        return service.getAllIsDead();
+        return userGameDtoService.getAllIsDead();
     }
 }

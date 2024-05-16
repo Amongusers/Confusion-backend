@@ -41,7 +41,7 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
 
     @Override
     public List<UserGameDto> getAllIsDead() {
-        return userRepository.findAllByIsDead(true)
+        return userRepository.findAllByIsDead(false)
                 .stream()
                 .map(UserGameMapper::toUserGameGto)
                 .collect(Collectors.toList());

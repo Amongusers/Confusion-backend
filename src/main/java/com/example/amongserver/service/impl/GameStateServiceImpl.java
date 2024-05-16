@@ -11,6 +11,7 @@ import com.example.amongserver.service.GameStateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,8 +35,10 @@ public class GameStateServiceImpl implements GameStateService {
 
     // TODO : нужно улучшить
     @Override
+    @Transactional
     public GameStateDto getGameState() {
-        GameState gameState = gemaStateRepository.getById(1L);
+        GameState gameState = gemaStateRepository.findByIdWithUserList(1L)
+                .orElseThrow(() -> new RuntimeException("GameState not found"));
 
         List<User> userList = gameState.getUserList();
         List<User> userListNotDead = userList.stream()
@@ -56,7 +59,7 @@ public class GameStateServiceImpl implements GameStateService {
                 long notImposterCount = userListNotDead.size() - imposterCount;
 
                 if (imposterCount > 0 && notImposterCount > 0) {
-                    saveGameState = 2;
+                    saveGameState = 1;
                 } else if ((imposterCount == 0 && notImposterCount > 0) || gameCoordinatesList.isEmpty()) {
                     saveGameState = 3;
                 } else if ((imposterCount > 0 && notImposterCount == 0)) {
