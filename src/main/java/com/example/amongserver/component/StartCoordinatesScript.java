@@ -1,6 +1,5 @@
 package com.example.amongserver.component;
 
-import com.example.amongserver.domain.entity.GameCoordinates;
 import com.example.amongserver.dto.GameCoordinatesDto;
 import com.example.amongserver.service.GameCoordinatesService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,7 @@ import java.util.List;
 public class StartCoordinatesScript implements CommandLineRunner {
     private final GameCoordinatesService gameCoordinatesService;
 
-    private final List<GameCoordinatesDto> coordinatesList = new ArrayList<GameCoordinatesDto>();
+    private final List<GameCoordinatesDto> coordinatesList = new ArrayList<>();
 
 
 

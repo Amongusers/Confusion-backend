@@ -1,5 +1,6 @@
 package com.example.amongserver.service.impl;
 
+import com.example.amongserver.domain.entity.GameCoordinates;
 import com.example.amongserver.domain.entity.GameState;
 import com.example.amongserver.domain.entity.User;
 import com.example.amongserver.dto.GameStateDto;
@@ -60,6 +61,7 @@ public class UserVoteDtoServiceImpl implements UserVoteDtoService {
             GameState gameState = gameStateOptional.get();
             if (gameState.getGameState() != 2) {
                 timer = new Timer();
+                System.out.println("Таймер запущен");
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
@@ -114,25 +116,74 @@ public class UserVoteDtoServiceImpl implements UserVoteDtoService {
     }
 
     private UserVoteDto getUserGameDto(List<User> users) {
-        Optional<GameState> gameStateOptional = gameStateRepository.findById(1L);
-        if (gameStateOptional.isPresent()) {
-            GameState gameState = gameStateOptional.get();
-            if (gameState.getGameState() != 1) {
-                gameState.setGameState(1);
-                GameStateDto gameStateDto = GameStateMapper.toGameStateGto(gameStateRepository.save(gameState));
-                GameStateChangedEvent event = new GameStateChangedEvent(this, gameStateDto);
-                eventPublisher.publishEvent(event);
-            }
-        }
+
         User maxVotedUser = users.stream()
                 .max(Comparator.comparing(User::getNumberVotes))
                 .orElse(null);
 
+        List<User> maxVotedUsers = users.stream()
+                .filter(user -> Objects.equals(user.getNumberVotes(), maxVotedUser.getNumberVotes()))
+                .toList();
+
+
         // Преобразуем выбранного пользователя в UserGameDto и сохраняем его в переменной result
-        if (maxVotedUser != null) {
+        if (maxVotedUser != null && maxVotedUsers.size() == 1) {
+            maxVotedUser.setDead(true);
+            userRepository.save(maxVotedUser);
+
+            Optional<GameState> gameStateOptional = gameStateRepository.findById(1L);
+            if (gameStateOptional.isPresent()) {
+                GameState gameState = gameStateOptional.get();
+                if (gameState.getGameState() == 2) {
+
+                    List<User> userListNotDead = userRepository.findAll().stream()
+                            .filter(user -> !user.isDead())
+                            .toList();
+
+//                List<GameCoordinates> gameCoordinatesList = gameCoordinatesRepository
+//                        .findAll().stream()
+//                        .filter(gameCoordinates -> !gameCoordinates.isCompleted())
+//                        .toList();
+                    long imposterCount = userListNotDead.stream().filter(User::getIsImposter).count();
+                    long notImposterCount = userListNotDead.size() - imposterCount;
+
+                    if (imposterCount > 0 && notImposterCount > 0) {
+                        gameState.setGameState(1);
+                        GameStateDto gameStateDto = GameStateMapper.toGameStateGto(gameStateRepository.save(gameState));
+                        GameStateChangedEvent event = new GameStateChangedEvent(this, gameStateDto);
+                        eventPublisher.publishEvent(event);
+                    } else if ((imposterCount == 0 && notImposterCount > 0)) {
+                        gameState.setGameState(3);
+                        GameStateDto gameStateDto = GameStateMapper.toGameStateGto(gameStateRepository.save(gameState));
+                        GameStateChangedEvent event = new GameStateChangedEvent(this, gameStateDto);
+                        eventPublisher.publishEvent(event);
+                    } else if ((imposterCount > 0 && notImposterCount == 0)) {
+                        gameState.setGameState(4);
+                        GameStateDto gameStateDto = GameStateMapper.toGameStateGto(gameStateRepository.save(gameState));
+                        GameStateChangedEvent event = new GameStateChangedEvent(this, gameStateDto);
+                        eventPublisher.publishEvent(event);
+                    }
+                }
+            }
+
+
             return UserVoteMapper.toUserVoteDto(maxVotedUser);
         } else {
-            return null;
+            Optional<GameState> gameStateOptional = gameStateRepository.findById(1L);
+            if (gameStateOptional.isPresent()) {
+                GameState gameState = gameStateOptional.get();
+                if (gameState.getGameState() == 2) {
+                    gameState.setGameState(1);
+                    GameStateDto gameStateDto = GameStateMapper.toGameStateGto(gameStateRepository.save(gameState));
+                    GameStateChangedEvent event = new GameStateChangedEvent(this, gameStateDto);
+                    eventPublisher.publishEvent(event);
+
+                }
+            }
+            return UserVoteDto.builder()
+                    .id(-1L)
+                    .login("null")
+                    .build();
         }
     }
 

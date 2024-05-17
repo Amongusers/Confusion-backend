@@ -1,12 +1,18 @@
 package com.example.amongserver.service.impl;
 
 import com.example.amongserver.domain.entity.GameCoordinates;
+import com.example.amongserver.domain.entity.GameState;
 import com.example.amongserver.dto.GameCoordinatesDto;
+import com.example.amongserver.dto.GameStateDto;
+import com.example.amongserver.listener.GameStateChangedEvent;
 import com.example.amongserver.mapper.GameCoordinatesMapper;
+import com.example.amongserver.mapper.GameStateMapper;
 import com.example.amongserver.mapper.UserGameMapper;
 import com.example.amongserver.reposirory.GameCoordinatesRepository;
+import com.example.amongserver.reposirory.GameStateRepository;
 import com.example.amongserver.service.GameCoordinatesService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +24,8 @@ import java.util.stream.Collectors;
 public class GameCoordinatesServiceImpl implements GameCoordinatesService {
 
     private final GameCoordinatesRepository gameCoordinatesRepository;
+    private final GameStateRepository gameStateRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public List<GameCoordinatesDto> getAll() {
@@ -47,6 +55,18 @@ public class GameCoordinatesServiceImpl implements GameCoordinatesService {
         gameCoordinatesDB.setCompleted(gameCoordinatesClient.isCompleted());
         gameCoordinatesRepository.save(gameCoordinatesDB);
         List<GameCoordinates> gameCoordinatesList = gameCoordinatesRepository.findAllByCompleted(false);
+
+
+        Optional<GameState> gameStateOptional = gameStateRepository.findById(1L);
+        if (gameStateOptional.isPresent()) {
+            GameState gameState = gameStateOptional.get();
+            if ((gameState.getGameState() == 1 || gameState.getGameState() == 2) && gameCoordinatesList.isEmpty()) {
+                gameState.setGameState(3);
+                GameStateDto gameStateDto = GameStateMapper.toGameStateGto(gameStateRepository.save(gameState));
+                GameStateChangedEvent event = new GameStateChangedEvent(this, gameStateDto);
+                eventPublisher.publishEvent(event);
+            }
+        }
         return gameCoordinatesList
                 .stream()
                 .map(GameCoordinatesMapper::toGameCoordinatesDto)
