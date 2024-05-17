@@ -2,28 +2,27 @@ package com.example.amongserver.controller.restcontroller;
 
 import com.example.amongserver.dto.UserGameDto;
 import com.example.amongserver.service.UserGameDtoService;
+import com.example.amongserver.service.UserVoteDtoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserRestController {
 
-    private final UserGameDtoService service;
+    private final UserGameDtoService userGameDtoService;
+    private final UserVoteDtoService userVoteDtoService;
 
 
-    @PostMapping("/user")
+    @PostMapping()
     public UserGameDto createUser(@RequestBody UserGameDto userGameDto) {
-        return service.add(userGameDto);
+        return userGameDtoService.add(userGameDto);
     }
-    @GetMapping("/user")
+    @GetMapping()
     public List<UserGameDto> getAllUsers() {
-        return service.getAll();
-    }
-    @GetMapping("/user/{id}")
-    public UserGameDto getById(@PathVariable long id) {
-        return service.getById(id);
+        return userVoteDtoService.getAllIsDead();
     }
 }

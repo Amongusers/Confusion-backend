@@ -30,6 +30,19 @@ public class User {
     @Column (name = "number_votes")
     private Integer numberVotes;
 
+    @Column (name = "latitude")
+    private Double latitude;
+
+    @Column (name = "longitude")
+    private Double longitude;
+
+    @Column (name = "is_dead")
+    private boolean isDead;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "game_state_id")
+    private GameState gameState;
+
 
     public User(String login, boolean isReady, Boolean isImposter) {
         this.login = login;

@@ -9,9 +9,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserVoteDto {
+public class UserGeoPositionDto {
 
     private Long id;
 
-    private String login;
+    private double latitude;
+
+    private double longitude;
+
+    private boolean isDead;
 }

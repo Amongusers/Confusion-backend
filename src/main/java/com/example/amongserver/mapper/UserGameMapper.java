@@ -6,7 +6,7 @@ import com.example.amongserver.dto.UserVoteDto;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class UserMapper {
+public class UserGameMapper {
     public User toUserEntity(UserGameDto userGameDto) {
 
         User user = User.builder()
@@ -20,18 +20,7 @@ public class UserMapper {
         return user;
     }
 
-    public User toUserEntity(UserVoteDto userVoteDto) {
 
-        User user = User.builder()
-                .numberVotes(userVoteDto.getNumberVotes())
-                .build();
-
-        if (userVoteDto.getId()!=null) {
-            user.setId(userVoteDto.getId());
-        }
-
-        return user;
-    }
 
     public UserGameDto toUserGameGto(User user) {
 
@@ -43,10 +32,5 @@ public class UserMapper {
                 .build();
     }
 
-    public UserVoteDto toUserVoteDto(User user) {
 
-        return UserVoteDto.builder()
-                .numberVotes(user.getNumberVotes())
-                .build();
-    }
 }

@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserVoteDto {
+public class GameStateDto {
 
     private Long id;
 
-    private String login;
+
+    private int gameState;
 }

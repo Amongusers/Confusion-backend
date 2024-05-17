@@ -5,12 +5,24 @@ import com.example.amongserver.dto.UserGameDto;
 import java.util.List;
 
 public interface UserGameDtoService {
-    UserGameDto add(UserGameDto user);
-    List<UserGameDto> getAll();
-    UserGameDto getById(long id);
-    List<UserGameDto> addAll (List<UserGameDto> userList);
-    UserGameDto update(long id, UserGameDto userGameDto);
-    UserGameDto vote(UserGameDto userGameDto);
 
-    boolean isVoteCanceled();
+    // регестрация пользователя
+    // используется в UserRestController
+    UserGameDto add(UserGameDto user);
+
+
+    // получение списка всех пользователей
+    // не используется
+    List<UserGameDto> getAll();
+
+
+
+
+    // Обновление данных пользователя
+    // Используется в UserController
+    // До начала игры
+
+    List<UserGameDto> updateUser (UserGameDto userGameDto);
+
+
 }

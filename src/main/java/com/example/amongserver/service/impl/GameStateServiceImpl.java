@@ -1,18 +1,25 @@
 package com.example.amongserver.service.impl;
 
+import com.example.amongserver.domain.entity.GameCoordinates;
 import com.example.amongserver.domain.entity.GameState;
 import com.example.amongserver.domain.entity.User;
-import com.example.amongserver.reposirory.GemaStateRepository;
+import com.example.amongserver.dto.GameStateDto;
+import com.example.amongserver.mapper.GameStateMapper;
+import com.example.amongserver.reposirory.GameCoordinatesRepository;
+import com.example.amongserver.reposirory.GameStateRepository;
 import com.example.amongserver.service.GameStateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class GameStateServiceImpl implements GameStateService {
-    private final GemaStateRepository gemaStateRepository;
+    private final GameStateRepository gemaStateRepository;
+    private final GameCoordinatesRepository gameCoordinatesRepository;
     @Override
     public GameState add(GameState gameState) {
         return gemaStateRepository.save(gameState);
@@ -25,14 +32,52 @@ public class GameStateServiceImpl implements GameStateService {
         return gameState.get();
     }
 
+
+    // TODO : нужно улучшить
     @Override
-    public GameState update(long id, GameState gameState) {
-        Optional<GameState> gameStateOptional = gemaStateRepository.findById(id);
-        if (gameStateOptional.isEmpty()) throw new RuntimeException("User with ID " + id + " not found");
-
-        GameState updateGameState  = gameStateOptional.get();
-        updateGameState.setGameState(gameState.getGameState());
-
-        return gemaStateRepository.save(updateGameState);
+//    @Transactional
+    public GameStateDto getGameState() {
+        Optional<GameState> gameStateOptional = gemaStateRepository.findById(1L);
+        if(gameStateOptional.isEmpty()) throw new RuntimeException("User with ID " + " not found");
+        return GameStateMapper.toGameStateGto(gameStateOptional.get());
+//        GameState gameState = gemaStateRepository.findByIdWithUserList(1L)
+//                .orElseThrow(() -> new RuntimeException("GameState not found"));
+//
+//        List<User> userList = gameState.getUserList();
+//        List<User> userListNotDead = userList.stream()
+//                .filter(user -> !user.isDead())
+//                .toList();
+//
+//        boolean isAllReady = userList.stream().allMatch(User::isReady);
+//
+//        int saveGameState = -1;
+//        if (isAllReady) {
+//            int totalVotes = userList.stream().mapToInt(User::getNumberVotes).sum();
+//            if (totalVotes == 0) {
+//                List<GameCoordinates> gameCoordinatesList = gameCoordinatesRepository
+//                        .findAll().stream()
+//                        .filter(gameCoordinates -> !gameCoordinates.isCompleted())
+//                        .toList();
+//                long imposterCount = userListNotDead.stream().filter(User::getIsImposter).count();
+//                long notImposterCount = userListNotDead.size() - imposterCount;
+//
+//                if (imposterCount > 0 && notImposterCount > 0) {
+//                    saveGameState = 1;
+//                } else if ((imposterCount == 0 && notImposterCount > 0) || gameCoordinatesList.isEmpty()) {
+//                    saveGameState = 3;
+//                } else if ((imposterCount > 0 && notImposterCount == 0)) {
+//                    saveGameState = 4;
+//                }
+//            } else {
+//                saveGameState = 2;
+//            }
+//        } else {
+//            saveGameState = 0;
+//        }
+//        if (saveGameState == -1)
+//            throw new RuntimeException();
+//
+//        gameState.setGameState(saveGameState);
+//        return GameStateMapper.toGameStateGto(gemaStateRepository.save(gameState));
     }
 }

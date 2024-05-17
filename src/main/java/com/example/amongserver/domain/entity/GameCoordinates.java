@@ -1,6 +1,9 @@
 package com.example.amongserver.domain.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "start_coordinates")
-public class StartCoordinates {
+public class GameCoordinates {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,7 +27,7 @@ public class StartCoordinates {
     @Column (name = "completed")
     private boolean completed;
 
-    public StartCoordinates(double latitude, double longitude, boolean completed) {
+    public GameCoordinates(double latitude, double longitude, boolean completed) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.completed = completed;
