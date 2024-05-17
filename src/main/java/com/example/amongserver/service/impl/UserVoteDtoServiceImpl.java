@@ -1,25 +1,94 @@
 package com.example.amongserver.service.impl;
 
+import com.example.amongserver.domain.entity.GameState;
 import com.example.amongserver.domain.entity.User;
+import com.example.amongserver.dto.GameStateDto;
+import com.example.amongserver.dto.UserGameDto;
 import com.example.amongserver.dto.UserVoteDto;
+import com.example.amongserver.listener.GameStateChangedEvent;
+import com.example.amongserver.mapper.GameStateMapper;
+import com.example.amongserver.mapper.UserGameMapper;
 import com.example.amongserver.mapper.UserVoteMapper;
+import com.example.amongserver.observer.UserVoteDtoObserver;
+import com.example.amongserver.reposirory.GameStateRepository;
 import com.example.amongserver.reposirory.UserRepository;
 import com.example.amongserver.service.UserVoteDtoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserVoteDtoServiceImpl implements UserVoteDtoService {
     private boolean isVoteCansel;
-    private final Timer timer = new Timer();
+
     private final UserRepository userRepository;
+    private final GameStateRepository gameStateRepository;
+    private final ApplicationEventPublisher eventPublisher;
+    private Timer timer;
+
+
+    // Список наблюдателей
+    private final List<UserVoteDtoObserver> observers = new ArrayList<>();
+
+    // Метод для добавления наблюдателей
+    @Override
+    public void addObserver(UserVoteDtoObserver observer) {
+        observers.add(observer);
+    }
+
+    // Метод для удаления наблюдателей
+    public void removeObserver(UserVoteDtoObserver observer) {
+        observers.remove(observer);
+    }
+
+    // Метод для уведомления наблюдателей
+    private void notifyObservers(UserVoteDto userVoteDto) {
+        for (UserVoteDtoObserver observer : observers) {
+            observer.update(userVoteDto);
+        }
+    }
+
 
     @Override
-    public UserVoteDto vote(UserVoteDto userVoteDto) {
+    public List<UserGameDto> getAllIsDead() {
+        Optional<GameState> gameStateOptional = gameStateRepository.findById(1L);
+        if (gameStateOptional.isPresent()) {
+            GameState gameState = gameStateOptional.get();
+            if (gameState.getGameState() != 2) {
+                timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        isVoteCansel = true;
+                        List<User> users = userRepository.findAll();
+                        notifyObservers(getUserGameDto(users));
+                    }
+                }, 60000); // 1 минута
+
+
+                gameState.setGameState(2);
+                GameStateDto gameStateDto = GameStateMapper.toGameStateGto(gameStateRepository.save(gameState));
+                GameStateChangedEvent event = new GameStateChangedEvent(this, gameStateDto);
+                eventPublisher.publishEvent(event);
+            }
+        }
+        return userRepository.findAllByIsDead(false)
+                .stream()
+                .map(UserGameMapper::toUserGameGto)
+                .collect(Collectors.toList());
+    }
+
+
+
+
+
+
+    @Override
+    public void vote(UserVoteDto userVoteDto) {
         Long id = userVoteDto.getId();
         Optional<User> userOptional = userRepository.findById(id);
 
@@ -36,30 +105,25 @@ public class UserVoteDtoServiceImpl implements UserVoteDtoService {
 
         // Если хотя бы один пользователь проголосовал, запускаем таймер
 
-        if (totalVotes==1) {
-
-            AtomicReference<UserVoteDto> result = new AtomicReference<>(null); // Переменная для сохранения результата
-
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    isVoteCansel = true;
-                    result.set(getUserGameDto(users));
-                }
-            }, 60000); // 1 минута
-
-            // Возвращаем результат, который был сохранен в переменной
-            return result.get();
-        } else if (totalVotes==users.size()) {
+        if (totalVotes==users.size()) {
             timer.cancel();
             isVoteCansel = true;
-            return getUserGameDto(users);
-        }  else {
-            return null;
+            List<User> usersUsers = userRepository.findAll();
+            notifyObservers(getUserGameDto(usersUsers));
         }
     }
 
     private UserVoteDto getUserGameDto(List<User> users) {
+        Optional<GameState> gameStateOptional = gameStateRepository.findById(1L);
+        if (gameStateOptional.isPresent()) {
+            GameState gameState = gameStateOptional.get();
+            if (gameState.getGameState() != 1) {
+                gameState.setGameState(1);
+                GameStateDto gameStateDto = GameStateMapper.toGameStateGto(gameStateRepository.save(gameState));
+                GameStateChangedEvent event = new GameStateChangedEvent(this, gameStateDto);
+                eventPublisher.publishEvent(event);
+            }
+        }
         User maxVotedUser = users.stream()
                 .max(Comparator.comparing(User::getNumberVotes))
                 .orElse(null);

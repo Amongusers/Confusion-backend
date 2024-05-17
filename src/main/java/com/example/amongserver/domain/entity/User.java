@@ -39,7 +39,8 @@ public class User {
     @Column (name = "is_dead")
     private boolean isDead;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "game_state_id")
     private GameState gameState;
 
 

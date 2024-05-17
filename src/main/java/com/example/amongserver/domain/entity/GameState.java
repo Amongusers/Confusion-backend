@@ -1,5 +1,6 @@
 package com.example.amongserver.domain.entity;
 
+import com.example.amongserver.listener.GameStateListener;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@EntityListeners(GameStateListener.class)
 @Table(name = "game_state")
 public class GameState {
     @Id

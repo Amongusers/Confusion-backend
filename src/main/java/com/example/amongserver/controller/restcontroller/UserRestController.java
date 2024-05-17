@@ -2,6 +2,7 @@ package com.example.amongserver.controller.restcontroller;
 
 import com.example.amongserver.dto.UserGameDto;
 import com.example.amongserver.service.UserGameDtoService;
+import com.example.amongserver.service.UserVoteDtoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 public class UserRestController {
 
     private final UserGameDtoService userGameDtoService;
+    private final UserVoteDtoService userVoteDtoService;
 
 
     @PostMapping()
@@ -21,6 +23,6 @@ public class UserRestController {
     }
     @GetMapping()
     public List<UserGameDto> getAllUsers() {
-        return userGameDtoService.getAllIsDead();
+        return userVoteDtoService.getAllIsDead();
     }
 }

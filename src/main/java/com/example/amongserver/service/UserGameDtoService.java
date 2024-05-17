@@ -16,9 +16,7 @@ public interface UserGameDtoService {
     List<UserGameDto> getAll();
 
 
-    // получение списка всех живых пользователей
-    // используется в UserRestController
-    List<UserGameDto> getAllIsDead();
+
 
     // Обновление данных пользователя
     // Используется в UserController

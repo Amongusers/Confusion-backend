@@ -3,12 +3,16 @@ package com.example.amongserver.service.impl;
 
 import com.example.amongserver.domain.entity.GameState;
 import com.example.amongserver.domain.entity.User;
+import com.example.amongserver.dto.GameStateDto;
 import com.example.amongserver.dto.UserGameDto;
+import com.example.amongserver.listener.GameStateChangedEvent;
+import com.example.amongserver.mapper.GameStateMapper;
 import com.example.amongserver.mapper.UserGameMapper;
 import com.example.amongserver.reposirory.GameStateRepository;
 import com.example.amongserver.reposirory.UserRepository;
 import com.example.amongserver.service.UserGameDtoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +24,7 @@ import java.util.stream.Collectors;
 public class UserGameDtoServiceImpl implements UserGameDtoService {
     private final UserRepository userRepository;
     private final GameStateRepository gameStateRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public UserGameDto add(UserGameDto userGameDto) {
@@ -39,13 +44,7 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
                 .save(user));
     }
 
-    @Override
-    public List<UserGameDto> getAllIsDead() {
-        return userRepository.findAllByIsDead(false)
-                .stream()
-                .map(UserGameMapper::toUserGameGto)
-                .collect(Collectors.toList());
-    }
+
 
 
 
@@ -79,6 +78,18 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
         if (!isAllReady /*|| userList.size() < 3*/) {
             return userRepository.saveAll(userList);
         } else {
+            Optional<GameState> gameStateOptional = gameStateRepository.findById(1L);
+            if (gameStateOptional.isPresent()) {
+                GameState gameState = gameStateOptional.get();
+                if (gameState.getGameState() != 1) {
+                    gameState.setGameState(1);
+                    GameStateDto gameStateDto = GameStateMapper.toGameStateGto(gameStateRepository.save(gameState));
+                    GameStateChangedEvent event = new GameStateChangedEvent(this, gameStateDto);
+                    eventPublisher.publishEvent(event);
+                }
+            }
+
+
             return createRole(userList);
         }
     }
