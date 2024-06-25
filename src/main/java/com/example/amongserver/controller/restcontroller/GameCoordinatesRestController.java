@@ -1,7 +1,6 @@
 package com.example.amongserver.controller.restcontroller;
 
 
-import com.example.amongserver.domain.entity.GameCoordinates;
 import com.example.amongserver.dto.GameCoordinatesDto;
 import com.example.amongserver.service.GameCoordinatesService;
 import lombok.RequiredArgsConstructor;

@@ -16,5 +16,6 @@ public interface GameStateService {
     // Отправка изменения состояния игры
     // Используется в GameStateController
     // Не используется
+    // Используется в GameStateRestController для проверки состояния игры
     GameStateDto getGameState();
 }

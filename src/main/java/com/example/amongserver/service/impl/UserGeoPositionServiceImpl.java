@@ -71,6 +71,7 @@ public class UserGeoPositionServiceImpl implements UserGeoPositionService {
                     GameState gameState = gameStateOptional.get();
                     if ((gameState.getGameState() == 1 || gameState.getGameState() == 2) && notImposterCount == 0) {
                         gameState.setGameState(4);
+                        deleteAllUsers(gameState);
                         GameStateDto gameStateDto = GameStateMapper.toGameStateGto(gameStateRepository.save(gameState));
                         GameStateChangedEvent event = new GameStateChangedEvent(this, gameStateDto);
                         eventPublisher.publishEvent(event);
@@ -82,5 +83,13 @@ public class UserGeoPositionServiceImpl implements UserGeoPositionService {
             return UserGeoPositionMapper.toUserGeoPositionGto(userSave);
         }
 
+    }
+
+
+    // TODO : Нужно будет создать слушателя на GemaState
+    private void deleteAllUsers(GameState gameState) {
+        for (User user : gameState.getUserList()) {
+            userRepository.delete(user);
+        }
     }
 }

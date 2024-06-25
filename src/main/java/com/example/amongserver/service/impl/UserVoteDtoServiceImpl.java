@@ -146,20 +146,23 @@ public class UserVoteDtoServiceImpl implements UserVoteDtoService {
 //                        .toList();
                     long imposterCount = userListNotDead.stream().filter(User::getIsImposter).count();
                     long notImposterCount = userListNotDead.size() - imposterCount;
-
+                    // TODO : Нужно будет создать слушателя на GemaState
                     if (imposterCount > 0 && notImposterCount > 0) {
                         gameState.setGameState(1);
+
                         GameStateDto gameStateDto = GameStateMapper.toGameStateGto(gameStateRepository.save(gameState));
                         GameStateChangedEvent event = new GameStateChangedEvent(this, gameStateDto);
                         eventPublisher.publishEvent(event);
                     } else if ((imposterCount == 0 && notImposterCount > 0)) {
                         gameState.setGameState(3);
                         GameStateDto gameStateDto = GameStateMapper.toGameStateGto(gameStateRepository.save(gameState));
+                        deleteAllUsers(gameState);
                         GameStateChangedEvent event = new GameStateChangedEvent(this, gameStateDto);
                         eventPublisher.publishEvent(event);
                     } else if ((imposterCount > 0 && notImposterCount == 0)) {
                         gameState.setGameState(4);
                         GameStateDto gameStateDto = GameStateMapper.toGameStateGto(gameStateRepository.save(gameState));
+                        deleteAllUsers(gameState);
                         GameStateChangedEvent event = new GameStateChangedEvent(this, gameStateDto);
                         eventPublisher.publishEvent(event);
                     }
@@ -184,6 +187,13 @@ public class UserVoteDtoServiceImpl implements UserVoteDtoService {
                     .id(-1L)
                     .login("null")
                     .build();
+        }
+    }
+
+    // TODO : Нужно будет создать слушателя на GemaState
+    private void deleteAllUsers(GameState gameState) {
+        for (User user : gameState.getUserList()) {
+            userRepository.delete(user);
         }
     }
 

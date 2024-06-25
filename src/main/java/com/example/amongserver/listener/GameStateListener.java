@@ -22,7 +22,6 @@ public class GameStateListener implements ApplicationListener<GameStateChangedEv
     @Override
     public void onApplicationEvent(GameStateChangedEvent event) {
         GameStateDto gameStateDto = event.getGameStateDto();
-        System.out.println("Отправлен слушатель");
         simpleMessageTemplate.convertAndSend(GEMA_TOPIC, gameStateDto);
     }
 }
