@@ -40,7 +40,7 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
         GameState gameState = gameStateRepository.getById(1L);
         user.setGameState(gameState);
 
-        return UserGameMapper.toUserGameGto(userRepository
+        return UserGameMapper.toUserGameDto(userRepository
                 .save(user));
     }
 
@@ -63,7 +63,7 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
         List<User> userList = allReady();
         return userList
                 .stream()
-                .map(UserGameMapper::toUserGameGto)
+                .map(UserGameMapper::toUserGameDto)
                 .collect(Collectors.toList());
     }
     private List<User> allReady() {
@@ -120,7 +120,7 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
     public List<UserGameDto> getAll() {
         return userRepository.findAll()
                 .stream()
-                .map(UserGameMapper::toUserGameGto)
+                .map(UserGameMapper::toUserGameDto)
                 .collect(Collectors.toList());
     }
 

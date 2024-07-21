@@ -6,9 +6,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+/*
+Rest контроллер
+Используется для проверки состояния игры,
+нужно если клиент свернул приложение во время игры,
+идентифицировать его и вернуть в сессию
+*/
 @RestController
-@RequestMapping("gameStateStart")
+@RequestMapping("/gameStateStart")
 @RequiredArgsConstructor
 public class GameStateRestController {
 

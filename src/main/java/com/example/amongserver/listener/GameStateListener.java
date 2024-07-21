@@ -10,7 +10,11 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityListeners;
 
 import static com.example.amongserver.constant.Const.GEMA_TOPIC;
-
+/*
+Класс слушателя, помещённого в БД
+Нужен чтобы изменять состояние игры без прямого обращения
+Используется в GameState
+*/
 @EntityListeners(AuditingEntityListener.class)
 @Component
 @RequiredArgsConstructor

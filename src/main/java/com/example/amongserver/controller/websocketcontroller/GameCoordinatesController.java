@@ -12,7 +12,10 @@ import java.util.List;
 
 import static com.example.amongserver.constant.Const.COORDINATES_TOPIC;
 import static com.example.amongserver.constant.Const.LINK_CHAT;
-
+/*
+WebSockets контроллер
+Используется для отправки актуальных игровых координат (заданий)
+*/
 @RestController
 @RequestMapping(LINK_CHAT)
 @AllArgsConstructor

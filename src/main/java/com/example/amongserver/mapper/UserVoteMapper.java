@@ -3,7 +3,9 @@ package com.example.amongserver.mapper;
 import com.example.amongserver.domain.entity.User;
 import com.example.amongserver.dto.UserVoteDto;
 import lombok.experimental.UtilityClass;
-
+/*
+Класс, для конвертации User из VoteDto к Entity и наооборот
+*/
 @UtilityClass
 public class UserVoteMapper {
 

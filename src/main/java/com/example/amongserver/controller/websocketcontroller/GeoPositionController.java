@@ -11,7 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.example.amongserver.constant.Const.GEOPOS_TOPIC;
 import static com.example.amongserver.constant.Const.LINK_CHAT;
-
+/*
+WebSockets контроллер
+Используется для отправки координат пользователей
+Принимается изменения у пользователя, сохраняет их в БД
+и отправлет другим участникам сессии
+*/
 @RestController
 @RequestMapping(LINK_CHAT)
 @AllArgsConstructor

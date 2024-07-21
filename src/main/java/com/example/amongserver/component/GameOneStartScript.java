@@ -5,7 +5,10 @@ import com.example.amongserver.reposirory.GameStateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
+/*
+Класс, заполняющий в БД игровую сессию
+Выполняется при запуске сервера
+*/
 @Component
 public class GameOneStartScript implements CommandLineRunner {
     private final GameStateRepository gemaStateRepository;

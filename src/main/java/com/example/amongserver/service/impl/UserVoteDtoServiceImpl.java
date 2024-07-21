@@ -1,6 +1,5 @@
 package com.example.amongserver.service.impl;
 
-import com.example.amongserver.domain.entity.GameCoordinates;
 import com.example.amongserver.domain.entity.GameState;
 import com.example.amongserver.domain.entity.User;
 import com.example.amongserver.dto.GameStateDto;
@@ -80,7 +79,7 @@ public class UserVoteDtoServiceImpl implements UserVoteDtoService {
         }
         return userRepository.findAllByIsDead(false)
                 .stream()
-                .map(UserGameMapper::toUserGameGto)
+                .map(UserGameMapper::toUserGameDto)
                 .collect(Collectors.toList());
     }
 

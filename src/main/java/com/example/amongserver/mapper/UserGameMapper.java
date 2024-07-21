@@ -2,9 +2,10 @@ package com.example.amongserver.mapper;
 
 import com.example.amongserver.domain.entity.User;
 import com.example.amongserver.dto.UserGameDto;
-import com.example.amongserver.dto.UserVoteDto;
 import lombok.experimental.UtilityClass;
-
+/*
+Класс, для конвертации User из UserGameDto к Entity и наооборот
+*/
 @UtilityClass
 public class UserGameMapper {
     public User toUserEntity(UserGameDto userGameDto) {
@@ -22,7 +23,7 @@ public class UserGameMapper {
 
 
 
-    public UserGameDto toUserGameGto(User user) {
+    public UserGameDto toUserGameDto(User user) {
 
         return UserGameDto.builder()
                 .id(user.getId())

@@ -7,7 +7,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+/*
+Rest контроллер
+Используется для регестрации пользователей
+и получения списка всех "живых" пользователей перед голосованием
+*/
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor

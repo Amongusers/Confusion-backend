@@ -3,7 +3,9 @@ package com.example.amongserver.mapper;
 import com.example.amongserver.domain.entity.User;
 import com.example.amongserver.dto.UserGeoPositionDto;
 import lombok.experimental.UtilityClass;
-
+/*
+Класс, для конвертации User из UserGeoPositionDto к Entity и наооборот
+*/
 @UtilityClass
 public class UserGeoPositionMapper {
     public User toUserEntity(UserGeoPositionDto userGeoPositionDto) {

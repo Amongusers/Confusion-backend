@@ -8,7 +8,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
-
+/*
+Entity класс GameState
+Сущность, которая хранится в БД
+*/
 @Data
 @Builder
 @NoArgsConstructor

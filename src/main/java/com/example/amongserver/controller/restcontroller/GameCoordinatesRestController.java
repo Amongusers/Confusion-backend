@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+/*
+Rest контроллер
+Получание всех координатат на клиент в начале игры
+*/
 @RestController
-@RequestMapping("startCoordinates")
+@RequestMapping("/startCoordinates")
 @RequiredArgsConstructor
 public class GameCoordinatesRestController {
 
