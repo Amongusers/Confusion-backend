@@ -8,7 +8,9 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 import static com.example.amongserver.constant.Const.LINK_CHAT;
 import static com.example.amongserver.constant.Const.TOPIC;
-
+/*
+Класс конфигурации, нужен для возможности работать с WebSockets
+*/
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {

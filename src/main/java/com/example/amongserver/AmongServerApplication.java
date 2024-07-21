@@ -5,6 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+/*
+класс запуска spring приложения
+*/
 @SpringBootApplication
 public class AmongServerApplication {
 

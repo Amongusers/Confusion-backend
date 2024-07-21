@@ -13,7 +13,10 @@ import javax.annotation.PostConstruct;
 
 import static com.example.amongserver.constant.Const.LINK_CHAT;
 import static com.example.amongserver.constant.Const.VOTE_TOPIC;
-
+/*
+WebSockets контроллер
+Используется для голосования
+*/
 @RestController
 @RequestMapping(LINK_CHAT)
 @AllArgsConstructor

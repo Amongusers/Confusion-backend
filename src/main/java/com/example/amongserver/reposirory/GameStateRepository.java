@@ -7,7 +7,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-
+/*
+репозиторий для GameState
+*/
 @Repository
 public interface GameStateRepository extends JpaRepository<GameState, Long> {
     @Query("SELECT gs FROM GameState gs LEFT JOIN FETCH gs.userList WHERE gs.id = :id")

@@ -13,7 +13,12 @@ import java.util.List;
 
 import static com.example.amongserver.constant.Const.LINK_CHAT;
 import static com.example.amongserver.constant.Const.USER_TOPIC;
-
+/*
+WebSockets контроллер
+Используется в процессе всей игры
+Принимается изменения у пользователя, сохраняет их в БД
+и отправлет другим участникам сессии
+*/
 @RestController
 @RequestMapping(LINK_CHAT)
 @AllArgsConstructor

@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/*
+Класс, заполняющий в БД игровые координаты (задания)
+Выполняется при запуске сервера
+*/
 @Component
 @RequiredArgsConstructor
 public class StartCoordinatesScript implements CommandLineRunner {
@@ -30,6 +33,9 @@ public class StartCoordinatesScript implements CommandLineRunner {
         coordinatesList.add(new GameCoordinatesDto(55.688928, 37.500681, false));
         coordinatesList.add(new GameCoordinatesDto(55.684419, 37.502729, false));
         coordinatesList.add(new GameCoordinatesDto(55.8010271,37.8057306,false));
+//        coordinatesList.add(new GameCoordinatesDto(55.688422, 37.500964, false));
+//        coordinatesList.add(new GameCoordinatesDto(55.688294, 37.503072, false));
+//        coordinatesList.add(new GameCoordinatesDto(55.688627, 37.501746, false));
     }
 
     @Override

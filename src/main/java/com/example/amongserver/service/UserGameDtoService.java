@@ -4,10 +4,14 @@ import com.example.amongserver.dto.UserGameDto;
 
 import java.util.List;
 
+/*
+основной сервис приложения, используется во время всей игры
+*/
 public interface UserGameDtoService {
-
+    // TODO : в двух контроллерах одинаковый url, нужно исправить
     // регестрация пользователя
     // используется в UserRestController
+    // url /user POST запрос
     UserGameDto add(UserGameDto user);
 
 
@@ -21,7 +25,7 @@ public interface UserGameDtoService {
     // Обновление данных пользователя
     // Используется в UserController
     // До начала игры
-
+    // url /user WebSockets
     List<UserGameDto> updateUser (UserGameDto userGameDto);
 
 
