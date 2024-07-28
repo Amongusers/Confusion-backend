@@ -1,6 +1,7 @@
 package com.example.amongserver.service;
 
 import com.example.amongserver.dto.UserGameDto;
+import com.example.amongserver.dto.UserVoteDto;
 
 import java.util.List;
 
@@ -27,6 +28,11 @@ public interface UserGameDtoService {
     // До начала игры
     // url /user WebSockets
     List<UserGameDto> updateUser (UserGameDto userGameDto);
+
+
+    // Убийство импостером
+    // Используется в UserRestController
+    void deadUser (UserVoteDto userVoteDto);
 
 
 }

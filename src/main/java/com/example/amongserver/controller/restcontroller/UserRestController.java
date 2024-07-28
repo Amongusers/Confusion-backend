@@ -1,6 +1,7 @@
 package com.example.amongserver.controller.restcontroller;
 
 import com.example.amongserver.dto.UserGameDto;
+import com.example.amongserver.dto.UserVoteDto;
 import com.example.amongserver.service.UserGameDtoService;
 import com.example.amongserver.service.UserVoteDtoService;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,10 @@ public class UserRestController {
     @GetMapping()
     public List<UserGameDto> getAllUsers() {
         return userVoteDtoService.getAllIsDead();
+    }
+
+    @PostMapping("/dead")
+    public void deadUser(@RequestBody UserVoteDto userVoteDto) {
+        userGameDtoService.deadUser(userVoteDto);
     }
 }

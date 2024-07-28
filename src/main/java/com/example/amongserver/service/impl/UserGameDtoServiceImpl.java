@@ -5,9 +5,11 @@ import com.example.amongserver.domain.entity.GameState;
 import com.example.amongserver.domain.entity.User;
 import com.example.amongserver.dto.GameStateDto;
 import com.example.amongserver.dto.UserGameDto;
+import com.example.amongserver.dto.UserVoteDto;
 import com.example.amongserver.listener.GameStateChangedEvent;
 import com.example.amongserver.mapper.GameStateMapper;
 import com.example.amongserver.mapper.UserGameMapper;
+import com.example.amongserver.mapper.UserVoteMapper;
 import com.example.amongserver.reposirory.GameStateRepository;
 import com.example.amongserver.reposirory.UserRepository;
 import com.example.amongserver.service.UserGameDtoService;
@@ -66,6 +68,7 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
                 .map(UserGameMapper::toUserGameDto)
                 .collect(Collectors.toList());
     }
+
     private List<User> allReady() {
         List<User> userList = userRepository.findAll();
         boolean isAllReady = true;
@@ -124,8 +127,47 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void deadUser(UserVoteDto userVoteDto) {
+        User userClient = UserVoteMapper.toUserEntity(userVoteDto);
+        if (userClient.isDead())
+            return;
+        Optional<User> userOptional = userRepository.findById(userVoteDto.getId());
+        if (userOptional.isEmpty()) {
+            throw new RuntimeException("User with ID " + userClient.getId() + " not found");
+        }
+        User userDB = userOptional.get();
+        userDB.setDead(false);
+        userRepository.save(userDB);
+
+        List<User> userListNotDead = userRepository.findAll().stream()
+                .filter(user -> !user.isDead())
+                .toList();
+        long imposterCount = userListNotDead.stream().filter(User::getIsImposter).count();
+        long notImposterCount = userListNotDead.size() - imposterCount;
+
+        Optional<GameState> gameStateOptional = gameStateRepository.findById(1L);
+        if (gameStateOptional.isPresent()) {
+            GameState gameState = gameStateOptional.get();
+            if ((gameState.getGameState() == 1 || gameState.getGameState() == 2) && notImposterCount == 0) {
+                gameState.setGameState(4);
+                deleteAllUsers(gameState);
+                GameStateDto gameStateDto = GameStateMapper.toGameStateGto(gameStateRepository.save(gameState));
+                GameStateChangedEvent event = new GameStateChangedEvent(this, gameStateDto);
+                eventPublisher.publishEvent(event);
+
+            }
+        }
 
 
 
+
+    }
+
+    private void deleteAllUsers(GameState gameState) {
+        for (User user : gameState.getUserList()) {
+            userRepository.delete(user);
+        }
+    }
 
 }
