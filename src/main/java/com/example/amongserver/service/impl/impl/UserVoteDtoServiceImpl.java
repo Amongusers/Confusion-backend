@@ -1,4 +1,4 @@
-package com.example.amongserver.service.impl;
+package com.example.amongserver.service.impl.impl;
 
 import com.example.amongserver.domain.entity.GameState;
 import com.example.amongserver.domain.entity.User;
@@ -12,7 +12,7 @@ import com.example.amongserver.mapper.UserVoteMapper;
 import com.example.amongserver.observer.UserVoteDtoObserver;
 import com.example.amongserver.reposirory.GameStateRepository;
 import com.example.amongserver.reposirory.UserRepository;
-import com.example.amongserver.service.UserVoteDtoService;
+import com.example.amongserver.service.impl.UserVoteDtoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

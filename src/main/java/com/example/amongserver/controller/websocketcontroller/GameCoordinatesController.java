@@ -1,7 +1,7 @@
 package com.example.amongserver.controller.websocketcontroller;
 
 import com.example.amongserver.dto.GameCoordinatesDto;
-import com.example.amongserver.service.GameCoordinatesService;
+import com.example.amongserver.service.impl.GameCoordinatesService;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

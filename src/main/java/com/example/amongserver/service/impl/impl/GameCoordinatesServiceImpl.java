@@ -1,4 +1,4 @@
-package com.example.amongserver.service.impl;
+package com.example.amongserver.service.impl.impl;
 
 import com.example.amongserver.domain.entity.GameCoordinates;
 import com.example.amongserver.domain.entity.GameState;
@@ -11,7 +11,7 @@ import com.example.amongserver.mapper.GameStateMapper;
 import com.example.amongserver.reposirory.GameCoordinatesRepository;
 import com.example.amongserver.reposirory.GameStateRepository;
 import com.example.amongserver.reposirory.UserRepository;
-import com.example.amongserver.service.GameCoordinatesService;
+import com.example.amongserver.service.impl.GameCoordinatesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

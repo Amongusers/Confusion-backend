@@ -1,7 +1,7 @@
-package com.example.amongserver.service;
+package com.example.amongserver.service.impl;
 
 import com.example.amongserver.dto.UserGameDto;
-import com.example.amongserver.dto.UserVoteDto;
+import com.example.amongserver.dto.UserKillDtoRequest;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public interface UserGameDtoService {
 
     // Убийство импостером
     // Используется в UserRestController
-    void deadUser (UserVoteDto userVoteDto);
+    void killUser (UserKillDtoRequest userKillDtoRequest);
 
 
 }

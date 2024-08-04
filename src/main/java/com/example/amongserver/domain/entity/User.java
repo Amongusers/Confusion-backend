@@ -63,4 +63,8 @@ public class User {
         this.isImposter = isImposter;
         this.numberVotes = numberVotes;
     }
+    public User(String login, boolean isDead) {
+        this.login = login;
+        this.isDead = isDead;
+    }
 }

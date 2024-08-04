@@ -1,18 +1,14 @@
-package com.example.amongserver.service.impl;
+package com.example.amongserver.service.impl.impl;
 
-import com.example.amongserver.domain.entity.GameCoordinates;
 import com.example.amongserver.domain.entity.GameState;
-import com.example.amongserver.domain.entity.User;
 import com.example.amongserver.dto.GameStateDto;
 import com.example.amongserver.mapper.GameStateMapper;
 import com.example.amongserver.reposirory.GameCoordinatesRepository;
 import com.example.amongserver.reposirory.GameStateRepository;
-import com.example.amongserver.service.GameStateService;
+import com.example.amongserver.service.impl.GameStateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 @Service
