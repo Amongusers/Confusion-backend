@@ -45,6 +45,7 @@ public class UserGeoPositionServiceImpl implements UserGeoPositionService {
         return userRepository.findAll()
                 .stream()
                 .map(UserGeoPositionMapper::toUserGeoPositionGto)
+                .filter(e -> !e.isDead())
                 .collect(Collectors.toList());
 
 
