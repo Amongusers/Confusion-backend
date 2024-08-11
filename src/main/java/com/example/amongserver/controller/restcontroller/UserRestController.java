@@ -2,8 +2,8 @@ package com.example.amongserver.controller.restcontroller;
 
 import com.example.amongserver.dto.UserGameDto;
 import com.example.amongserver.dto.UserKillDtoRequest;
-import com.example.amongserver.service.impl.UserGameDtoService;
-import com.example.amongserver.service.impl.UserVoteDtoService;
+import com.example.amongserver.service.UserGameDtoService;
+import com.example.amongserver.service.UserVoteDtoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

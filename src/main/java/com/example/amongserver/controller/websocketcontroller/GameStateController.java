@@ -2,7 +2,7 @@ package com.example.amongserver.controller.websocketcontroller;
 
 
 import com.example.amongserver.dto.GameStateDto;
-import com.example.amongserver.service.impl.GameStateService;
+import com.example.amongserver.service.GameStateService;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

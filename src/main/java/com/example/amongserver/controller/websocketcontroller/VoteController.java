@@ -2,7 +2,7 @@ package com.example.amongserver.controller.websocketcontroller;
 
 import com.example.amongserver.dto.UserVoteDto;
 import com.example.amongserver.observer.UserVoteDtoObserver;
-import com.example.amongserver.service.impl.UserVoteDtoService;
+import com.example.amongserver.service.UserVoteDtoService;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

@@ -1,11 +1,11 @@
-package com.example.amongserver.service.impl.impl;
+package com.example.amongserver.service.impl;
 
 import com.example.amongserver.domain.entity.GameState;
 import com.example.amongserver.dto.GameStateDto;
 import com.example.amongserver.mapper.GameStateMapper;
 import com.example.amongserver.reposirory.GameCoordinatesRepository;
 import com.example.amongserver.reposirory.GameStateRepository;
-import com.example.amongserver.service.impl.GameStateService;
+import com.example.amongserver.service.GameStateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

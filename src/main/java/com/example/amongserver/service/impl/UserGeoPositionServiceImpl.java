@@ -1,11 +1,11 @@
-package com.example.amongserver.service.impl.impl;
+package com.example.amongserver.service.impl;
 
 import com.example.amongserver.domain.entity.User;
 import com.example.amongserver.dto.UserGeoPositionDto;
 import com.example.amongserver.mapper.UserGeoPositionMapper;
 import com.example.amongserver.reposirory.GameStateRepository;
 import com.example.amongserver.reposirory.UserRepository;
-import com.example.amongserver.service.impl.UserGeoPositionService;
+import com.example.amongserver.service.UserGeoPositionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

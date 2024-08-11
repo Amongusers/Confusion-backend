@@ -2,7 +2,7 @@ package com.example.amongserver.controller.websocketcontroller;
 
 
 import com.example.amongserver.dto.UserGeoPositionDto;
-import com.example.amongserver.service.impl.UserGeoPositionService;
+import com.example.amongserver.service.UserGeoPositionService;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

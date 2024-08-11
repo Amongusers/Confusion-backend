@@ -1,4 +1,4 @@
-package com.example.amongserver.service.impl.impl;
+package com.example.amongserver.service.impl;
 
 
 import com.example.amongserver.domain.entity.GameState;
@@ -13,7 +13,7 @@ import com.example.amongserver.mapper.GameStateMapper;
 import com.example.amongserver.mapper.UserGameMapper;
 import com.example.amongserver.reposirory.GameStateRepository;
 import com.example.amongserver.reposirory.UserRepository;
-import com.example.amongserver.service.impl.UserGameDtoService;
+import com.example.amongserver.service.UserGameDtoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;

@@ -1,4 +1,4 @@
-package com.example.amongserver.service.impl;
+package com.example.amongserver.service;
 
 import com.example.amongserver.dto.UserGameDto;
 import com.example.amongserver.dto.UserKillDtoRequest;

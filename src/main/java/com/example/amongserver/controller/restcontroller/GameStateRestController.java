@@ -1,7 +1,7 @@
 package com.example.amongserver.controller.restcontroller;
 
 import com.example.amongserver.dto.GameStateDto;
-import com.example.amongserver.service.impl.GameStateService;
+import com.example.amongserver.service.GameStateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

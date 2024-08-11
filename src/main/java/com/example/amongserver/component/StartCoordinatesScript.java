@@ -1,7 +1,7 @@
 package com.example.amongserver.component;
 
 import com.example.amongserver.dto.GameCoordinatesDto;
-import com.example.amongserver.service.impl.GameCoordinatesService;
+import com.example.amongserver.service.GameCoordinatesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

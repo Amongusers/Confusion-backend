@@ -1,4 +1,4 @@
-package com.example.amongserver.service.impl;
+package com.example.amongserver.service;
 
 import com.example.amongserver.domain.entity.GameState;
 import com.example.amongserver.dto.GameStateDto;
