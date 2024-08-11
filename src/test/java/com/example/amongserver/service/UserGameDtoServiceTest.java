@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.sql.SQLException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UserGameDtoServiceTest {
+class UserGameDtoServiceTest {
     @InjectMocks
     private UserGameDtoServiceImpl userGameDtoService;
     @Mock
@@ -42,6 +43,8 @@ public class UserGameDtoServiceTest {
 
         // Assert
         assertTrue(deadUser.isDead());
+        verify(userRepository, times(1)).findById(idDead);
+        verify(userRepository, times(1)).findById(idKiller);
         verify(userRepository, times(1)).save(deadUser);
     }
 
@@ -57,6 +60,9 @@ public class UserGameDtoServiceTest {
 
         // Act & Assert
         assertThrows(UserNotFoundException.class, () -> userGameDtoService.killUser(request));
+        verify(userRepository, times(1)).findById(idDead);
+        verify(userRepository, never()).findById(idKiller);
+        verify(userRepository, never()).save(any(User.class));
     }
 
     @Test
@@ -73,6 +79,9 @@ public class UserGameDtoServiceTest {
 
         // Act & Assert
         assertThrows(UserNotFoundException.class, () -> userGameDtoService.killUser(request));
+        verify(userRepository, times(1)).findById(idDead);
+        verify(userRepository, times(1)).findById(idKiller);
+        verify(userRepository, never()).save(any(User.class));
     }
 
     @Test
@@ -90,5 +99,21 @@ public class UserGameDtoServiceTest {
 
         // Act & Assert
         assertThrows(UserAlreadyDeadException.class, () -> userGameDtoService.killUser(request));
+        verify(userRepository, times(1)).findById(idDead);
+        verify(userRepository, times(1)).findById(idKiller);
+        verify(userRepository, never()).save(any(User.class));
+    }
+
+    @Test
+    void killUser_shouldHandleSQLException() throws SQLException {
+        Long idDead = 1L;
+        Long idKiller = 2L;
+        UserKillDtoRequest request = new UserKillDtoRequest(idKiller, idDead);
+
+        // Настроить репозиторий так, чтобы он выбрасывал SQLException
+        when(userRepository.findById(idDead)).thenThrow(new SQLException("Database error"));
+
+        // Проверить, что метод сервиса выбрасывает исключение при ошибке в репозитории
+        assertThrows(SQLException.class, () -> userGameDtoService.killUser(request));
     }
 }
