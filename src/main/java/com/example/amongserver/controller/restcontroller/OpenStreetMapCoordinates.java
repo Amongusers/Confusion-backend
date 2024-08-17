@@ -39,7 +39,7 @@ public class OpenStreetMapCoordinates {
 	    OverpassMapDataApi overpass = new OverpassMapDataApi(connection);
 
         final List<Node> listOfNodes = new ArrayList<Node>();
-        overpass.queryElements(BBOX + "(way[highway=footway];>;);out body;", new MapDataHandler()
+        overpass.queryElements(BBOX + "((way[highway=footway];way[foot=designated];);>;);out body;", new MapDataHandler()
 		{
 			@Override 
             public void handle(BoundingBox bounds) {
