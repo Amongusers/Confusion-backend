@@ -1,6 +1,6 @@
 package com.example.amongserver.mapper;
 
-import com.example.amongserver.domain.entity.User;
+import com.example.amongserver.domain.entity.UserLast;
 import com.example.amongserver.dto.UserVoteDto;
 import lombok.experimental.UtilityClass;
 /*
@@ -9,20 +9,20 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class UserVoteMapper {
 
-    public User toUserEntity(UserVoteDto userVoteDto) {
+    public UserLast toUserEntity(UserVoteDto userVoteDto) {
 
 
-        return User.builder()
+        return UserLast.builder()
                 .id(userVoteDto.getId())
                 .login(userVoteDto.getLogin())
                 .build();
     }
 
-    public UserVoteDto toUserVoteDto(User user) {
+    public UserVoteDto toUserVoteDto(UserLast userLast) {
 
         return UserVoteDto.builder()
-                .id(user.getId())
-                .login(user.getLogin())
+                .id(userLast.getId())
+                .login(userLast.getLogin())
                 .build();
     }
 }

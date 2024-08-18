@@ -1,6 +1,6 @@
 package com.example.amongserver.mapper;
 
-import com.example.amongserver.domain.entity.User;
+import com.example.amongserver.domain.entity.UserLast;
 import com.example.amongserver.dto.UserGeoPositionDto;
 import lombok.experimental.UtilityClass;
 /*
@@ -8,9 +8,9 @@ import lombok.experimental.UtilityClass;
 */
 @UtilityClass
 public class UserGeoPositionMapper {
-    public User toUserEntity(UserGeoPositionDto userGeoPositionDto) {
+    public UserLast toUserEntity(UserGeoPositionDto userGeoPositionDto) {
 
-        return User.builder()
+        return UserLast.builder()
                 .id(userGeoPositionDto.getId())
                 .latitude(userGeoPositionDto.getLatitude())
                 .longitude(userGeoPositionDto.getLongitude())
@@ -20,13 +20,13 @@ public class UserGeoPositionMapper {
 
 
 
-    public UserGeoPositionDto toUserGeoPositionGto(User user) {
+    public UserGeoPositionDto toUserGeoPositionGto(UserLast userLast) {
 
         return UserGeoPositionDto.builder()
-                .id(user.getId())
-                .latitude(user.getLatitude())
-                .longitude(user.getLongitude())
-                .isDead(user.isDead())
+                .id(userLast.getId())
+                .latitude(userLast.getLatitude())
+                .longitude(userLast.getLongitude())
+                .isDead(userLast.isDead())
                 .build();
     }
 

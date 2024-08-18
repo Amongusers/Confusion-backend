@@ -1,7 +1,7 @@
 package com.example.amongserver.service.impl;
 
 import com.example.amongserver.domain.entity.GameState;
-import com.example.amongserver.domain.entity.User;
+import com.example.amongserver.domain.entity.UserLast;
 import com.example.amongserver.dto.GameStateDto;
 import com.example.amongserver.dto.UserGameDto;
 import com.example.amongserver.dto.UserVoteDto;
@@ -11,7 +11,7 @@ import com.example.amongserver.mapper.UserGameMapper;
 import com.example.amongserver.mapper.UserVoteMapper;
 import com.example.amongserver.observer.UserVoteDtoObserver;
 import com.example.amongserver.reposirory.GameStateRepository;
-import com.example.amongserver.reposirory.UserRepository;
+import com.example.amongserver.reposirory.UserLastRepository;
 import com.example.amongserver.service.UserVoteDtoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class UserVoteDtoServiceImpl implements UserVoteDtoService {
     private boolean isVoteCansel;
 
-    private final UserRepository userRepository;
+    private final UserLastRepository userLastRepository;
     private final GameStateRepository gameStateRepository;
     private final ApplicationEventPublisher eventPublisher;
     private Timer timer;
@@ -65,8 +65,8 @@ public class UserVoteDtoServiceImpl implements UserVoteDtoService {
                     @Override
                     public void run() {
                         isVoteCansel = true;
-                        List<User> users = userRepository.findAll();
-                        notifyObservers(getUserGameDto(users));
+                        List<UserLast> userLasts = userLastRepository.findAll();
+                        notifyObservers(getUserGameDto(userLasts));
                     }
                 }, 60000); // 1 минута
 
@@ -77,7 +77,7 @@ public class UserVoteDtoServiceImpl implements UserVoteDtoService {
                 eventPublisher.publishEvent(event);
             }
         }
-        return userRepository.findAllByIsDead(false)
+        return userLastRepository.findAllByIsDead(false)
                 .stream()
                 .map(UserGameMapper::toUserGameDto)
                 .collect(Collectors.toList());
@@ -91,51 +91,51 @@ public class UserVoteDtoServiceImpl implements UserVoteDtoService {
     @Override
     public void vote(UserVoteDto userVoteDto) {
         Long id = userVoteDto.getId();
-        Optional<User> userOptional = userRepository.findById(id);
+        Optional<UserLast> userOptional = userLastRepository.findById(id);
 
         if (userOptional.isEmpty()) throw new RuntimeException("User with ID " + id + " not found");
 
-        User userDB = userOptional.get();
-        userDB.setNumberVotes(userDB.getNumberVotes()+1);
-        userRepository.save(userDB);
+        UserLast userLastDB = userOptional.get();
+        userLastDB.setNumberVotes(userLastDB.getNumberVotes()+1);
+        userLastRepository.save(userLastDB);
 
         // Проверяем, есть ли пользователи, у которых уже были голоса
-        List<User> users = userRepository.findAll();
+        List<UserLast> userLasts = userLastRepository.findAll();
 
-        int totalVotes = users.stream().mapToInt(User::getNumberVotes).sum();
+        int totalVotes = userLasts.stream().mapToInt(UserLast::getNumberVotes).sum();
 
         // Если хотя бы один пользователь проголосовал, запускаем таймер
 
-        if (totalVotes==users.size()) {
+        if (totalVotes== userLasts.size()) {
             timer.cancel();
             isVoteCansel = true;
-            List<User> usersUsers = userRepository.findAll();
-            notifyObservers(getUserGameDto(usersUsers));
+            List<UserLast> usersUserLasts = userLastRepository.findAll();
+            notifyObservers(getUserGameDto(usersUserLasts));
         }
     }
 
-    private UserVoteDto getUserGameDto(List<User> users) {
+    private UserVoteDto getUserGameDto(List<UserLast> userLasts) {
 
-        User maxVotedUser = users.stream()
-                .max(Comparator.comparing(User::getNumberVotes))
+        UserLast maxVotedUserLast = userLasts.stream()
+                .max(Comparator.comparing(UserLast::getNumberVotes))
                 .orElse(null);
 
-        List<User> maxVotedUsers = users.stream()
-                .filter(user -> Objects.equals(user.getNumberVotes(), maxVotedUser.getNumberVotes()))
+        List<UserLast> maxVotedUserLasts = userLasts.stream()
+                .filter(user -> Objects.equals(user.getNumberVotes(), maxVotedUserLast.getNumberVotes()))
                 .toList();
 
 
         // Преобразуем выбранного пользователя в UserGameDto и сохраняем его в переменной result
-        if (maxVotedUser != null && maxVotedUsers.size() == 1) {
-            maxVotedUser.setDead(true);
-            userRepository.save(maxVotedUser);
+        if (maxVotedUserLast != null && maxVotedUserLasts.size() == 1) {
+            maxVotedUserLast.setDead(true);
+            userLastRepository.save(maxVotedUserLast);
 
             Optional<GameState> gameStateOptional = gameStateRepository.findById(1L);
             if (gameStateOptional.isPresent()) {
                 GameState gameState = gameStateOptional.get();
                 if (gameState.getGameState() == 2) {
 
-                    List<User> userListNotDead = userRepository.findAll().stream()
+                    List<UserLast> userLastListNotDead = userLastRepository.findAll().stream()
                             .filter(user -> !user.isDead())
                             .toList();
 
@@ -143,8 +143,8 @@ public class UserVoteDtoServiceImpl implements UserVoteDtoService {
 //                        .findAll().stream()
 //                        .filter(gameCoordinates -> !gameCoordinates.isCompleted())
 //                        .toList();
-                    long imposterCount = userListNotDead.stream().filter(User::getIsImposter).count();
-                    long notImposterCount = userListNotDead.size() - imposterCount;
+                    long imposterCount = userLastListNotDead.stream().filter(UserLast::getIsImposter).count();
+                    long notImposterCount = userLastListNotDead.size() - imposterCount;
                     // TODO : Нужно будет создать слушателя на GemaState
                     if (imposterCount > 0 && notImposterCount > 0) {
                         gameState.setGameState(1);
@@ -169,7 +169,7 @@ public class UserVoteDtoServiceImpl implements UserVoteDtoService {
             }
 
 
-            return UserVoteMapper.toUserVoteDto(maxVotedUser);
+            return UserVoteMapper.toUserVoteDto(maxVotedUserLast);
         } else {
             Optional<GameState> gameStateOptional = gameStateRepository.findById(1L);
             if (gameStateOptional.isPresent()) {
@@ -191,8 +191,8 @@ public class UserVoteDtoServiceImpl implements UserVoteDtoService {
 
     // TODO : Нужно будет создать слушателя на GemaState
     private void deleteAllUsers(GameState gameState) {
-        for (User user : gameState.getUserList()) {
-            userRepository.delete(user);
+        for (UserLast userLast : gameState.getUserLastList()) {
+            userLastRepository.delete(userLast);
         }
     }
 
@@ -208,10 +208,10 @@ public class UserVoteDtoServiceImpl implements UserVoteDtoService {
 
     @Override
     public void resetNumberVotes() {
-        List<User> userList = userRepository.findAll();
-        for (User user : userList) {
-            user.setNumberVotes(0);
-            userRepository.save(user);
+        List<UserLast> userLastList = userLastRepository.findAll();
+        for (UserLast userLast : userLastList) {
+            userLast.setNumberVotes(0);
+            userLastRepository.save(userLast);
         }
     }
 }

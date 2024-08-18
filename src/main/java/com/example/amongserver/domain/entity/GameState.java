@@ -28,7 +28,7 @@ public class GameState {
     private int gameState;
 
     @OneToMany(mappedBy = "gameState", cascade = CascadeType.ALL)
-    private List<User> userList;
+    private List<UserLast> userLastList;
 
     public GameState(int gameState) {
         this.gameState = gameState;

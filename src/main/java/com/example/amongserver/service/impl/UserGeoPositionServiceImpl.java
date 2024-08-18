@@ -1,10 +1,10 @@
 package com.example.amongserver.service.impl;
 
-import com.example.amongserver.domain.entity.User;
+import com.example.amongserver.domain.entity.UserLast;
 import com.example.amongserver.dto.UserGeoPositionDto;
 import com.example.amongserver.mapper.UserGeoPositionMapper;
 import com.example.amongserver.reposirory.GameStateRepository;
-import com.example.amongserver.reposirory.UserRepository;
+import com.example.amongserver.reposirory.UserLastRepository;
 import com.example.amongserver.service.UserGeoPositionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -18,26 +18,26 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserGeoPositionServiceImpl implements UserGeoPositionService {
 
-    private final UserRepository userRepository;
+    private final UserLastRepository userLastRepository;
     private final GameStateRepository gameStateRepository;
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public List<UserGeoPositionDto> updateGeoPosition(UserGeoPositionDto userGeoPositionDto) {
         Long id = userGeoPositionDto.getId();
-        Optional<User> userOptional = userRepository.findById(id);
+        Optional<UserLast> userOptional = userLastRepository.findById(id);
 
         if (userOptional.isEmpty()) throw new RuntimeException("User with ID " + id + " not found");
 
-        User userDB = userOptional.get();
-        User userClient = UserGeoPositionMapper.toUserEntity(userGeoPositionDto);
-        if (!userDB.isDead()) {
-            if (userClient.getLatitude() != null) userDB.setLatitude(userClient.getLatitude());
-            if (userClient.getLongitude() != null) userDB.setLongitude(userClient.getLongitude());
+        UserLast userLastDB = userOptional.get();
+        UserLast userLastClient = UserGeoPositionMapper.toUserEntity(userGeoPositionDto);
+        if (!userLastDB.isDead()) {
+            if (userLastClient.getLatitude() != null) userLastDB.setLatitude(userLastClient.getLatitude());
+            if (userLastClient.getLongitude() != null) userLastDB.setLongitude(userLastClient.getLongitude());
         }
 
         // TODO: можно создать отдельный топик на передачу убитых игроков
-        return userRepository.findAll()
+        return userLastRepository.findAll()
                 .stream()
                 .map(UserGeoPositionMapper::toUserGeoPositionGto)
                 .filter(e -> !e.isDead())

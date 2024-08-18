@@ -2,7 +2,7 @@ package com.example.amongserver.service.impl;
 
 
 import com.example.amongserver.domain.entity.GameState;
-import com.example.amongserver.domain.entity.User;
+import com.example.amongserver.domain.entity.UserLast;
 import com.example.amongserver.dto.GameStateDto;
 import com.example.amongserver.dto.UserGameDto;
 import com.example.amongserver.dto.UserKillDtoRequest;
@@ -12,7 +12,7 @@ import com.example.amongserver.listener.GameStateChangedEvent;
 import com.example.amongserver.mapper.GameStateMapper;
 import com.example.amongserver.mapper.UserGameMapper;
 import com.example.amongserver.reposirory.GameStateRepository;
-import com.example.amongserver.reposirory.UserRepository;
+import com.example.amongserver.reposirory.UserLastRepository;
 import com.example.amongserver.service.UserGameDtoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,53 +27,53 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class UserGameDtoServiceImpl implements UserGameDtoService {
-    private final UserRepository userRepository;
+    private final UserLastRepository userLastRepository;
     private final GameStateRepository gameStateRepository;
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public UserGameDto add(UserGameDto userGameDto) {
-        User user = UserGameMapper.toUserEntity(userGameDto);
-        user.setReady(false);
-        user.setIsImposter(null);
-        user.setLatitude(null);
-        user.setLongitude(null);
-        user.setDead(false);
-        user.setNumberVotes(0);
+        UserLast userLast = UserGameMapper.toUserEntity(userGameDto);
+        userLast.setReady(false);
+        userLast.setIsImposter(null);
+        userLast.setLatitude(null);
+        userLast.setLongitude(null);
+        userLast.setDead(false);
+        userLast.setNumberVotes(0);
         //TODO: хз надо ли так
-        user.setNumberVotes(0);
+        userLast.setNumberVotes(0);
         GameState gameState = gameStateRepository.getById(1L);
-        user.setGameState(gameState);
+        userLast.setGameState(gameState);
 
-        return UserGameMapper.toUserGameDto(userRepository.save(user));
+        return UserGameMapper.toUserGameDto(userLastRepository.save(userLast));
     }
 
 
     @Override
     public List<UserGameDto> updateUser(UserGameDto userGameDto) {
         Long id = userGameDto.getId();
-        Optional<User> userOptional = userRepository.findById(id);
+        Optional<UserLast> userOptional = userLastRepository.findById(id);
         if (userOptional.isEmpty()) {
             throw new RuntimeException("User with ID " + id + " not found");
         }
-        User userDB = userOptional.get();
-        userDB.setReady(userGameDto.isReady());
-        userRepository.save(userDB);
-        List<User> userList = allReady();
-        return userList.stream().map(UserGameMapper::toUserGameDto).collect(Collectors.toList());
+        UserLast userLastDB = userOptional.get();
+        userLastDB.setReady(userGameDto.isReady());
+        userLastRepository.save(userLastDB);
+        List<UserLast> userLastList = allReady();
+        return userLastList.stream().map(UserGameMapper::toUserGameDto).collect(Collectors.toList());
     }
 
-    private List<User> allReady() {
-        List<User> userList = userRepository.findAll();
+    private List<UserLast> allReady() {
+        List<UserLast> userLastList = userLastRepository.findAll();
         boolean isAllReady = true;
-        for (User user : userList) {
-            if (!user.isReady()) {
+        for (UserLast userLast : userLastList) {
+            if (!userLast.isReady()) {
                 isAllReady = false;
                 break;
             }
         }
         if (!isAllReady /*|| userList.size() < 3*/) {
-            return userRepository.saveAll(userList);
+            return userLastRepository.saveAll(userLastList);
         } else {
             Optional<GameState> gameStateOptional = gameStateRepository.findById(1L);
             if (gameStateOptional.isPresent()) {
@@ -87,50 +87,50 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
             }
 
 
-            return createRole(userList);
+            return createRole(userLastList);
         }
     }
 
-    private List<User> createRole(List<User> userList) {
-        for (User localUser : userList) {
-            localUser.setIsImposter(false);
+    private List<UserLast> createRole(List<UserLast> userLastList) {
+        for (UserLast localUserLast : userLastList) {
+            localUserLast.setIsImposter(false);
         }
         /*if (!userList.isEmpty()) {
             int impostorIndex = (int) (Math.random() * userList.size());
             userList.get(impostorIndex).setIsImposter(true);
             return userRepository.saveAll(userList);
         }*/
-        int impostorIndex = (int) (Math.random() * userList.size());
-        userList.get(impostorIndex).setIsImposter(true);
-        return userRepository.saveAll(userList);
+        int impostorIndex = (int) (Math.random() * userLastList.size());
+        userLastList.get(impostorIndex).setIsImposter(true);
+        return userLastRepository.saveAll(userLastList);
     }
 
 
     @Override
     public List<UserGameDto> getAll() {
-        return userRepository.findAll().stream().map(UserGameMapper::toUserGameDto).collect(Collectors.toList());
+        return userLastRepository.findAll().stream().map(UserGameMapper::toUserGameDto).collect(Collectors.toList());
     }
 
     @Override
     public void killUser(UserKillDtoRequest userKillDtoRequest) {
-        User userDBDead = userRepository.findById(userKillDtoRequest
+        UserLast userLastDBDead = userLastRepository.findById(userKillDtoRequest
                         .getIdDead())
                 .orElseThrow(() -> new UserNotFoundException("User with ID "
                         + userKillDtoRequest.getIdDead()
                         + " not found"));
-        userRepository.findById(userKillDtoRequest
+        userLastRepository.findById(userKillDtoRequest
                         .getIdKiller())
                 .orElseThrow(() -> new UserNotFoundException("User with ID "
                         + userKillDtoRequest.getIdKiller()
                         + " not found"));
 
-        if (userDBDead.isDead())
+        if (userLastDBDead.isDead())
             throw new UserAlreadyDeadException("User with ID "
                     + userKillDtoRequest.getIdDead()
                     + " already dead");
-        userDBDead.setDead(true);
-        userRepository.save(userDBDead);
-        log.debug("User " + userDBDead.getLogin() + " is dead");
+        userLastDBDead.setDead(true);
+        userLastRepository.save(userLastDBDead);
+        log.debug("User " + userLastDBDead.getLogin() + " is dead");
 
 //        List<User> userListNotDead = userRepository.findAll().stream().filter(user -> !user.isDead()).toList();
 //        long imposterCount = userListNotDead.stream().filter(User::getIsImposter).count();
@@ -151,7 +151,7 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
     }
 
     private void deleteAllUsers(GameState gameState) {
-        userRepository.deleteAll(gameState.getUserList());
+        userLastRepository.deleteAll(gameState.getUserLastList());
     }
 
 }

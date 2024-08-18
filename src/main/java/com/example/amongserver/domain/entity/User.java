@@ -1,70 +1,57 @@
 package com.example.amongserver.domain.entity;
 
+import com.example.amongserver.listener.GameStateListener;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-/*
-Entity класс User
-Сущность, которая хранится в БД
-*/
+import java.util.Collection;
+import java.util.Set;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@EntityListeners(GameStateListener.class)
 @Table(name = "user")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (name = "login")
-    private String login;
+    @Column (name = "username")
+    private String username;
 
-    @Column (name = "is_ready")
-    private boolean isReady;
+    @Column (name = "email")
+    private String email;
 
-    @Column (name = "is_imposter")
-    private Boolean isImposter;
+    @Column (name = "password")
+    private String password;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Authority> authorities;
 
-    @Column (name = "number_votes")
-    private Integer numberVotes;
-
-    @Column (name = "latitude")
-    private Double latitude;
-
-    @Column (name = "longitude")
-    private Double longitude;
-
-    @Column (name = "is_dead")
-    private boolean isDead;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "game_state_id")
-    private GameState gameState;
-
-
-    public User(String login, boolean isReady, Boolean isImposter) {
-        this.login = login;
-        this.isReady = isReady;
-        this.isImposter = isImposter;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public User(int numberVotes) {
-        this.numberVotes = numberVotes;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public User(String login, boolean isReady, Boolean isImposter, int numberVotes) {
-        this.login = login;
-        this.isReady = isReady;
-        this.isImposter = isImposter;
-        this.numberVotes = numberVotes;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
-    public User(String login, boolean isDead) {
-        this.login = login;
-        this.isDead = isDead;
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

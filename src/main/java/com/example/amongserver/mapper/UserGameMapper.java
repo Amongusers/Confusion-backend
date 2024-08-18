@@ -1,6 +1,6 @@
 package com.example.amongserver.mapper;
 
-import com.example.amongserver.domain.entity.User;
+import com.example.amongserver.domain.entity.UserLast;
 import com.example.amongserver.dto.UserGameDto;
 import lombok.experimental.UtilityClass;
 /*
@@ -8,28 +8,28 @@ import lombok.experimental.UtilityClass;
 */
 @UtilityClass
 public class UserGameMapper {
-    public User toUserEntity(UserGameDto userGameDto) {
+    public UserLast toUserEntity(UserGameDto userGameDto) {
 
-        User user = User.builder()
+        UserLast userLast = UserLast.builder()
                 .login(userGameDto.getLogin())
                 .isReady(userGameDto.isReady())
                 .isImposter(userGameDto.getIsImposter())
                 .build();
         if (userGameDto.getId()!=null) {
-            user.setId(userGameDto.getId());
+            userLast.setId(userGameDto.getId());
         }
-        return user;
+        return userLast;
     }
 
 
 
-    public UserGameDto toUserGameDto(User user) {
+    public UserGameDto toUserGameDto(UserLast userLast) {
 
         return UserGameDto.builder()
-                .id(user.getId())
-                .login(user.getLogin())
-                .isReady(user.isReady())
-                .isImposter(user.getIsImposter())
+                .id(userLast.getId())
+                .login(userLast.getLogin())
+                .isReady(userLast.isReady())
+                .isImposter(userLast.getIsImposter())
                 .build();
     }
 

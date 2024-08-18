@@ -1,7 +1,7 @@
 package com.example.amongserver.repository;
 
-import com.example.amongserver.domain.entity.User;
-import com.example.amongserver.reposirory.UserRepository;
+import com.example.amongserver.domain.entity.UserLast;
+import com.example.amongserver.reposirory.UserLastRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -21,40 +21,40 @@ import static org.mockito.Mockito.when;
 class GameCoordinatesRepositoryTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserLastRepository userLastRepository;
     @Test
     void saveUser_whenValidData_userIsSaved() {
         // Arrange
-        User user = new User("testUser", false);
+        UserLast userLast = new UserLast("testUser", false);
 
         // Act
-        User savedUser = userRepository.save(user);
+        UserLast savedUserLast = userLastRepository.save(userLast);
 
         // Assert
-        assertNotNull(savedUser.getId());
-        assertEquals("testUser", savedUser.getLogin());
-        assertFalse(savedUser.isDead());
+        assertNotNull(savedUserLast.getId());
+        assertEquals("testUser", savedUserLast.getLogin());
+        assertFalse(savedUserLast.isDead());
     }
 
     @Test
     void findById_whenUserExists_userIsReturned() {
         // Arrange
-        User user = new User("testUser", false);
-        User savedUser = userRepository.save(user);
+        UserLast userLast = new UserLast("testUser", false);
+        UserLast savedUserLast = userLastRepository.save(userLast);
 
         // Act
-        Optional<User> foundUser = userRepository.findById(savedUser.getId());
+        Optional<UserLast> foundUser = userLastRepository.findById(savedUserLast.getId());
 
         // Assert
         assertTrue(foundUser.isPresent());
-        assertEquals(savedUser.getId(), foundUser.get().getId());
+        assertEquals(savedUserLast.getId(), foundUser.get().getId());
         assertEquals("testUser", foundUser.get().getLogin());
     }
 
     @Test
     void findById_whenUserDoesNotExist_emptyOptionalIsReturned() {
         // Act
-        Optional<User> foundUser = userRepository.findById(999L);
+        Optional<UserLast> foundUser = userLastRepository.findById(999L);
 
         // Assert
         assertTrue(foundUser.isEmpty());
@@ -63,9 +63,9 @@ class GameCoordinatesRepositoryTest {
     @Test
     void findById_shouldThrowSQLException() throws SQLException {
         // Настроить поведение репозитория
-        when(userRepository.findById(anyLong())).thenThrow(new SQLException("Database error"));
+        when(userLastRepository.findById(anyLong())).thenThrow(new SQLException("Database error"));
 
         // Проверить, что метод репозитория выбрасывает SQLException
-        assertThrows(SQLException.class, () -> userRepository.findById(1L));
+        assertThrows(SQLException.class, () -> userLastRepository.findById(1L));
     }
 }
