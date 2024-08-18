@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.amongserver.dto.GameCoordinatesDto;
 import com.example.amongserver.dto.OSMRequest;
+import com.example.amongserver.dto.OSMResponse;
 
 import de.westnordost.osmapi.OsmConnection;
 import de.westnordost.osmapi.map.data.BoundingBox;
@@ -37,7 +38,7 @@ public class OpenStreetMapCoordinates {
     private static String WAY_PATH = "way[highway=path];";
 
     @PostMapping()
-    public List<GameCoordinatesDto> getMarksInBBox(@RequestBody OSMRequest osmRequest){
+    public OSMResponse getMarksInBBox(@RequestBody OSMRequest osmRequest){
         
         // Setup bbox
         String bbox = GetBboxString(osmRequest);
@@ -70,16 +71,19 @@ public class OpenStreetMapCoordinates {
             }
 		});
 		
-        System.out.println("nodes = " + listOfNodes.size());
+        System.out.println("OpenStreetMapController | Nodes = " + listOfNodes.size());
 
         // Generate random tasks list
         List<GameCoordinatesDto> tasksList = new ArrayList<>();
         int maxTasks = 10;
         double MIN_DISTANCE_BETWEEN_TASKS_METRES = 50.0;
 
+        List<GameCoordinatesDto> tasksShortList = new ArrayList<>();
+        List<GameCoordinatesDto> tasksMediumList = new ArrayList<>();
+        List<GameCoordinatesDto> tasksLongList = new ArrayList<>();
+
         while (listOfNodes.size() > 0 && tasksList.size() < maxTasks) {
             int randomIndex = new Random().nextInt(listOfNodes.size());
-            System.out.println("randomIndex = " + randomIndex);
 
             LatLon nodePos = listOfNodes.get(randomIndex).getPosition();
 
@@ -113,17 +117,37 @@ public class OpenStreetMapCoordinates {
                 continue;
             }
 
-            System.out.println("norm distance = " + nodeDistanceFromSpaceShip + " m");
-
-
-            tasksList.add(new GameCoordinatesDto(
+            GameCoordinatesDto task = new GameCoordinatesDto(
                 nodePos.getLatitude(), 
                 nodePos.getLongitude(), 
-                false)
-            );
+                false);
+
+            // Возьмем за радиус = 600 м, тогда:
+            // - "short" дистанция = от 0 до 200 м
+            // - "medium" дистанция = от 200 до 400 м
+            // - "long" дистанция = от 401 до 600 м
+            if(nodeDistanceFromSpaceShip <= osmRequest.getRadius() / 3){
+                tasksShortList.add(task);
+            }
+            else if(nodeDistanceFromSpaceShip <= osmRequest.getRadius() * 2 / 3){
+                tasksMediumList.add(task);
+            }
+            else{
+                tasksLongList.add(task);
+            }
+
+
+            tasksList.add(task);
         }
 
-        return tasksList;
+        System.out.println("OpenStreetMapController | Short tasks = " + tasksShortList.size());
+        System.out.println("OpenStreetMapController | Medium tasks = " + tasksMediumList.size());
+        System.out.println("OpenStreetMapController | Long tasks = " + tasksLongList.size());
+
+        return new OSMResponse(
+            tasksList.toArray(), 
+            new int[]{tasksShortList.size(), tasksMediumList.size(), tasksLongList.size()}
+        );
     }
 
     private String GetBboxString(OSMRequest osmRequest){
