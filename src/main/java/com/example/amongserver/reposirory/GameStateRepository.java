@@ -12,6 +12,6 @@ import java.util.Optional;
 */
 @Repository
 public interface GameStateRepository extends JpaRepository<GameState, Long> {
-    @Query("SELECT gs FROM GameState gs LEFT JOIN FETCH gs.userList WHERE gs.id = :id")
+    @Query("SELECT gs FROM GameState gs LEFT JOIN FETCH gs.userLastList WHERE gs.id = :id")
     Optional<GameState> findByIdWithUserList(@Param("id") Long id);
 }

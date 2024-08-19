@@ -8,9 +8,17 @@ spring:
       enabled: true
 
   jpa:
+
+    #Автогенерация схемы hibernate
+    #generate-ddl: false
     generate-ddl: true
 
     hibernate:
+      #ddl-auto: none
       ddl-auto: create-drop
 
+    # Показываем запросы
     show-sql: true
+
+    # Своевременный запуск data.sql
+    defer-datasource-initialization: true
