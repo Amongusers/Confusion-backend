@@ -27,7 +27,7 @@ Rest контроллер
 Получание всех координатат на клиент в начале игры
 */
 @RestController
-@RequestMapping("/osm")
+@RequestMapping("/placeShip")
 @RequiredArgsConstructor
 public class OpenStreetMapCoordinates {
 
@@ -36,6 +36,7 @@ public class OpenStreetMapCoordinates {
     private static String WAY_FOOTWAY = "way[highway=footway];";
     private static String WAY_DESIGNATED = "way[foot=designated];";
     private static String WAY_PATH = "way[highway=path];";
+    private static String WAY_SIDEWALK = "way[highway=sidewalk];";
 
     @PostMapping()
     public OSMResponse getMarksInBBox(@RequestBody OSMRequest osmRequest){
@@ -47,7 +48,7 @@ public class OpenStreetMapCoordinates {
         OsmConnection connection = new OsmConnection("https://maps.mail.ru/osm/tools/overpass/api/", "my user agent");
 	    OverpassMapDataApi overpass = new OverpassMapDataApi(connection);
 
-        String queryString = bbox + "((" + WAY_FOOTWAY + WAY_DESIGNATED + WAY_PATH + ");>;);out body;";
+        String queryString = bbox + "((" + WAY_FOOTWAY + WAY_DESIGNATED + WAY_PATH + WAY_SIDEWALK + ");>;);out body;";
         System.out.println("queryString = " + queryString);
 
         final List<Node> listOfNodes = new ArrayList<Node>();
@@ -146,7 +147,8 @@ public class OpenStreetMapCoordinates {
 
         return new OSMResponse(
             tasksList.toArray(), 
-            new int[]{tasksShortList.size(), tasksMediumList.size(), tasksLongList.size()}
+            new int[]{tasksShortList.size(), tasksMediumList.size(), tasksLongList.size()},
+            tasksList.size() == 10
         );
     }
 
