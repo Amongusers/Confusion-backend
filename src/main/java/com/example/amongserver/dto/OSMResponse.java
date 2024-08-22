@@ -11,6 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OSMResponse {
     private Object[] tasks;
-    private int[] count;
     private boolean canPlace;
 }
