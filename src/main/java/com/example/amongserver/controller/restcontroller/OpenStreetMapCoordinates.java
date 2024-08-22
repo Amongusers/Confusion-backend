@@ -31,8 +31,6 @@ Rest контроллер
 @RequiredArgsConstructor
 public class OpenStreetMapCoordinates {
 
-    // a piece of park "50 years of October"
-    private static String BBOX = "[bbox:55.684815,37.498758,55.686050,37.501324];";
     private static String WAY_FOOTWAY = "way[highway=footway];";
     private static String WAY_DESIGNATED = "way[foot=designated];";
     private static String WAY_PATH = "way[highway=path];";
