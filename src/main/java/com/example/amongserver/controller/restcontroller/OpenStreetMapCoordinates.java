@@ -40,8 +40,8 @@ public class OpenStreetMapCoordinates {
     private static double MIN_DISTANCE_BETWEEN_TASKS_METRES = 50.0;
 
     // Нужный процент меток разного расстояния
-    private static float SHORT_TASKS_PERCENT = 0.5f;
-    private static float MEDUIM_TASKS_PERCENT = 0.3f;
+    private static float SHORT_TASKS_PERCENT = 0.3f;
+    private static float MEDUIM_TASKS_PERCENT = 0.5f;
     private static float LONG_TASKS_PERCENT = 0.2f;
 
     @PostMapping()
