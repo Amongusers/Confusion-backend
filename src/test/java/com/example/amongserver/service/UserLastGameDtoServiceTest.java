@@ -1,11 +1,11 @@
 package com.example.amongserver.service;
 
-import com.example.amongserver.domain.entity.UserLast;
-import com.example.amongserver.dto.UserKillRequestDto;
-import com.example.amongserver.exception.UserAlreadyDeadException;
-import com.example.amongserver.exception.UserNotFoundException;
-import com.example.amongserver.reposirory.UserLastRepository;
-import com.example.amongserver.service.impl.UserGameDtoServiceImpl;
+import com.example.amongserver.auother.domain.UserLast;
+import com.example.amongserver.auother.dto.UserKillRequestDto;
+import com.example.amongserver.auother.exception.UserAlreadyDeadException;
+import com.example.amongserver.auother.exception.UserNotFoundException;
+import com.example.amongserver.auother.reposirory.UserLastRepository;
+import com.example.amongserver.auother.service.impl.UserGameDtoServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

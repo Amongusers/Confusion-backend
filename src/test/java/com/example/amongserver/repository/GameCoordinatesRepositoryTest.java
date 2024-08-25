@@ -1,7 +1,7 @@
 package com.example.amongserver.repository;
 
-import com.example.amongserver.domain.entity.UserLast;
-import com.example.amongserver.reposirory.UserLastRepository;
+import com.example.amongserver.auother.domain.UserLast;
+import com.example.amongserver.auother.reposirory.UserLastRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

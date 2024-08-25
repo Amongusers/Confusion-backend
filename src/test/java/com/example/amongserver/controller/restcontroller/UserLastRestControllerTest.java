@@ -1,11 +1,12 @@
 package com.example.amongserver.controller.restcontroller;
 
-import com.example.amongserver.advice.KillAdvice;
-import com.example.amongserver.dto.UserKillRequestDto;
-import com.example.amongserver.dto.UserKillResponseDto;
-import com.example.amongserver.exception.UserAlreadyDeadException;
-import com.example.amongserver.exception.UserNotFoundException;
-import com.example.amongserver.service.UserGameDtoService;
+import com.example.amongserver.auother.advice.KillAdvice;
+import com.example.amongserver.auother.controller.restcontroller.UserRestController;
+import com.example.amongserver.auother.dto.UserKillRequestDto;
+import com.example.amongserver.auother.dto.UserKillResponseDto;
+import com.example.amongserver.auother.exception.UserAlreadyDeadException;
+import com.example.amongserver.auother.exception.UserNotFoundException;
+import com.example.amongserver.auother.service.UserGameDtoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
