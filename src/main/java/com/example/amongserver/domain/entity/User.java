@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -14,20 +15,20 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "app_user")
+@Table(name = "app_user", uniqueConstraints = @UniqueConstraint(columnNames = "user_email"))
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "user_id")
     private Long id;
 
-    @Column (name = "user_username")
+    @Column (name = "user_username", nullable = false)
     private String username;
 
-    @Column (name = "user_email")
+    @Column (name = "user_email", nullable = false, unique = true)
     private String email;
 
-    @Column (name = "user_password")
+    @Column (name = "user_password", nullable = false)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -37,6 +38,22 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "aut_id")
     )
     private Set<Authority> authorities;
+
+    @Column(name = "created_user", nullable = false, updatable = false)
+    private LocalDateTime createdUser;
+
+    @Column(name = "updated_user")
+    private LocalDateTime updatedUser;
+
+    @PrePersist
+    protected void onCreate() {
+        createdUser = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedUser = LocalDateTime.now();
+    }
 
     @Override
     public boolean isAccountNonExpired() {

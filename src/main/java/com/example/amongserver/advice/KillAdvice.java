@@ -40,7 +40,7 @@ public class KillAdvice {
     public ResponseEntity<UserKillDtoResponse> handleGlobalException(Exception e) {
         UserKillDtoResponse userKillDtoResponse = new UserKillDtoResponse(
                 "Unexpected error occurred");
-        log.error(userKillDtoResponse.getErrorMassage() + " in UserRestController");
+        log.error(userKillDtoResponse.getErrorMessage() + " in UserRestController");
         return new ResponseEntity<>(userKillDtoResponse,
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }

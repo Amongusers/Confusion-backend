@@ -1,11 +1,11 @@
 package com.example.amongserver.service;
 
-import com.example.amongserver.dto.UserGameDto;
-import com.example.amongserver.dto.UserRegisterDto;
+import com.example.amongserver.dto.UserProfileDto;
+import com.example.amongserver.dto.UserRegisterDtoRequest;
 
 public interface UserRegisterService {
     // регестрация пользователя
     // используется в UserRestController
     // url /user POST запрос
-    void add(UserRegisterDto userRegisterDto);
+    UserProfileDto add(UserRegisterDtoRequest userRegisterDtoRequest);
 }

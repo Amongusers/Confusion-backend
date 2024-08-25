@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserKillDtoResponse {
-    private String errorMessage;
+public class UserProfileDto {
+    private Long id;
+    private String username;
+    private String email;
 }
