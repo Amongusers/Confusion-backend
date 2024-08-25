@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice(assignableTypes = {UserRestController.class})
 @Slf4j
 public class KillAdvice {
-    // TODO: нужно проработать коды статусов ответа
     @ExceptionHandler(UserAlreadyDeadException.class)
     public ResponseEntity<UserKillDtoResponse> handlerUserAlreadyDeadException(UserAlreadyDeadException e) {
         log.error(e.getMessage(), e);

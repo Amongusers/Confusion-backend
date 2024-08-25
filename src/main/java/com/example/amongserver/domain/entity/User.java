@@ -1,6 +1,5 @@
 package com.example.amongserver.domain.entity;
 
-import com.example.amongserver.listener.GameStateListener;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,17 +18,24 @@ import java.util.Set;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column (name = "user_id")
     private Long id;
 
-    @Column (name = "username")
+    @Column (name = "user_username")
     private String username;
 
-    @Column (name = "email")
+    @Column (name = "user_email")
     private String email;
 
-    @Column (name = "password")
+    @Column (name = "user_password")
     private String password;
+
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "app_user_authority",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "aut_id")
+    )
     private Set<Authority> authorities;
 
     @Override
