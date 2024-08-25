@@ -67,7 +67,7 @@ class UserLastRestControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound())
                 .andExpect(content().json(objectMapper.writeValueAsString(
-                        UserKillResponseDto.builder().errorMassage("User with id 1 not found").build())));
+                        UserKillResponseDto.builder().errorMessage("User with id 1 not found").build())));
 
         verify(userGameDtoService, times(1)).killUser(any(UserKillRequestDto.class));
     }
@@ -85,7 +85,7 @@ class UserLastRestControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isConflict())
                 .andExpect(content().json(objectMapper.writeValueAsString(
-                        UserKillResponseDto.builder().errorMassage("User with id 1 already dead").build())));
+                        UserKillResponseDto.builder().errorMessage("User with id 1 already dead").build())));
 
         verify(userGameDtoService, times(1)).killUser(any(UserKillRequestDto.class));
     }
