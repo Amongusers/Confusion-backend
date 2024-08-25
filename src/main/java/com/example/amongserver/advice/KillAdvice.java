@@ -1,7 +1,7 @@
 package com.example.amongserver.advice;
 
 import com.example.amongserver.controller.restcontroller.UserRestController;
-import com.example.amongserver.dto.UserKillDtoResponse;
+import com.example.amongserver.dto.UserKillResponseDto;
 import com.example.amongserver.exception.UserAlreadyDeadException;
 import com.example.amongserver.exception.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -14,35 +14,34 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice(assignableTypes = {UserRestController.class})
 @Slf4j
 public class KillAdvice {
-    // TODO: нужно проработать коды статусов ответа
     @ExceptionHandler(UserAlreadyDeadException.class)
-    public ResponseEntity<UserKillDtoResponse> handlerUserAlreadyDeadException(UserAlreadyDeadException e) {
+    public ResponseEntity<UserKillResponseDto> handlerUserAlreadyDeadException(UserAlreadyDeadException e) {
         log.error(e.getMessage(), e);
-        UserKillDtoResponse userKillDtoResponse = new UserKillDtoResponse(e.getMessage());
-        return new ResponseEntity<>(userKillDtoResponse, HttpStatus.CONFLICT);
+        UserKillResponseDto userKillResponseDto = new UserKillResponseDto(e.getMessage());
+        return new ResponseEntity<>(userKillResponseDto, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<UserKillDtoResponse> handlerUserNotFoundException(UserNotFoundException e) {
+    public ResponseEntity<UserKillResponseDto> handlerUserNotFoundException(UserNotFoundException e) {
         log.error(e.getMessage(), e);
-        UserKillDtoResponse userKillDtoResponse = new UserKillDtoResponse(e.getMessage());
-        return new ResponseEntity<>(userKillDtoResponse, HttpStatus.NOT_FOUND);
+        UserKillResponseDto userKillResponseDto = new UserKillResponseDto(e.getMessage());
+        return new ResponseEntity<>(userKillResponseDto, HttpStatus.NOT_FOUND);
     }
 
 
     @ExceptionHandler(DataAccessException.class)
-    public ResponseEntity<UserKillDtoResponse> handleDataAccessException(DataAccessException e) {
+    public ResponseEntity<UserKillResponseDto> handleDataAccessException(DataAccessException e) {
         log.error("Database error occurred", e);
-        UserKillDtoResponse response = new UserKillDtoResponse("Database error occurred");
+        UserKillResponseDto response = new UserKillResponseDto("Database error occurred");
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<UserKillDtoResponse> handleGlobalException(Exception e) {
-        UserKillDtoResponse userKillDtoResponse = new UserKillDtoResponse(
+    public ResponseEntity<UserKillResponseDto> handleGlobalException(Exception e) {
+        UserKillResponseDto userKillResponseDto = new UserKillResponseDto(
                 "Unexpected error occurred");
-        log.error(userKillDtoResponse.getErrorMassage() + " in UserRestController");
-        return new ResponseEntity<>(userKillDtoResponse,
+        log.error(userKillResponseDto.getErrorMessage() + " in UserRestController");
+        return new ResponseEntity<>(userKillResponseDto,
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

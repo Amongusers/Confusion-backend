@@ -15,31 +15,31 @@ Entity класс User
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "userLast")
+@Table(name = "user_last")
 public class UserLast {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (name = "login")
+    @Column(name = "login")
     private String login;
 
-    @Column (name = "is_ready")
+    @Column(name = "is_ready")
     private boolean isReady;
 
-    @Column (name = "is_imposter")
+    @Column(name = "is_imposter")
     private Boolean isImposter;
 
-    @Column (name = "number_votes")
+    @Column(name = "number_votes")
     private Integer numberVotes;
 
-    @Column (name = "latitude")
+    @Column(name = "latitude")
     private Double latitude;
 
-    @Column (name = "longitude")
+    @Column(name = "longitude")
     private Double longitude;
 
-    @Column (name = "is_dead")
+    @Column(name = "is_dead")
     private boolean isDead;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -63,6 +63,7 @@ public class UserLast {
         this.isImposter = isImposter;
         this.numberVotes = numberVotes;
     }
+
     public UserLast(String login, boolean isDead) {
         this.login = login;
         this.isDead = isDead;

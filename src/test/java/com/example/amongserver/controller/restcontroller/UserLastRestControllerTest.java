@@ -1,8 +1,8 @@
 package com.example.amongserver.controller.restcontroller;
 
 import com.example.amongserver.advice.KillAdvice;
-import com.example.amongserver.dto.UserKillDtoRequest;
-import com.example.amongserver.dto.UserKillDtoResponse;
+import com.example.amongserver.dto.UserKillRequestDto;
+import com.example.amongserver.dto.UserKillResponseDto;
 import com.example.amongserver.exception.UserAlreadyDeadException;
 import com.example.amongserver.exception.UserNotFoundException;
 import com.example.amongserver.service.UserGameDtoService;
@@ -44,7 +44,7 @@ class UserLastRestControllerTest {
 
     @Test
     void killUser_Success() throws Exception {
-        UserKillDtoRequest request = new UserKillDtoRequest(1L, 2L);
+        UserKillRequestDto request = new UserKillRequestDto(1L, 2L);
 
         mockMvc.perform(post("/user/kill")
                         .contentType("application/json")
@@ -56,7 +56,7 @@ class UserLastRestControllerTest {
 
     @Test
     void killUser_UserNotFound() throws Exception {
-        UserKillDtoRequest request = new UserKillDtoRequest(1L, 2L);
+        UserKillRequestDto request = new UserKillRequestDto(1L, 2L);
 
         doThrow(new UserNotFoundException("User with id 1 not found"))
                 .when(userGameDtoService)
@@ -67,14 +67,14 @@ class UserLastRestControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound())
                 .andExpect(content().json(objectMapper.writeValueAsString(
-                        UserKillDtoResponse.builder().errorMassage("User with id 1 not found").build())));
+                        UserKillResponseDto.builder().errorMessage("User with id 1 not found").build())));
 
-        verify(userGameDtoService, times(1)).killUser(any(UserKillDtoRequest.class));
+        verify(userGameDtoService, times(1)).killUser(any(UserKillRequestDto.class));
     }
 
     @Test
     void killUser_UserAlreadyDead() throws Exception {
-        UserKillDtoRequest request = new UserKillDtoRequest(1L, 2L);
+        UserKillRequestDto request = new UserKillRequestDto(1L, 2L);
 
         doThrow(new UserAlreadyDeadException("User with id 1 already dead"))
                 .when(userGameDtoService)
@@ -85,9 +85,9 @@ class UserLastRestControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isConflict())
                 .andExpect(content().json(objectMapper.writeValueAsString(
-                        UserKillDtoResponse.builder().errorMassage("User with id 1 already dead").build())));
+                        UserKillResponseDto.builder().errorMessage("User with id 1 already dead").build())));
 
-        verify(userGameDtoService, times(1)).killUser(any(UserKillDtoRequest.class));
+        verify(userGameDtoService, times(1)).killUser(any(UserKillRequestDto.class));
     }
 
     @Test
@@ -95,7 +95,7 @@ class UserLastRestControllerTest {
         // Arrange
         Long idDead = 1L;
         Long idKiller = 2L;
-        UserKillDtoRequest request = new UserKillDtoRequest(idKiller, idDead);
+        UserKillRequestDto request = new UserKillRequestDto(idKiller, idDead);
 
         // Настройка поведения mock
         doThrow(new RuntimeException("Unexpected error")).when(userGameDtoService).killUser(request);
@@ -110,7 +110,7 @@ class UserLastRestControllerTest {
     @Test
     void killUser_whenDataAccessExceptionThrown_returnsInternalServerError() throws Exception {
         // Arrange
-        UserKillDtoRequest request = new UserKillDtoRequest(1L, 2L);
+        UserKillRequestDto request = new UserKillRequestDto(1L, 2L);
 
         // Имитация выброса DataAccessException в сервисе
         doThrow(new DataAccessException("Simulated database error") {}).when(userGameDtoService).killUser(request);

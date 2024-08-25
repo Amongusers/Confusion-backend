@@ -1,30 +1,21 @@
 package com.example.amongserver.mapper;
 
 import com.example.amongserver.domain.entity.User;
-import com.example.amongserver.dto.UserRegisterDto;
+import com.example.amongserver.dto.UserRegisterRequestDto;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class UserRegisterMapper {
-    public UserRegisterDto toUserRegisterDto(User user) {
 
-        return UserRegisterDto.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .email(user.getPassword())
-                .build();
-    }
-
-    public User toUserEntity(UserRegisterDto userRegisterDto) {
+    public User toUserEntity(UserRegisterRequestDto userRegisterRequestDto) {
 
         User user = User.builder()
-                .username(userRegisterDto.getUsername())
-                .password(userRegisterDto.getPassword())
-                .email(userRegisterDto.getEmail())
+                .username(userRegisterRequestDto.getUsername())
+                .password(userRegisterRequestDto.getPassword())
+                .email(userRegisterRequestDto.getEmail())
                 .build();
 
-        if (userRegisterDto.getId() != null) user.setId(userRegisterDto.getId());
+        if (userRegisterRequestDto.getId() != null) user.setId(userRegisterRequestDto.getId());
 
         return user;
     }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserKillDtoRequest {
+public class UserKillRequestDto {
     private Long idKiller;
     private Long idDead;
 }

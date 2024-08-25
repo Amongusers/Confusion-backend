@@ -5,7 +5,7 @@ import com.example.amongserver.domain.entity.GameState;
 import com.example.amongserver.domain.entity.UserLast;
 import com.example.amongserver.dto.GameStateDto;
 import com.example.amongserver.dto.UserGameDto;
-import com.example.amongserver.dto.UserKillDtoRequest;
+import com.example.amongserver.dto.UserKillRequestDto;
 import com.example.amongserver.exception.UserAlreadyDeadException;
 import com.example.amongserver.exception.UserNotFoundException;
 import com.example.amongserver.listener.GameStateChangedEvent;
@@ -112,21 +112,21 @@ public class UserGameDtoServiceImpl implements UserGameDtoService {
     }
 
     @Override
-    public void killUser(UserKillDtoRequest userKillDtoRequest) {
-        UserLast userLastDBDead = userLastRepository.findById(userKillDtoRequest
+    public void killUser(UserKillRequestDto userKillRequestDto) {
+        UserLast userLastDBDead = userLastRepository.findById(userKillRequestDto
                         .getIdDead())
                 .orElseThrow(() -> new UserNotFoundException("User with ID "
-                        + userKillDtoRequest.getIdDead()
+                        + userKillRequestDto.getIdDead()
                         + " not found"));
-        userLastRepository.findById(userKillDtoRequest
+        userLastRepository.findById(userKillRequestDto
                         .getIdKiller())
                 .orElseThrow(() -> new UserNotFoundException("User with ID "
-                        + userKillDtoRequest.getIdKiller()
+                        + userKillRequestDto.getIdKiller()
                         + " not found"));
 
         if (userLastDBDead.isDead())
             throw new UserAlreadyDeadException("User with ID "
-                    + userKillDtoRequest.getIdDead()
+                    + userKillRequestDto.getIdDead()
                     + " already dead");
         userLastDBDead.setDead(true);
         userLastRepository.save(userLastDBDead);
