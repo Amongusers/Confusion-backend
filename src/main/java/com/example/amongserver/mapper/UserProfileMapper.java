@@ -2,7 +2,6 @@ package com.example.amongserver.mapper;
 
 import com.example.amongserver.domain.entity.User;
 import com.example.amongserver.dto.UserProfileDto;
-import com.example.amongserver.dto.UserRegisterDtoRequest;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

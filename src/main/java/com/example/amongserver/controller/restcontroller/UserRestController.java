@@ -1,7 +1,7 @@
 package com.example.amongserver.controller.restcontroller;
 
 import com.example.amongserver.dto.UserGameDto;
-import com.example.amongserver.dto.UserKillDtoRequest;
+import com.example.amongserver.dto.UserKillRequestDto;
 import com.example.amongserver.service.UserGameDtoService;
 import com.example.amongserver.service.UserVoteDtoService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class UserRestController {
     }
 
     @PostMapping("/kill")
-    public void killUser(@RequestBody UserKillDtoRequest userKillDtoRequest) {
-        userGameDtoService.killUser(userKillDtoRequest);
+    public void killUser(@RequestBody UserKillRequestDto userKillRequestDto) {
+        userGameDtoService.killUser(userKillRequestDto);
     }
 }

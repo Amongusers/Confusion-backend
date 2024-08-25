@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRegisterDtoErrorResponse {
+public class UserKillResponseDto {
     private String errorMessage;
 }

@@ -3,7 +3,7 @@ package com.example.amongserver.service.impl;
 import com.example.amongserver.domain.entity.Authority;
 import com.example.amongserver.domain.entity.User;
 import com.example.amongserver.dto.UserProfileDto;
-import com.example.amongserver.dto.UserRegisterDtoRequest;
+import com.example.amongserver.dto.UserRegisterRequestDto;
 import com.example.amongserver.exception.AuthorityNotFoundException;
 import com.example.amongserver.exception.UserAlreadyExistsException;
 import com.example.amongserver.mapper.UserProfileMapper;
@@ -27,7 +27,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
     @Override
-    public UserProfileDto add(UserRegisterDtoRequest userRegisterDto) {
+    public UserProfileDto add(UserRegisterRequestDto userRegisterDto) {
         if (userRepository.findByEmail(userRegisterDto.getEmail()).isPresent())
             throw new UserAlreadyExistsException("User with email "
                     + userRegisterDto.getEmail() +  " already exists");

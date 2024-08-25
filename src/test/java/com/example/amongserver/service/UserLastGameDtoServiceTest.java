@@ -1,7 +1,7 @@
 package com.example.amongserver.service;
 
 import com.example.amongserver.domain.entity.UserLast;
-import com.example.amongserver.dto.UserKillDtoRequest;
+import com.example.amongserver.dto.UserKillRequestDto;
 import com.example.amongserver.exception.UserAlreadyDeadException;
 import com.example.amongserver.exception.UserNotFoundException;
 import com.example.amongserver.reposirory.UserLastRepository;
@@ -30,7 +30,7 @@ class UserLastGameDtoServiceTest {
         // Arrange
         Long idDead = 1L;
         Long idKiller = 2L;
-        UserKillDtoRequest request = new UserKillDtoRequest(idKiller, idDead);
+        UserKillRequestDto request = new UserKillRequestDto(idKiller, idDead);
         UserLast deadUserLast = new UserLast("deadUser", false); // Создаем пользователя с isDead = false
         UserLast killerUserLast = new UserLast( "killerUser", false); // Создаем пользователя с isDead = false
 
@@ -53,7 +53,7 @@ class UserLastGameDtoServiceTest {
         // Arrange
         Long idDead = 1L;
         Long idKiller = 2L;
-        UserKillDtoRequest request = new UserKillDtoRequest(idKiller, idDead);
+        UserKillRequestDto request = new UserKillRequestDto(idKiller, idDead);
 
         // Настраиваем mock поведение
         when(userLastRepository.findById(idDead)).thenReturn(Optional.empty());
@@ -70,7 +70,7 @@ class UserLastGameDtoServiceTest {
         // Arrange
         Long idDead = 1L;
         Long idKiller = 2L;
-        UserKillDtoRequest request = new UserKillDtoRequest(idKiller, idDead);
+        UserKillRequestDto request = new UserKillRequestDto(idKiller, idDead);
         UserLast deadUserLast = new UserLast( "deadUser", false);
 
         // Настраиваем mock поведение
@@ -89,7 +89,7 @@ class UserLastGameDtoServiceTest {
         // Arrange
         Long idDead = 1L;
         Long idKiller = 2L;
-        UserKillDtoRequest request = new UserKillDtoRequest(idKiller, idDead);
+        UserKillRequestDto request = new UserKillRequestDto(idKiller, idDead);
         UserLast deadUserLast = new UserLast( "deadUser", true); // Пользователь уже мертв
         UserLast killerUserLast = new UserLast( "killerUser", false);
 
@@ -108,7 +108,7 @@ class UserLastGameDtoServiceTest {
     void killUser_shouldHandleSQLException() throws SQLException {
         Long idDead = 1L;
         Long idKiller = 2L;
-        UserKillDtoRequest request = new UserKillDtoRequest(idKiller, idDead);
+        UserKillRequestDto request = new UserKillRequestDto(idKiller, idDead);
 
         // Настроить репозиторий так, чтобы он выбрасывал SQLException
         when(userLastRepository.findById(idDead)).thenThrow(new SQLException("Database error"));

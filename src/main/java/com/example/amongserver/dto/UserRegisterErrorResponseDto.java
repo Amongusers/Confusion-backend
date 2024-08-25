@@ -9,9 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRegisterDtoRequest {
-    private Long id;
-    private String username;
-    private String email;
-    private String password;
+public class UserRegisterErrorResponseDto {
+    private String errorMessage;
 }

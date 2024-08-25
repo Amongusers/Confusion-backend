@@ -1,7 +1,7 @@
 package com.example.amongserver.advice;
 
 import com.example.amongserver.controller.restcontroller.UserRegisterController;
-import com.example.amongserver.dto.UserRegisterDtoErrorResponse;
+import com.example.amongserver.dto.UserRegisterErrorResponseDto;
 import com.example.amongserver.exception.AuthorityNotFoundException;
 import com.example.amongserver.exception.UserAlreadyExistsException;
 import com.example.amongserver.exception.UserByEmailNotFoundException;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Slf4j
 public class RegisterExceptionHandler {
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<UserRegisterDtoErrorResponse> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
+    public ResponseEntity<UserRegisterErrorResponseDto> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
         log.error("Registration error: {}", ex.getMessage());
-        UserRegisterDtoErrorResponse response = UserRegisterDtoErrorResponse.builder()
+        UserRegisterErrorResponseDto response = UserRegisterErrorResponseDto.builder()
                 .errorMessage(ex.getMessage())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
@@ -25,27 +25,27 @@ public class RegisterExceptionHandler {
 
     // TODO : статус для Authority
     @ExceptionHandler(AuthorityNotFoundException.class)
-    public ResponseEntity<UserRegisterDtoErrorResponse> handleAuthorityNotFoundException(AuthorityNotFoundException ex) {
+    public ResponseEntity<UserRegisterErrorResponseDto> handleAuthorityNotFoundException(AuthorityNotFoundException ex) {
         log.error("Registration error: {}", ex.getMessage());
-        UserRegisterDtoErrorResponse response = UserRegisterDtoErrorResponse.builder()
+        UserRegisterErrorResponseDto response = UserRegisterErrorResponseDto.builder()
                 .errorMessage(ex.getMessage())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(UserByEmailNotFoundException.class)
-    public ResponseEntity<UserRegisterDtoErrorResponse> handleUserByEmailNotFoundException(UserByEmailNotFoundException ex) {
+    public ResponseEntity<UserRegisterErrorResponseDto> handleUserByEmailNotFoundException(UserByEmailNotFoundException ex) {
         log.error("User not found error: {}", ex.getMessage());
-        UserRegisterDtoErrorResponse response = UserRegisterDtoErrorResponse.builder()
+        UserRegisterErrorResponseDto response = UserRegisterErrorResponseDto.builder()
                 .errorMessage(ex.getMessage())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<UserRegisterDtoErrorResponse> handleGeneralException(Exception ex) {
+    public ResponseEntity<UserRegisterErrorResponseDto> handleGeneralException(Exception ex) {
         log.error("An unexpected error occurred: {}", ex.getMessage());
-        UserRegisterDtoErrorResponse response = UserRegisterDtoErrorResponse.builder()
+        UserRegisterErrorResponseDto response = UserRegisterErrorResponseDto.builder()
                 .errorMessage("An unexpected error occurred: " + ex.getMessage())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
