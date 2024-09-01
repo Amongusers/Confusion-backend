@@ -1,4 +1,4 @@
-package com.example.amongserver.authorization;
+package com.example.amongserver.authorization.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserLoginErrorResponseDto {
-    private String errorMessage;
+public class UserLoginRequestDto {
+    private String email;
+    private String password;
 }

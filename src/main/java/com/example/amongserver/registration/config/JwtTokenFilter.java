@@ -1,4 +1,4 @@
-package com.example.amongserver.registration;
+package com.example.amongserver.registration.config;
 
 import com.example.amongserver.registration.service.JwtService;
 import com.sun.istack.NotNull;
@@ -17,12 +17,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
 @Component
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
+    // TODO : на проверке, 4 часть
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request,
                                     @NotNull HttpServletResponse response,
@@ -38,9 +41,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private String getTokenFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
+        String authorization = request.getHeader(AUTHORIZATION);
+        if (authorization != null && authorization.startsWith("Bearer ")) {
+            return authorization.substring(7);
         }
         return null;
     }
