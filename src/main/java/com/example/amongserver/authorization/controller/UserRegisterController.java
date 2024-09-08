@@ -14,7 +14,7 @@ public class UserRegisterController {
     private final UserRegisterService userRegisterService;
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public UserProfileDto registerUser(@RequestBody UserRegisterRequestDto userRegisterRequestDto) {
-        return userRegisterService.add(userRegisterRequestDto);
+    public void registerUser(@RequestBody UserRegisterRequestDto userRegisterRequestDto) {
+        userRegisterService.add(userRegisterRequestDto);
     }
 }

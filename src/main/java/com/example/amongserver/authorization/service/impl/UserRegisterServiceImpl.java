@@ -27,7 +27,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
     @Override
-    public UserProfileDto add(UserRegisterRequestDto userRegisterDto) {
+    public void add(UserRegisterRequestDto userRegisterDto) {
         if (userRepository.findByEmail(userRegisterDto.getEmail()).isPresent())
             throw new UserAlreadyExistsException("User with email "
                     + userRegisterDto.getEmail() +  " already exists");
@@ -42,7 +42,5 @@ public class UserRegisterServiceImpl implements UserRegisterService {
         authorities.add(authority);
         user.setAuthorities(authorities);
         userRepository.save(user);
-        return UserProfileMapper.toUserProfileDto(user);
-
     }
 }

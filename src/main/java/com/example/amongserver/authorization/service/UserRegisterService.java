@@ -7,5 +7,5 @@ public interface UserRegisterService {
     // регестрация пользователя
     // используется в UserRestController
     // url /user POST запрос
-    UserProfileDto add(UserRegisterRequestDto userRegisterRequestDto);
+    void add(UserRegisterRequestDto userRegisterRequestDto);
 }

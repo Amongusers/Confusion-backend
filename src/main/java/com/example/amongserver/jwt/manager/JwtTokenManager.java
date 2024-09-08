@@ -1,7 +1,7 @@
-package com.example.amongserver.registration.token;
+package com.example.amongserver.jwt.manager;
 
 
-import com.example.amongserver.registration.domain.User;
+import com.example.amongserver.authorization.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
