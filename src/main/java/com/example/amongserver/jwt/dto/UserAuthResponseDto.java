@@ -9,7 +9,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtResponseDto {
+public class UserAuthResponseDto {
 
     private String token;
+    private String username;
+    private String email;
+
+    public UserAuthResponseDto(String token) {
+        this.token = token;
+    }
 }

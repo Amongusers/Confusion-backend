@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtRequestDto {
+public class UserAuthRequestDto {
 
 
     private String email;

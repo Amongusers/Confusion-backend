@@ -1,6 +1,6 @@
 package com.example.amongserver.jwt.service;
 
-import com.example.amongserver.jwt.dto.JwtRequestDto;
+import com.example.amongserver.jwt.dto.UserAuthRequestDto;
 import com.example.amongserver.jwt.manager.JwtTokenManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +17,7 @@ public class JwtTokenService {
     private final UserDetailsService userDetailsService;
     private final JwtTokenManager jwtTokenManager;
 
-    public String getToken(JwtRequestDto request) {
+    public String getToken(UserAuthRequestDto request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
         return jwtTokenManager.generateJwtToken(userDetails);
