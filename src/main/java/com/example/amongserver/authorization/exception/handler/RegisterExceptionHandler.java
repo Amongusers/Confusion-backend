@@ -8,8 +8,13 @@ import com.example.amongserver.authorization.exception.UserByEmailNotFoundExcept
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+
+
+import java.util.stream.Collectors;
 
 @ControllerAdvice(assignableTypes = {UserRegisterController.class})
 @Slf4j
@@ -41,6 +46,23 @@ public class RegisterExceptionHandler {
                 .build();
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<UserRegisterErrorResponseDto> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        log.error("Validation error: {}", ex.getMessage());
+
+
+        String errorMessage = ex.getBindingResult().getAllErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining(", "));
+
+        UserRegisterErrorResponseDto response = UserRegisterErrorResponseDto.builder()
+                .errorMessage(errorMessage)
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<UserRegisterErrorResponseDto> handleGeneralException(Exception ex) {

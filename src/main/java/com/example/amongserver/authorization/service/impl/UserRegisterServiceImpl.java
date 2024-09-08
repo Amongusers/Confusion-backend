@@ -5,9 +5,7 @@ import com.example.amongserver.authorization.domain.User;
 import com.example.amongserver.authorization.exception.AuthorityNotFoundException;
 import com.example.amongserver.authorization.exception.UserAlreadyExistsException;
 import com.example.amongserver.authorization.mapper.UserRegisterMapper;
-import com.example.amongserver.authorization.dto.UserProfileDto;
 import com.example.amongserver.authorization.dto.UserRegisterRequestDto;
-import com.example.amongserver.authorization.mapper.UserProfileMapper;
 import com.example.amongserver.authorization.service.UserRegisterService;
 import com.example.amongserver.authorization.repository.AuthorityRepository;
 import com.example.amongserver.authorization.repository.UserRepository;
@@ -27,7 +25,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
     @Override
-    public void add(UserRegisterRequestDto userRegisterDto) {
+    public void saveUser(UserRegisterRequestDto userRegisterDto) {
         if (userRepository.findByEmail(userRegisterDto.getEmail()).isPresent())
             throw new UserAlreadyExistsException("User with email "
                     + userRegisterDto.getEmail() +  " already exists");

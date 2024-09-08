@@ -1,6 +1,5 @@
 package com.example.amongserver.authorization.controller;
 
-import com.example.amongserver.authorization.dto.UserProfileDto;
 import com.example.amongserver.authorization.dto.UserRegisterRequestDto;
 import com.example.amongserver.authorization.service.UserRegisterService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +14,6 @@ public class UserRegisterController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public void registerUser(@RequestBody UserRegisterRequestDto userRegisterRequestDto) {
-        userRegisterService.add(userRegisterRequestDto);
+        userRegisterService.saveUser(userRegisterRequestDto);
     }
 }

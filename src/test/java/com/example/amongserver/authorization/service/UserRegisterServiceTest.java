@@ -2,12 +2,14 @@ package com.example.amongserver.authorization.service;
 
 import com.example.amongserver.authorization.domain.Authority;
 import com.example.amongserver.authorization.domain.User;
-import com.example.amongserver.authorization.dto.UserProfileDto;
 import com.example.amongserver.authorization.dto.UserRegisterRequestDto;
+import com.example.amongserver.authorization.exception.AuthorityNotFoundException;
+import com.example.amongserver.authorization.exception.UserAlreadyExistsException;
 import com.example.amongserver.authorization.mapper.UserRegisterMapper;
 import com.example.amongserver.authorization.repository.AuthorityRepository;
 import com.example.amongserver.authorization.repository.UserRepository;
 import com.example.amongserver.authorization.service.impl.UserRegisterServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -17,16 +19,17 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UserRegisterServiceTest {
+class UserRegisterServiceTest {
 
     @Mock
     private UserRepository userRepository;
@@ -40,41 +43,99 @@ public class UserRegisterServiceTest {
     @InjectMocks
     private UserRegisterServiceImpl userRegisterService;
 
+    private UserRegisterRequestDto userRegisterRequestDto;
+
+    @BeforeEach
+    void setUp() {
+        userRegisterRequestDto = UserRegisterRequestDto.builder()
+                .email("test@example.com")
+                .password("password")
+                .username("testUser")
+                .build();
+    }
+
     @Captor
-    ArgumentCaptor<User> userCaptor;
+    private ArgumentCaptor<User> userCaptor;
 
     @Test
-    void whenAddUser_thenUserShouldBeSaved() {
+    void saveUser_withValidData_saveUser() {
         // Arrange
-        UserRegisterRequestDto requestDto = new UserRegisterRequestDto();
-        requestDto.setEmail("test@example.com");
-        requestDto.setPassword("plainPassword");
+        when(userRepository.findByEmail(userRegisterRequestDto.getEmail()))
+                .thenReturn(Optional.empty()); // Пользователь не найден
+        when(authorityRepository.findByAuthority("ROLE_USER"))
+                .thenReturn(Optional.of(new Authority(1L, "ROLE_USER"))); // Роль найдена
+        when(passwordEncoder.encode(userRegisterRequestDto.getPassword()))
+                .thenReturn("encodedPassword"); // Шифруем пароль
 
-        Authority authority = Authority.builder()
-                .id(1L)
-                .authority("ROLE_USER")
-                .build();
-
-        User user = UserRegisterMapper.toUserEntity(requestDto);
+        User user = UserRegisterMapper.toUserEntity(userRegisterRequestDto);
         user.setPassword("encodedPassword");
-        user.setAuthorities(Set.of(authority));
-
-        when(userRepository.findByEmail(requestDto.getEmail())).thenReturn(Optional.empty());
-        when(authorityRepository.findByAuthority("ROLE_USER")).thenReturn(Optional.of(authority));
-        when(passwordEncoder.encode(requestDto.getPassword())).thenReturn("encodedPassword");
-        when(userRepository.save(any(User.class))).thenReturn(user);
+        Set<Authority> authorities = new HashSet<>();
+        authorities.add(new Authority(1L, "ROLE_USER"));
+        user.setAuthorities(authorities);
+        when(userRepository.save(any(User.class)))
+                .thenReturn(user); // Сохраняем пользователя
 
         // Act
-        UserProfileDto result = userRegisterService.add(requestDto);
+        userRegisterService.saveUser(userRegisterRequestDto);
+
+
 
         // Assert
-        assertThat(result).isNotNull();
-        assertThat(result.getEmail()).isEqualTo("test@example.com");
-        verify(userRepository).save(userCaptor.capture());
+        verify(userRepository, times(1)).findByEmail(userRegisterRequestDto.getEmail());
+        verify(authorityRepository, times(1)).findByAuthority("ROLE_USER");
+        verify(passwordEncoder, times(1)).encode(userRegisterRequestDto.getPassword());
+        verify(userRepository, times(1)).save(userCaptor.capture());
 
-        User savedUser = userCaptor.getValue();
-        assertThat(savedUser.getEmail()).isEqualTo("test@example.com");
-        assertThat(savedUser.getPassword()).isEqualTo("encodedPassword");
-//        assertThat(savedUser.getAuthorities()).containsExactly(authority);
+        User capturedUser = userCaptor.getValue();
+        assertThat(capturedUser.getPassword()).isEqualTo("encodedPassword");
+        assertThat(capturedUser.getEmail()).isEqualTo("test@example.com");
+        assertThat(capturedUser.getUsername()).isEqualTo("testUser");
+        assertThat(capturedUser.getAuthorities())
+                .extracting(Authority::getAuthority)
+                .containsExactly("ROLE_USER");
+
+    }
+
+    @Test
+    void saveUser_withExistingUser_throwsUserAlreadyExistsException() {
+        // Arrange
+        User existingUser = new User();
+        existingUser.setEmail(userRegisterRequestDto.getEmail());
+
+        // Настраиваем mock для userRepository, чтобы возвращать существующего пользователя
+        when(userRepository.findByEmail(userRegisterRequestDto.getEmail()))
+                .thenReturn(Optional.of(existingUser));
+
+        // Act & Assert
+        assertThatExceptionOfType(UserAlreadyExistsException.class)
+                .isThrownBy(() -> userRegisterService.saveUser(userRegisterRequestDto))
+                .withMessage("User with email test@example.com already exists");
+
+        // Проверяем, что остальные методы не были вызваны
+        verify(userRepository, times(1)).findByEmail(userRegisterRequestDto.getEmail());
+        verify(authorityRepository, never()).findByAuthority(anyString());
+        verify(passwordEncoder, never()).encode(anyString());
+        verify(userRepository, never()).save(any(User.class));
+    }
+
+    @Test
+    void saveUser_withNonExistingAuthority_throwsAuthorityNotFoundException() {
+        // Arrange
+        when(userRepository.findByEmail(userRegisterRequestDto.getEmail()))
+                .thenReturn(Optional.empty()); // Пользователь не найден
+        when(authorityRepository.findByAuthority("ROLE_USER"))
+                .thenReturn(Optional.empty()); // Роль не найдена
+
+        // Act & Assert
+        assertThatExceptionOfType(AuthorityNotFoundException.class)
+                .isThrownBy(() -> userRegisterService.saveUser(userRegisterRequestDto))
+                .withMessage("Authority not found!");
+
+        // Проверяем, что остальные методы не вызываются
+        verify(userRepository, times(1)).findByEmail(userRegisterRequestDto.getEmail());
+        verify(authorityRepository, times(1)).findByAuthority("ROLE_USER");
+        verify(passwordEncoder, never()).encode(anyString());
+        verify(userRepository, never()).save(any(User.class));
     }
 }
+

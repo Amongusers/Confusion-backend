@@ -9,14 +9,10 @@ public class UserRegisterMapper {
 
     public User toUserEntity(UserRegisterRequestDto userRegisterRequestDto) {
 
-        User user = User.builder()
+        return User.builder()
                 .username(userRegisterRequestDto.getUsername())
                 .password(userRegisterRequestDto.getPassword())
                 .email(userRegisterRequestDto.getEmail())
                 .build();
-
-        if (userRegisterRequestDto.getId() != null) user.setId(userRegisterRequestDto.getId());
-
-        return user;
     }
 }

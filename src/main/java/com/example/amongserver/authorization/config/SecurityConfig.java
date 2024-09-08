@@ -20,6 +20,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+// TODO : нужно исправить
 public class SecurityConfig {
 
     private final JwtTokenFilter jwtTokenFilter;
