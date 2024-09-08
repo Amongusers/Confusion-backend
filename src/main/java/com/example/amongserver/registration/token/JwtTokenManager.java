@@ -81,6 +81,7 @@ public class JwtTokenManager {
     }
 
     // Проверка токена на валидность
+    // TODO : метод лишний
     public boolean validateToken(String token, UserDetails userDetails) {
         String email = getEmailFromToken(token);
         return email.equals(((User) userDetails).getEmail()) && !isTokenExpired(token);
