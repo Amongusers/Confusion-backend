@@ -6,6 +6,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,15 +23,15 @@ import java.util.Map;
 import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 
 @Component
-@RequiredArgsConstructor
 public class JwtTokenManager {
 
     private final Key key;
 
-    @Value("${jwt.access-token-validity}")
+    @Value("${spring.security.jwt.access-token-validity}")
     private long validityInSeconds;
 
-    public JwtTokenManager(@Value("${jwt.secret}") String secret) {
+
+    public JwtTokenManager(@Value("${spring.security.jwt.secret}") String secret) {
         this.key = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), HS256.getJcaName());
     }
 
@@ -63,7 +64,7 @@ public class JwtTokenManager {
     }
 
     // Получение ролей пользователя из токена
-    // TODO: хз что это за синтаксис
+
     public List<String> getUserRoles(String token) {
         return getAllClaimsFromToken(token).get("authorities", List.class);
     }
@@ -81,7 +82,7 @@ public class JwtTokenManager {
     }
 
     // Проверка токена на валидность
-    // TODO : метод лишний
+
     public boolean validateToken(String token, UserDetails userDetails) {
         String email = getEmailFromToken(token);
         return email.equals(((User) userDetails).getEmail()) && !isTokenExpired(token);
