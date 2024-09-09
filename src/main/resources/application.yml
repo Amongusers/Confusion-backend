@@ -20,6 +20,9 @@ spring:
     # Показываем запросы SQL
     show-sql: true
 
+    # Своевременный запуск data.sql
+    defer-datasource-initialization: true
+
   security:
     jwt:
       secret: 1234SecretKey1234567890  # Секретный ключ для подписи JWT токенов

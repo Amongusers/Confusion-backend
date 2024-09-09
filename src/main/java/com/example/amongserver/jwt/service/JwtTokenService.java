@@ -17,6 +17,7 @@ public class JwtTokenService {
     private final UserDetailsService userDetailsService;
     private final JwtTokenManager jwtTokenManager;
 
+
     public String getToken(UserAuthRequestDto request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());

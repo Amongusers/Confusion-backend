@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
@@ -16,7 +18,7 @@ public class UserAuthController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public UserAuthResponseDto createAuthToken(@RequestBody /*@Valid*/ UserAuthRequestDto userAuthRequestDto) {
+    public UserAuthResponseDto createAuthToken(@RequestBody @Valid UserAuthRequestDto userAuthRequestDto) {
         return new UserAuthResponseDto(jwtTokenService.getToken(userAuthRequestDto));
     }
 }
