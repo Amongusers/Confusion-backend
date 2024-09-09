@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -31,8 +32,11 @@ public class UserRegisterServiceImpl implements UserRegisterService {
                     + userRegisterDto.getEmail() +  " already exists");
 
 
+
+
+
         Authority authority = authorityRepository.findByAuthority("ROLE_USER")
-                .orElseThrow(() -> new AuthorityNotFoundException("Authority not found!"));
+               .orElseThrow(() -> new AuthorityNotFoundException("Authority not found!"));
 
         User user = UserRegisterMapper.toUserEntity(userRegisterDto);
         user.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
