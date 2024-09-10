@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeRequests(authorizeRequests -> authorizeRequests
                         .antMatchers("/register").permitAll() // Доступен всем
-                        .antMatchers("/auth").authenticated() // Только для зарегистрированных пользователей
+                        .antMatchers("/auth").permitAll() // Доступен зарегестрированным пользователям
                         .anyRequest().authenticated()) // Остальные пути требуют JWT
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

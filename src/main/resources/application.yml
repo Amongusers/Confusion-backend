@@ -25,6 +25,6 @@ spring:
 
   security:
     jwt:
-      secret: 1234SecretKey1234567890  # Секретный ключ для подписи JWT токенов
-      access-token-validity: 7200  # Время жизни access токена в секундах (2 часа)
+      secret: 1234SecretKey1234567890SecretKeySecretKeySecretKeySecretKeySecretKey  # Секретный ключ для подписи JWT токенов
+      access-token-validity: 1209600    # Время жизни access токена в секундах (2 часа)
 #      refresh-token-validity: 604800000  # Время жизни refresh токена в миллисекундах (7 дней)

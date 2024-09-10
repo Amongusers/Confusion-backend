@@ -1,26 +1,10 @@
 package com.example.amongserver.jwt.service;
 
 import com.example.amongserver.jwt.dto.UserAuthRequestDto;
-import com.example.amongserver.jwt.manager.JwtTokenManager;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Service;
+import com.example.amongserver.jwt.dto.UserAuthResponseDto;
 
-@Service
-@RequiredArgsConstructor
-public class JwtTokenService {
+public interface JwtTokenService {
 
-    private final AuthenticationManager authenticationManager;
-    private final UserDetailsService userDetailsService;
-    private final JwtTokenManager jwtTokenManager;
-
-
-    public String getToken(UserAuthRequestDto request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
-        return jwtTokenManager.generateJwtToken(userDetails);
-    }
+    // авторизация пользователя
+    UserAuthResponseDto authUser(UserAuthRequestDto userAuthRequestDto);
 }

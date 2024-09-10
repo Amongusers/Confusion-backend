@@ -18,7 +18,7 @@ public class UserAuthController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public UserAuthResponseDto createAuthToken(@RequestBody @Valid UserAuthRequestDto userAuthRequestDto) {
-        return new UserAuthResponseDto(jwtTokenService.getToken(userAuthRequestDto));
+    public UserAuthResponseDto authUser(@RequestBody @Valid UserAuthRequestDto userAuthRequestDto) {
+        return jwtTokenService.authUser(userAuthRequestDto);
     }
 }
