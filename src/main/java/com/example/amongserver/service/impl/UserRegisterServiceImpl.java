@@ -41,5 +41,6 @@ public class UserRegisterServiceImpl implements UserRegisterService {
         Set<Authority> authorities = new HashSet<>();
         authorities.add(authority);
         user.setAuthorities(authorities);
+        userRepository.save(user);
     }
 }
