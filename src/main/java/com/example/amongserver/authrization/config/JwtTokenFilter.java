@@ -1,6 +1,12 @@
 package com.example.amongserver.authrization.config;
 
+import com.example.amongserver.authrization.exception.UserByIdNotFoundException;
 import com.example.amongserver.authrization.manager.JwtTokenManager;
+import com.example.amongserver.authrization.service.UserAuthService;
+import com.example.amongserver.registration.repository.UserRepository;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,36 +28,49 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final JwtTokenManager jwtTokenManager;
     private final UserDetailsService userDetailsService;
+    private final UserRepository userRepository;
 
     @Override
-    // TODO : нужно добавить исключения
+    // TODO : нужно реализовать исключения
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        try {
+            // Получаем токен из запроса
+            String token = getTokenFromRequest(request);
 
-        // Получаем токен из запроса
-        String token = getTokenFromRequest(request);
+            // Проверяем, что токен не null
+            if (token != null && SecurityContextHolder.getContext().getAuthentication() == null &&
+                    jwtTokenManager.validateToken(token)) {
+                // Получаем ID пользователя из токена
+                Long id = jwtTokenManager.getIdFromToken(token);
 
-        // Проверяем, что токен не null
-        if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            String email = jwtTokenManager.getEmailFromToken(token);
+                if (id != null) {
+                    // Загружаем пользователя по email
+                    // TODO : стоит подумать чтобы вынести слой сервисов, если вынести метод в UserAuthService, то будет циклическая зависимость
+                    UserDetails userDetails = userRepository.findById(id).orElseThrow(
+                            () -> new UserByIdNotFoundException("User with ID "
+                                    + id
+                                    + " not found"));
 
-            // Загружаем пользователя по email
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                    // Создаём объект аутентификации
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
-            // Проверяем валидность токена
-            if (jwtTokenManager.validateToken(token, userDetails)) {
+                    // Устанавливаем дополнительные параметры аутентификации
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                // Создаём объект аутентификации
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
-                // Устанавливаем дополнительные параметры аутентификации
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                // Устанавливаем аутентификацию в SecurityContext
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                    // Устанавливаем аутентификацию в SecurityContext
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
             }
+        } catch (MalformedJwtException exception) {
+            return;
+        } catch (ExpiredJwtException exception) {
+            return;
+        } catch (SignatureException exception) {
+            return;
         }
+
 
         // Передаём управление дальше по цепочке фильтров
         filterChain.doFilter(request, response);

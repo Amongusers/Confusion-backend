@@ -1,6 +1,5 @@
 package com.example.amongserver.authrization.config;
 
-import com.example.amongserver.authrization.config.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

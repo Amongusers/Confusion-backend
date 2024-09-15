@@ -1,4 +1,4 @@
-package com.example.amongserver.authrization.exception;
+package com.example.amongserver.authrization.exception.handler;
 
 import com.example.amongserver.authrization.contoller.UserAuthController;
 import com.example.amongserver.authrization.dto.UserAuthErrorResponseDto;

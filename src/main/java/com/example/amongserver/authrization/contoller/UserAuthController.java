@@ -3,8 +3,7 @@ package com.example.amongserver.authrization.contoller;
 import com.example.amongserver.authrization.dto.UserAuthErrorResponseDto;
 import com.example.amongserver.authrization.dto.UserAuthRequestDto;
 import com.example.amongserver.authrization.dto.UserAuthResponseDto;
-import com.example.amongserver.authrization.service.JwtTokenService;
-import com.example.amongserver.registration.dto.UserRegisterErrorResponseDto;
+import com.example.amongserver.authrization.service.UserAuthService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,7 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 public class UserAuthController {
 
-    private final JwtTokenService jwtTokenService;
+    private final UserAuthService userAuthService;
 
     @ApiOperation(value = "авторищация пользователя",
             notes = "Авторизация пользователя с полями email и password."  +
@@ -39,6 +38,6 @@ public class UserAuthController {
             required = true,
             type = "UserAuthRequestDto") @RequestBody
                                             @Valid UserAuthRequestDto userAuthRequestDto) {
-        return jwtTokenService.authUser(userAuthRequestDto);
+        return userAuthService.authUser(userAuthRequestDto);
     }
 }

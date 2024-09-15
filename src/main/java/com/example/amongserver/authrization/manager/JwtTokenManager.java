@@ -34,12 +34,12 @@ public class JwtTokenManager {
 
 
     // Метод генерации JWT токена
-    public String generateJwtToken(UserDetails userDetails) {
+    public String generateJwtToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        List<String> authorities = userDetails.getAuthorities()
+        List<String> authorities = user.getAuthorities()
                 .stream().map(GrantedAuthority::getAuthority).toList();
         claims.put("authorities", authorities);
-        return createToken(claims, ((User) userDetails).getEmail());
+        return createToken(claims, String.valueOf(user.getId()));
     }
 
 
@@ -56,8 +56,8 @@ public class JwtTokenManager {
 
 
     // Получение email из токена
-    public String getEmailFromToken (String token) {
-        return getAllClaimsFromToken(token).getSubject();
+    public Long getIdFromToken(String token) {
+        return Long.parseLong(getAllClaimsFromToken(token).getSubject());
     }
 
     // Получение ролей пользователя из токена
@@ -79,16 +79,9 @@ public class JwtTokenManager {
     }
 
     // Проверка токена на валидность
-
-    public boolean validateToken(String token, UserDetails userDetails) {
-        String email = getEmailFromToken(token);
-        return email.equals(((User) userDetails).getEmail()) && !isTokenExpired(token);
-    }
-
-    // Проверка, истёк ли токен
-    private boolean isTokenExpired(String token) {
+    public boolean validateToken(String token) {
         Date expiration = getAllClaimsFromToken(token).getExpiration();
-        return expiration.before(new Date());
+        return !(expiration.before(new Date()));
     }
 }
 
