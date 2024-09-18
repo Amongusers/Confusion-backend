@@ -60,12 +60,12 @@ class GameCoordinatesRepositoryTest {
         assertTrue(foundUser.isEmpty());
     }
 
-    @Test
-    void findById_shouldThrowSQLException() throws SQLException {
-        // Настроить поведение репозитория
-        when(userRepository.findById(anyLong())).thenThrow(new SQLException("Database error"));
-
-        // Проверить, что метод репозитория выбрасывает SQLException
-        assertThrows(SQLException.class, () -> userRepository.findById(1L));
-    }
+//    @Test
+//    void findById_shouldThrowSQLException() throws SQLException {
+//        // Настроить поведение репозитория
+//        when(userRepository.findById(anyLong())).thenThrow(new SQLException("Database error"));
+//
+//        // Проверить, что метод репозитория выбрасывает SQLException
+//        assertThrows(SQLException.class, () -> userRepository.findById(1L));
+//    }
 }

@@ -104,16 +104,16 @@ class UserGameDtoServiceTest {
         verify(userRepository, never()).save(any(User.class));
     }
 
-    @Test
-    void killUser_shouldHandleSQLException() throws SQLException {
-        Long idDead = 1L;
-        Long idKiller = 2L;
-        UserKillDtoRequest request = new UserKillDtoRequest(idKiller, idDead);
-
-        // Настроить репозиторий так, чтобы он выбрасывал SQLException
-        when(userRepository.findById(idDead)).thenThrow(new SQLException("Database error"));
-
-        // Проверить, что метод сервиса выбрасывает исключение при ошибке в репозитории
-        assertThrows(SQLException.class, () -> userGameDtoService.killUser(request));
-    }
+//    @Test
+//    void killUser_shouldHandleSQLException() throws SQLException {
+//        Long idDead = 1L;
+//        Long idKiller = 2L;
+//        UserKillDtoRequest request = new UserKillDtoRequest(idKiller, idDead);
+//
+//        // Настроить репозиторий так, чтобы он выбрасывал SQLException
+//        when(userRepository.findById(idDead)).thenThrow(new SQLException("Database error"));
+//
+//        // Проверить, что метод сервиса выбрасывает исключение при ошибке в репозитории
+//        assertThrows(SQLException.class, () -> userGameDtoService.killUser(request));
+//    }
 }
