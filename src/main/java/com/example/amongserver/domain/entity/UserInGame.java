@@ -12,17 +12,25 @@ import javax.persistence.*;
 @ToString
 @Entity
 @SequenceGenerator(name = "id_seq_gen", sequenceName = "uig_id_sequence", allocationSize = 1)
-@Table (name = "user_in_game")
+@Table (name = "user_in_game",
+        indexes = {
+                @Index(name = "idx_uig_role_id_fk", columnList = "uig_role_id"),
+                @Index(name = "idx_uig_room_id_fk", columnList = "uig_room_id")
+        })
 public class UserInGame extends BaseEntityTemp {
 
     @Column(name = "uig_id")
     private Long id;
 
     @ToString.Exclude
-    @Column(name = "uig_role_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "uig_role_id", nullable = false, updatable = false,
+            foreignKey = @ForeignKey(name = "uig_role_id_fk"))
     private Role role;
 
     @ToString.Exclude
+    @JoinColumn(name = "uig_room_id", nullable = false, updatable = false,
+            foreignKey = @ForeignKey(name = "uig_room_id_fk"))
     @Column(name = "uig_room_id")
     private Room room;
 

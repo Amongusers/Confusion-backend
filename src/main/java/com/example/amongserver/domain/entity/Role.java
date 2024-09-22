@@ -3,6 +3,7 @@ package com.example.amongserver.domain.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Builder
 @NoArgsConstructor
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @Getter
 @ToString
 @Table(name = "role")
+// TODO: нужно ли наследование?
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id_seq")
@@ -24,4 +26,7 @@ public class Role {
 
     @Column (name = "role_type")
     private int type;
+
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    private Set<UserInGame> userInGameSet;
 }

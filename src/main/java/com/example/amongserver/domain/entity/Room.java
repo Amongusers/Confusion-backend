@@ -3,6 +3,7 @@ package com.example.amongserver.domain.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Builder
@@ -14,7 +15,6 @@ import javax.persistence.*;
 @Entity
 @SequenceGenerator(name = "id_seq_gen", sequenceName = "room_id_sequence", allocationSize = 1)
 @Table(name = "room")
-// TODO: нужно ли наследование?
 public class Room extends BaseEntityTemp {
 
     @Column(name = "room_id")
@@ -31,4 +31,11 @@ public class Room extends BaseEntityTemp {
 
     @Column (name = "room_game_state")
     private int gameState;
+
+    // TODO: возможно не стоит изпользовать все операции
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<TaskInRoom> taskInRoomSet;
+
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<UserInGame> userInGameSet;
 }

@@ -3,6 +3,7 @@ package com.example.amongserver.domain.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Builder
 @NoArgsConstructor
@@ -25,6 +26,9 @@ public class Task {
 
     @Column(name = "task_description", length = 2000)
     private String description;
+
+    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
+    private Set<TaskInRoom> taskInRoomSet;
 
     // TODO: переопределить equals и hashCode
     @Override
