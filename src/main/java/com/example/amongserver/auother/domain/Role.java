@@ -13,7 +13,6 @@ import java.util.Set;
 @Getter
 @ToString
 @Table(name = "role")
-// TODO: нужно ли наследование?
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id_seq")
