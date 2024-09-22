@@ -18,7 +18,8 @@ import javax.persistence.*;
         indexes = {
                 @Index(name = "idx_tir_task_id_fk", columnList = "tir_task_id"),
                 @Index(name = "idx_tir_room_id_fk", columnList = "tir_room_id")
-        })
+        },uniqueConstraints = @UniqueConstraint(name = "idx_unique_task",
+        columnNames = {"tir_task_id", "tir_room_id", "latitude", "longitude"}))
 public class TaskInRoom extends BaseEntityTemp {
 
     @Column(name = "tir_id")
@@ -36,15 +37,18 @@ public class TaskInRoom extends BaseEntityTemp {
             foreignKey = @ForeignKey(name = "tir_room_id_fk"))
     private Room room;
 
-    @Column(name = "tir_latitude")
+    @Column(name = "tir_latitude", nullable = false)
     private double latitude;
 
-    @Column(name = "tir_longitude")
+    // TODO: могут ли координаты обновляться?
+    @Column(name = "tir_longitude", nullable = false)
     private double longitude;
 
+    // TODO : что это?
     @Column(name = "tir_is_active")
     private boolean isActive;
 
-    @Column(name = "tir_is_completed")
+    @Column(name = "tir_is_completed", nullable = false,
+            columnDefinition = "boolean default false")
     private boolean isCompleted;
 }

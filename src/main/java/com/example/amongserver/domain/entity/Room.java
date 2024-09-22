@@ -20,16 +20,16 @@ public class Room extends BaseEntityTemp {
     @Column(name = "room_id")
     private Long id;
 
-    @Column (name = "room_latitude")
+    @Column (name = "room_latitude", nullable = false)
     private double latitude;
 
-    @Column (name = "room_longitude")
+    @Column (name = "room_longitude", nullable = false)
     private double longitude;
 
-    @Column (name = "room_radius")
+    @Column (name = "room_radius", nullable = false)
     private double radius;
 
-    @Column (name = "room_game_state")
+    @Column (name = "room_game_state", nullable = false, columnDefinition = "integer default 0")
     private int gameState;
 
     // TODO: возможно не стоит изпользовать все операции
