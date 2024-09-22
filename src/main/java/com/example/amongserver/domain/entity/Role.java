@@ -21,7 +21,8 @@ public class Role {
     @Column(name = "role_id")
     private Long id;
 
-    @Column (name = "role_class")
+    // TODO : что это?
+    @Column (name = "role_class", nullable = false, unique = true)
     private int roleClass;
 
     @Column (name = "role_type")

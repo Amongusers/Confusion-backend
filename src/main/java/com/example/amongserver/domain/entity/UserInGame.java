@@ -34,15 +34,17 @@ public class UserInGame extends BaseEntityTemp {
     @Column(name = "uig_room_id")
     private Room room;
 
-    @Column (name = "uig_latitude")
+    @Column (name = "uig_latitude", nullable = false)
     private double latitude;
 
-    @Column (name = "uig_longitude")
+    @Column (name = "uig_longitude", nullable = false)
     private double longitude;
 
-    @Column (name = "uig_is_dead")
+    @Column (name = "uig_is_dead", nullable = false,
+            columnDefinition = "boolean default false")
     private boolean isDead;
 
-    @Column (name = "uig_color")
+    // TODO: надо добавить enum
+    @Column (name = "uig_color", length = 10)
     private String color;
 }
