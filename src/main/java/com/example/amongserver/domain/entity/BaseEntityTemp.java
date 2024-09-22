@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 
-// TODO: возможно стояит переопредить методы object
+// TODO: возможно стоит переопредить методы object
 @MappedSuperclass
 public class BaseEntityTemp {
 

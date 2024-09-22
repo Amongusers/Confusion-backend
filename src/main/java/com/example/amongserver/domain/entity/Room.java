@@ -38,4 +38,7 @@ public class Room extends BaseEntityTemp {
 
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<UserInGame> userInGameSet;
+
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    private Set<Voting> votingSet;
 }

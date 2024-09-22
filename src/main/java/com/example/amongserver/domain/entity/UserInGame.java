@@ -3,6 +3,7 @@ package com.example.amongserver.domain.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Builder
 @NoArgsConstructor
@@ -47,4 +48,10 @@ public class UserInGame extends BaseEntityTemp {
     // TODO: надо добавить enum
     @Column (name = "uig_color", length = 10)
     private String color;
+
+    @OneToMany(mappedBy = "userInGame", fetch = FetchType.LAZY)
+    private Set<Vote> voteSet;
+
+    @OneToMany(mappedBy = "votedAgainst", fetch = FetchType.LAZY)
+    private Set<Vote> voteAgainstSet;
 }
