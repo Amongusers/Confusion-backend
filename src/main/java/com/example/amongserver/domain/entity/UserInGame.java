@@ -7,15 +7,14 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Setter
 @Getter
 @ToString
+@Entity
+@SequenceGenerator(name = "id_seq_gen", sequenceName = "uig_id_sequence", allocationSize = 1)
 @Table (name = "user_in_game")
-public class UserInGame {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "uig_id_seq")
-    @SequenceGenerator(name = "uig_id_seq", sequenceName = "uig_is_sequence", allocationSize = 1)
+public class UserInGame extends BaseEntityTemp {
+
     @Column(name = "uig_id")
     private Long id;
 

@@ -12,11 +12,10 @@ import javax.persistence.*;
 @Setter
 @ToString
 @Entity
+@SequenceGenerator(name = "id_seq_gen", sequenceName = "tir_id_sequence", allocationSize = 1)
 @Table(name = "task_in_room")
-public class TaskInRoom {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tir_id_seq")
-    @SequenceGenerator(name = "tir_id_seq", sequenceName = "tir_id_sequence", allocationSize = 1)
+public class TaskInRoom extends BaseEntityTemp {
+
     @Column(name = "tir_id")
     private Long id;
 
