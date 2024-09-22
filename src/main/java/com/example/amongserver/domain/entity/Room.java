@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Entity
 @SequenceGenerator(name = "id_seq_gen", sequenceName = "room_id_sequence", allocationSize = 1)
 @Table(name = "room")
+// TODO: нужно ли наследование?
 public class Room extends BaseEntityTemp {
 
     @Column(name = "room_id")

@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @ToString
 @Table(name = "task")
+// TODO: нужно ли наследование?
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_id_seq")
