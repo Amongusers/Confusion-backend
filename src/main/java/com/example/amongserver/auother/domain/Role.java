@@ -22,11 +22,11 @@ public class Role {
     private Long id;
 
     // TODO : что это?
-    @Column (name = "role_class", nullable = false, unique = true)
-    private int roleClass;
+    @Column (name = "role_class", nullable = false)
+    private String roleClass;
 
-    @Column (name = "role_type")
-    private int type;
+    @Column (name = "role_type", nullable = false)
+    private String type;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     private Set<UserInGame> userInGameSet;
