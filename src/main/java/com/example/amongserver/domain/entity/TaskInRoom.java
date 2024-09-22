@@ -12,7 +12,8 @@ import javax.persistence.*;
 @Setter
 @ToString
 @Entity
-@SequenceGenerator(name = "id_seq_gen", sequenceName = "tir_id_sequence", allocationSize = 1)
+@SequenceGenerator(name = "id_seq_gen", sequenceName = "tir_id_sequence",
+        allocationSize = 1)
 @Table(name = "task_in_room",
         indexes = {
                 @Index(name = "idx_tir_task_id_fk", columnList = "tir_task_id"),
@@ -36,14 +37,12 @@ public class TaskInRoom extends BaseEntityTemp {
             foreignKey = @ForeignKey(name = "tir_room_id_fk"))
     private Room room;
 
-    @Column(name = "tir_latitude", nullable = false)
+    @Column(name = "tir_latitude", nullable = false, updatable = false)
     private double latitude;
 
-    // TODO: могут ли координаты обновляться?
-    @Column(name = "tir_longitude", nullable = false)
+    @Column(name = "tir_longitude", nullable = false, updatable = false)
     private double longitude;
 
-    // TODO : что это?
     @Column(name = "tir_is_active")
     private boolean isActive;
 

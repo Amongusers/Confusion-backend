@@ -46,7 +46,7 @@ public class UserInGame extends BaseEntityTemp {
     private boolean isDead;
 
     // TODO: надо добавить enum
-    @Column (name = "uig_color", length = 10)
+    @Column (name = "uig_color", length = 100, nullable = false)
     private String color;
 
     @OneToMany(mappedBy = "userInGame", fetch = FetchType.LAZY)
