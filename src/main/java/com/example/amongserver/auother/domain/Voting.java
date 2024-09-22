@@ -1,5 +1,8 @@
 package com.example.amongserver.domain.entity;
 
+import com.example.amongserver.auother.domain.BaseEntityTemp;
+import com.example.amongserver.auother.domain.Room;
+import com.example.amongserver.auother.domain.Vote;
 import lombok.*;
 
 import javax.persistence.*;

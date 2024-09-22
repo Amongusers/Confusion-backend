@@ -1,4 +1,4 @@
-package com.example.amongserver.domain.entity;
+package com.example.amongserver.auother.domain;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

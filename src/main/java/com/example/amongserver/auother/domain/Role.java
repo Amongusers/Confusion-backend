@@ -1,5 +1,6 @@
 package com.example.amongserver.domain.entity;
 
+import com.example.amongserver.auother.domain.UserInGame;
 import lombok.*;
 
 import javax.persistence.*;

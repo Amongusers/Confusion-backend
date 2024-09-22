@@ -1,5 +1,7 @@
-package com.example.amongserver.domain.entity;
+package com.example.amongserver.auother.domain;
 
+import com.example.amongserver.domain.entity.VoteId;
+import com.example.amongserver.domain.entity.Voting;
 import lombok.*;
 
 import javax.persistence.*;
