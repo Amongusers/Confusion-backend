@@ -2,7 +2,6 @@
 package com.example.amongserver.auother.domain;
 
 import lombok.*;
-import org.springframework.scheduling.config.Task;
 
 import javax.persistence.*;
 
