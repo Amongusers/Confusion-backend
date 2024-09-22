@@ -1,16 +1,30 @@
 spring:
-
   datasource:
-    url: jdbc:h2:mem:serverAmong
-
-  h2:
-    console:
-      enabled: true
+    # URL подключения к базе данных PostgreSQL
+    url: jdbc:postgresql://localhost:5432/CosmicIntrigueTest
+    # Имя пользователя базы данных PostgreSQL
+    username: ci_test
+    # Пароль пользователя базы данных PostgreSQL
+    password: ci_testSQLPopov
+    # Драйвер для подключения к PostgreSQL
+    driver-class-name: org.postgresql.Driver
 
   jpa:
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    # Автогенерация схемы Hibernate
     generate-ddl: true
 
     hibernate:
+      # Опция управления схемой базы данных
       ddl-auto: create-drop
-
+    # Показываем запросы SQL
     show-sql: true
+
+    # Своевременный запуск data.sql
+    defer-datasource-initialization: true
+
+  security:
+    jwt:
+      secret: 1234SecretKey1234567890SecretKeySecretKeySecretKeySecretKeySecretKey  # Секретный ключ для подписи JWT токенов
+      access-token-validity: 1209600    # Время жизни access токена в секундах (2 часа)
+#      refresh-token-validity: 604800000  # Время жизни refresh токена в миллисекундах (7 дней)
