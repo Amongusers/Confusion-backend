@@ -1,27 +1,30 @@
 package com.example.amongserver.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "task_in_room")
 public class TaskInRoom {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tir_id_seq")
+    @SequenceGenerator(name = "tir_id_seq", sequenceName = "tir_id_sequence", allocationSize = 1)
     @Column(name = "tir_id")
     private Long id;
 
+    @ToString.Exclude
     @Column(name = "tir_task_id")
     private Task task;
 
+    @ToString.Exclude
     @Column(name = "tir_room_id")
     private Room room;
 
