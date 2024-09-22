@@ -1,8 +1,7 @@
-package com.example.amongserver.authrization.config;
+package com.example.amongserver.authorization.config;
 
-import com.example.amongserver.authrization.exception.UserByIdNotFoundException;
-import com.example.amongserver.authrization.manager.JwtTokenManager;
-import com.example.amongserver.authrization.service.UserAuthService;
+import com.example.amongserver.authorization.exception.UserByIdNotFoundException;
+import com.example.amongserver.authorization.manager.JwtTokenManager;
 import com.example.amongserver.registration.repository.UserRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;

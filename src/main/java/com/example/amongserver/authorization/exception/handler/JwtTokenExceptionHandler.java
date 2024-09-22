@@ -1,4 +1,4 @@
-package com.example.amongserver.authrization.exception.handler;
+package com.example.amongserver.authorization.exception.handler;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

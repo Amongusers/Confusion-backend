@@ -1,4 +1,4 @@
-package com.example.amongserver.authrization.config;
+package com.example.amongserver.authorization.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

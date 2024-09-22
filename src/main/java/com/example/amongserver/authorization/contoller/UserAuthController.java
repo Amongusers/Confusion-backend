@@ -1,9 +1,9 @@
-package com.example.amongserver.authrization.contoller;
+package com.example.amongserver.authorization.contoller;
 
-import com.example.amongserver.authrization.dto.UserAuthErrorResponseDto;
-import com.example.amongserver.authrization.dto.UserAuthRequestDto;
-import com.example.amongserver.authrization.dto.UserAuthResponseDto;
-import com.example.amongserver.authrization.service.UserAuthService;
+import com.example.amongserver.authorization.dto.UserAuthErrorResponseDto;
+import com.example.amongserver.authorization.dto.UserAuthRequestDto;
+import com.example.amongserver.authorization.dto.UserAuthResponseDto;
+import com.example.amongserver.authorization.service.UserAuthService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

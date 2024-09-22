@@ -1,7 +1,7 @@
-package com.example.amongserver.authrization.exception.handler;
+package com.example.amongserver.authorization.exception.handler;
 
-import com.example.amongserver.authrization.dto.UserAuthErrorResponseDto;
-import com.example.amongserver.authrization.exception.UserByIdNotFoundException;
+import com.example.amongserver.authorization.dto.UserAuthErrorResponseDto;
+import com.example.amongserver.authorization.exception.UserByIdNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
-package com.example.amongserver.authrization.contoller;
+package com.example.amongserver.authorization.contoller;
 
-import com.example.amongserver.authrization.exception.handler.JwtTokenExceptionHandler;
+import com.example.amongserver.authorization.exception.handler.JwtTokenExceptionHandler;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;

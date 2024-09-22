@@ -1,4 +1,4 @@
-package com.example.amongserver.authrization.manager;
+package com.example.amongserver.authorization.manager;
 
 
 import com.example.amongserver.registration.domain.User;
@@ -6,7 +6,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;

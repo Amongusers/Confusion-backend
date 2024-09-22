@@ -1,4 +1,4 @@
-package com.example.amongserver.authrization.exception;
+package com.example.amongserver.authorization.exception;
 
 public class UserByIdNotFoundException extends RuntimeException {
 

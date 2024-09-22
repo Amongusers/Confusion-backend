@@ -1,4 +1,4 @@
-package com.example.amongserver.authrization.dto;
+package com.example.amongserver.authorization.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
