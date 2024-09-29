@@ -1,8 +1,5 @@
-package com.example.amongserver.domain.entity;
+package com.example.amongserver.auother.domain;
 
-import com.example.amongserver.auother.domain.BaseEntityTemp;
-import com.example.amongserver.auother.domain.Room;
-import com.example.amongserver.auother.domain.Vote;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,10 +13,8 @@ import java.util.Set;
 @ToString
 @Entity
 @Table (name = "voting")
+@AttributeOverride(name = "id", column = @Column(name = "vt_id"))
 public class Voting extends BaseEntityTemp {
-
-    @Column (name = "vt_id")
-    private Long id;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)

@@ -12,10 +12,10 @@ import java.util.Objects;
 @ToString
 public class VoteId implements Serializable {
 
-    @ToString.Exclude
+
     private Long userInGameId;
 
-    @ToString.Exclude
+
     private Long votingId;
 
     // TODO: допилить методы
@@ -32,4 +32,5 @@ public class VoteId implements Serializable {
     public int hashCode() {
         return Objects.hash(userInGameId, votingId);
     }
+
 }

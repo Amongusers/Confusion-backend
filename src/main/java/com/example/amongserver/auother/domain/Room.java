@@ -1,6 +1,5 @@
 package com.example.amongserver.auother.domain;
 
-import com.example.amongserver.domain.entity.Voting;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,10 +15,8 @@ import java.util.Set;
 @Entity
 @SequenceGenerator(name = "id_seq_gen", sequenceName = "room_id_sequence", allocationSize = 1)
 @Table(name = "room")
+@AttributeOverride(name = "id", column = @Column(name = "room_id"))
 public class Room extends BaseEntityTemp {
-
-    @Column(name = "room_id")
-    private Long id;
 
     @Column (name = "room_latitude", nullable = false, updatable = false)
     private double latitude;

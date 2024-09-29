@@ -1,4 +1,3 @@
-
 package com.example.amongserver.auother.domain;
 
 import lombok.*;
@@ -20,11 +19,9 @@ import javax.persistence.*;
                 @Index(name = "idx_tir_task_id_fk", columnList = "tir_task_id"),
                 @Index(name = "idx_tir_room_id_fk", columnList = "tir_room_id")
         },uniqueConstraints = @UniqueConstraint(name = "idx_unique_task",
-        columnNames = {"tir_task_id", "tir_room_id", "latitude", "longitude"}))
+        columnNames = {"tir_task_id", "tir_room_id", "tir_latitude", "tir_longitude"}))
+@AttributeOverride(name = "id", column = @Column(name = "tir_id"))
 public class TaskInRoom extends BaseEntityTemp {
-
-    @Column(name = "tir_id")
-    private Long id;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.EAGER)
