@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @ToString
 @Entity
-@SequenceGenerator(name = "id_seq_gen", sequenceName = "uig_id_sequence", allocationSize = 1)
+@SequenceGenerator(name = "id_seq_base_temp", sequenceName = "uig_id_sequence", allocationSize = 1)
 @Table (name = "user_in_game",
         indexes = {
                 @Index(name = "idx_uig_role_id_fk", columnList = "uig_role_id"),

@@ -8,10 +8,11 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Setter
 @Getter
 @ToString
+@Entity
+@SequenceGenerator(name = "id_seq_base_const", sequenceName = "role_id_sequence", allocationSize = 1)
 @Table(name = "role")
 public class Role {
     @Id
@@ -19,8 +20,15 @@ public class Role {
     @SequenceGenerator(name = "role_id_seq", sequenceName = "role_id_sequence", allocationSize = 1)
     @Column(name = "role_id")
     private Long id;
+@AttributeOverrides({
+        @AttributeOverride(name = "id", column = @Column(name = "role_id")),
+        @AttributeOverride(name = "createDate", column = @Column(name = "role_create_date")),
+        @AttributeOverride(name = "update_date", column = @Column(name = "role_update_date")),
+        @AttributeOverride(name = "delete_date", column = @Column(name = "role_delete_date")),
+        @AttributeOverride(name = "is_deleted", column = @Column(name = "role_is_deleted"))
+})
+public class Role extends BaseEntityConst {
 
-    // TODO : что это?
     @Column (name = "role_class", nullable = false)
     private String roleClass;
 

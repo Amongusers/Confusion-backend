@@ -1,19 +1,19 @@
 package com.example.amongserver.registration.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.amongserver.auother.domain.BaseEntityConst;
+import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "app_user", uniqueConstraints = @UniqueConstraint(columnNames = "user_email"))
 public class User implements UserDetails {
