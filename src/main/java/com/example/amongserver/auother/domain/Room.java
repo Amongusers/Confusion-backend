@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
-@SequenceGenerator(name = "id_seq_gen", sequenceName = "room_id_sequence", allocationSize = 1)
+@SequenceGenerator(name = "id_seq_base_temp", sequenceName = "room_id_sequence", allocationSize = 1)
 @Table(name = "room")
 @AttributeOverride(name = "id", column = @Column(name = "room_id"))
 public class Room extends BaseEntityTemp {

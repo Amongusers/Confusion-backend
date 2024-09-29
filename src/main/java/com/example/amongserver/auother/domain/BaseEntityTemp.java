@@ -1,16 +1,21 @@
 package com.example.amongserver.auother.domain;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.*;
 
 
 // TODO: возможно стоит переопредить методы object
+@Getter
+@Setter
+@ToString
 @MappedSuperclass
-public class BaseEntityTemp {
+public abstract class BaseEntityTemp {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq_base_temp")
+    @Column(name = "id")
     private Long id;
 }

@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @ToString
 @Entity
-@SequenceGenerator(name = "id_seq_gen", sequenceName = "tir_id_sequence",
+@SequenceGenerator(name = "id_seq_base_temp", sequenceName = "tir_id_sequence",
         allocationSize = 1)
 @Table(name = "task_in_room",
         indexes = {
@@ -40,9 +40,6 @@ public class TaskInRoom extends BaseEntityTemp {
 
     @Column(name = "tir_longitude", nullable = false, updatable = false)
     private double longitude;
-
-    @Column(name = "tir_is_active")
-    private boolean isActive;
 
     @Column(name = "tir_is_completed", nullable = false,
             columnDefinition = "boolean default false")

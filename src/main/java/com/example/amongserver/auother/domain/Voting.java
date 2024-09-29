@@ -12,6 +12,7 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
+@SequenceGenerator(name = "id_seq_base_temp", sequenceName = "vt_id_sequence", allocationSize = 1)
 @Table (name = "voting")
 @AttributeOverride(name = "id", column = @Column(name = "vt_id"))
 public class Voting extends BaseEntityTemp {
