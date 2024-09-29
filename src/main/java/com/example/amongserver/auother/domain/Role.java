@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @ToString
 @Entity
-@SequenceGenerator(name = "id_seq_base_const", sequenceName = "role_id_sequence", allocationSize = 1)
+@SequenceGenerator(name = "id_seq_base_with_audit", sequenceName = "role_id_sequence", allocationSize = 1)
 @Table(name = "role")
 @AttributeOverrides({
         @AttributeOverride(name = "id", column = @Column(name = "role_id")),

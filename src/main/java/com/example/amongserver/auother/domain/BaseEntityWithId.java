@@ -12,10 +12,10 @@ import javax.persistence.*;
 @Setter
 @ToString
 @MappedSuperclass
-public abstract class BaseEntityTemp {
+public abstract class BaseEntityWithId {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq_base_temp")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq_base_with_id")
     @Column(name = "id")
     private Long id;
 }

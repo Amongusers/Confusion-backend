@@ -8,14 +8,14 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Setter
+@Getter
 @ToString
 @Entity
-@SequenceGenerator(name = "id_seq_base_temp", sequenceName = "vt_id_sequence", allocationSize = 1)
 @Table (name = "voting")
+@SequenceGenerator(name = "id_seq_base_with_id", sequenceName = "vt_id_sequence", allocationSize = 1)
 @AttributeOverride(name = "id", column = @Column(name = "vt_id"))
-public class Voting extends BaseEntityTemp {
+public class Voting extends BaseEntityWithId {
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)

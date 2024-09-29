@@ -12,14 +12,14 @@ import java.util.Set;
 @Getter
 @ToString
 @Entity
-@SequenceGenerator(name = "id_seq_base_temp", sequenceName = "uig_id_sequence", allocationSize = 1)
 @Table (name = "user_in_game",
         indexes = {
                 @Index(name = "idx_uig_role_id_fk", columnList = "uig_role_id"),
                 @Index(name = "idx_uig_room_id_fk", columnList = "uig_room_id")
         })
+@SequenceGenerator(name = "id_seq_base_with_id", sequenceName = "uig_id_sequence", allocationSize = 1)
 @AttributeOverride(name = "id", column = @Column(name = "uig_id"))
-public class UserInGame extends BaseEntityTemp {
+public class UserInGame extends BaseEntityWithId {
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.EAGER)

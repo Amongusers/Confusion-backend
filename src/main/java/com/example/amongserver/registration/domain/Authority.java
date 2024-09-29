@@ -1,24 +1,22 @@
 package com.example.amongserver.registration.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.amongserver.auother.domain.BaseEntityWithId;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
+@Getter
+@ToString
 @Entity
 @Table(name = "authority")
-public class Authority implements GrantedAuthority {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name = "aut_id")
-    private Long id;
+@SequenceGenerator(name = "id_seq_base_with_id", sequenceName = "user_id_sequence", allocationSize = 1)
+@AttributeOverride(name = "id", column = @Column(name = "aut_id"))
+public class Authority extends BaseEntityWithId implements GrantedAuthority {
     @Column (name = "aut_authority")
     private String authority;
 }
