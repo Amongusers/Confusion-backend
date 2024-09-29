@@ -1,37 +1,49 @@
 package com.example.amongserver.auother.domain;
 
 import com.example.amongserver.registration.domain.User;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import org.springframework.data.jpa.domain.AbstractAuditable;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
 @MappedSuperclass
 @SQLDelete(sql = "UPDATE #{entityName} SET is_deleted = true, delete_date = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "is_deleted = false")
-public class BaseEntityWithAudit extends AbstractAuditable<User, Long> {
+public class BaseEntityWithAudit extends BaseEntityWithId {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq_base_with_audit")
-    @Column(name = "id")
-    @Override
-    public Long getId() {
-        return super.getId();
-    }
+    @CreatedBy
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
+    private User createdBy;
+
+    @CreatedDate
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
+
+    @LastModifiedBy
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "last_modified_by")
+    private User lastModifiedBy;
+
+    @LastModifiedDate
+    @Column(name = "last_modified_date")
+    private LocalDateTime lastModifiedDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "delete_by")
+    @JoinColumn(name = "delete_by")
     private User deletedBy;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "delete_date")
     private LocalDateTime deleteDate;
 

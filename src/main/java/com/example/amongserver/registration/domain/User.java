@@ -2,6 +2,7 @@ package com.example.amongserver.registration.domain;
 
 import com.example.amongserver.auother.domain.BaseEntityWithAudit;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -15,14 +16,15 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "app_user", uniqueConstraints = @UniqueConstraint(columnNames = "user_email"))
-@SequenceGenerator(name = "id_seq_base_with_audit", sequenceName = "user_id_sequence", allocationSize = 1)
+@SequenceGenerator(name = "id_seq_base_with_id", sequenceName = "user_id_sequence", allocationSize = 1)
+@EntityListeners({AuditingEntityListener.class})
 @AttributeOverrides({
         @AttributeOverride(name = "id", column = @Column(name = "user_id")),
         @AttributeOverride(name = "createdBy", column = @Column(name = "user_create_user_id")),
         @AttributeOverride(name = "createdDate", column = @Column(name = "user_create_date")),
         @AttributeOverride(name = "lastModifiedBy", column = @Column(name = "user_update_user_id")),
         @AttributeOverride(name = "lastModifiedDate", column = @Column(name = "user_update_date")),
-        @AttributeOverride(name = "deleteBy", column = @Column(name = "user_delete_user_id")),
+        @AttributeOverride(name = "deletedBy", column = @Column(name = "user_delete_user_id")),
         @AttributeOverride(name = "deletedDate", column = @Column(name = "user_delete_date")),
         @AttributeOverride(name = "isDeleted", column = @Column(name = "user_is_deleted"))
 })
@@ -64,4 +66,5 @@ public class User extends BaseEntityWithAudit implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }
