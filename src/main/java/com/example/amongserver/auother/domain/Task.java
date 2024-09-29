@@ -1,6 +1,7 @@
 package com.example.amongserver.auother.domain;
 
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
@@ -12,15 +13,19 @@ import javax.persistence.*;
 @ToString
 @Entity
 @Table(name = "task")
-@SequenceGenerator(name = "id_seq_base_with_audit", sequenceName = "task_id_sequence", allocationSize = 1)
+@SequenceGenerator(name = "id_seq_base_with_id", sequenceName = "task_id_sequence", allocationSize = 1)
+@EntityListeners({AuditingEntityListener.class})
 @AttributeOverrides({
         @AttributeOverride(name = "id", column = @Column(name = "task_id")),
-        @AttributeOverride(name = "createDate", column = @Column(name = "task_create_date")),
-        @AttributeOverride(name = "updateDate", column = @Column(name = "task_update_date")),
-        @AttributeOverride(name = "deleteDate", column = @Column(name = "task_delete_date")),
+        @AttributeOverride(name = "createdBy", column = @Column(name = "task_create_user_id")),
+        @AttributeOverride(name = "createdDate", column = @Column(name = "task_create_date")),
+        @AttributeOverride(name = "lastModifiedBy", column = @Column(name = "task_update_user_id")),
+        @AttributeOverride(name = "lastModifiedDate", column = @Column(name = "task_update_date")),
+        @AttributeOverride(name = "deletedBy", column = @Column(name = "task_delete_user_id")),
+        @AttributeOverride(name = "deletedDate", column = @Column(name = "task_delete_date")),
         @AttributeOverride(name = "isDeleted", column = @Column(name = "task_is_deleted"))
 })
-public class Task extends BaseEntityConst {
+public class Task extends BaseEntityWithAudit {
 
     @Column(name = "task_title", nullable = false, unique = true, length = 30)
     private String title;

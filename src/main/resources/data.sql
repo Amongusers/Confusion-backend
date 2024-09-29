@@ -1,3 +1,5 @@
+ALTER TABLE authority ALTER COLUMN aut_id SET DEFAULT nextval('aut_id_sequence');
+ALTER TABLE app_user ALTER COLUMN user_id SET DEFAULT nextval('user_id_sequence');
 --Добавление ролей
 INSERT INTO authority (aut_authority) VALUES ('ROLE_USER');
 INSERT INTO authority (aut_authority) VALUES ('ROLE_ADMIN');

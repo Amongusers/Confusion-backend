@@ -16,7 +16,7 @@ spring:
 
     hibernate:
       # Опция управления схемой базы данных
-      ddl-auto: create-drop
+      ddl-auto: update
     # Показываем запросы SQL
     show-sql: true
 
