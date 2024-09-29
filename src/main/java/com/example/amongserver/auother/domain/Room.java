@@ -9,14 +9,14 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Setter
+@Getter
 @ToString
 @Entity
-@SequenceGenerator(name = "id_seq_base_temp", sequenceName = "room_id_sequence", allocationSize = 1)
 @Table(name = "room")
+@SequenceGenerator(name = "id_seq_base_with_id", sequenceName = "room_id_sequence", allocationSize = 1)
 @AttributeOverride(name = "id", column = @Column(name = "room_id"))
-public class Room extends BaseEntityTemp {
+public class Room extends BaseEntityWithId {
 
     @Column (name = "room_latitude", nullable = false, updatable = false)
     private double latitude;

@@ -8,12 +8,12 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Setter
+@Getter
 @ToString
 @Entity
-@IdClass(VoteId.class)
 @Table (name = "vote")
+@IdClass(VoteId.class)
 public class Vote {
 
     @Id

@@ -7,18 +7,18 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Setter
 @Getter
 @ToString
+@Entity
 @Table(name = "task")
-@SequenceGenerator(name = "id_seq_base_const", sequenceName = "task_id_sequence", allocationSize = 1)
+@SequenceGenerator(name = "id_seq_base_with_audit", sequenceName = "task_id_sequence", allocationSize = 1)
 @AttributeOverrides({
         @AttributeOverride(name = "id", column = @Column(name = "task_id")),
         @AttributeOverride(name = "createDate", column = @Column(name = "task_create_date")),
-        @AttributeOverride(name = "update_date", column = @Column(name = "task_update_date")),
-        @AttributeOverride(name = "delete_date", column = @Column(name = "task_delete_date")),
-        @AttributeOverride(name = "is_deleted", column = @Column(name = "task_is_deleted"))
+        @AttributeOverride(name = "updateDate", column = @Column(name = "task_update_date")),
+        @AttributeOverride(name = "deleteDate", column = @Column(name = "task_delete_date")),
+        @AttributeOverride(name = "isDeleted", column = @Column(name = "task_is_deleted"))
 })
 public class Task extends BaseEntityConst {
 
