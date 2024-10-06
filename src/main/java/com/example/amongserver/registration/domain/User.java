@@ -54,8 +54,8 @@ public class User extends BaseEntityWithAudit implements UserDetails {
     )
     private Set<Authority> authorities;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<UserInGame> userInGameSet;
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private UserInGame userInGame;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<UserStatistic> userStatisticSet;
