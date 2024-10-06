@@ -16,7 +16,7 @@ import javax.persistence.*;
         indexes = {
                 @Index(name = "idx_tir_task_id_fk", columnList = "tir_task_id"),
                 @Index(name = "idx_tir_room_id_fk", columnList = "tir_room_id")
-        },uniqueConstraints = @UniqueConstraint(name = "idx_unique_task",
+        }, uniqueConstraints = @UniqueConstraint(name = "idx_unique_task",
         columnNames = {"tir_task_id", "tir_room_id", "tir_latitude", "tir_longitude"}))
 @SequenceGenerator(name = "id_seq_base_with_id", sequenceName = "tir_id_sequence", allocationSize = 1)
 @AttributeOverride(name = "id", column = @Column(name = "tir_id"))

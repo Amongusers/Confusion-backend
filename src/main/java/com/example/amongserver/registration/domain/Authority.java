@@ -17,6 +17,12 @@ import javax.persistence.*;
 @SequenceGenerator(name = "id_seq_base_with_id", sequenceName = "aut_id_sequence", allocationSize = 1)
 @AttributeOverride(name = "id", column = @Column(name = "aut_id"))
 public class Authority extends BaseEntityWithId implements GrantedAuthority {
+
     @Column (name = "aut_authority")
     private String authority;
+
+    public Authority(long id, String authority) {
+        super(id);
+        this.authority = authority;
+    }
 }
