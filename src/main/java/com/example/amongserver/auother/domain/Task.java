@@ -17,13 +17,18 @@ import javax.persistence.*;
 @EntityListeners({AuditingEntityListener.class})
 @AttributeOverrides({
         @AttributeOverride(name = "id", column = @Column(name = "task_id")),
-        @AttributeOverride(name = "createdBy", column = @Column(name = "task_create_user_id")),
         @AttributeOverride(name = "createdDate", column = @Column(name = "task_create_date")),
-        @AttributeOverride(name = "lastModifiedBy", column = @Column(name = "task_update_user_id")),
         @AttributeOverride(name = "lastModifiedDate", column = @Column(name = "task_update_date")),
-        @AttributeOverride(name = "deletedBy", column = @Column(name = "task_delete_user_id")),
         @AttributeOverride(name = "deletedDate", column = @Column(name = "task_delete_date")),
         @AttributeOverride(name = "isDeleted", column = @Column(name = "task_is_deleted"))
+})
+@AssociationOverrides({
+        @AssociationOverride(name = "createdBy",
+                joinColumns = @JoinColumn(name = "task_create_user_id")),
+        @AssociationOverride(name = "lastModifiedBy",
+                joinColumns = @JoinColumn(name = "task_update_user_id")),
+        @AssociationOverride(name = "deletedBy",
+                joinColumns = @JoinColumn(name = "task_delete_user_id"))
 })
 public class Task extends BaseEntityWithAudit {
 

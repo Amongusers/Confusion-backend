@@ -20,13 +20,18 @@ import java.util.Set;
 @EntityListeners({AuditingEntityListener.class})
 @AttributeOverrides({
         @AttributeOverride(name = "id", column = @Column(name = "user_id")),
-        @AttributeOverride(name = "createdBy", column = @Column(name = "user_create_user_id")),
         @AttributeOverride(name = "createdDate", column = @Column(name = "user_create_date")),
-        @AttributeOverride(name = "lastModifiedBy", column = @Column(name = "user_update_user_id")),
         @AttributeOverride(name = "lastModifiedDate", column = @Column(name = "user_update_date")),
-        @AttributeOverride(name = "deletedBy", column = @Column(name = "user_delete_user_id")),
         @AttributeOverride(name = "deletedDate", column = @Column(name = "user_delete_date")),
         @AttributeOverride(name = "isDeleted", column = @Column(name = "user_is_deleted"))
+})
+@AssociationOverrides({
+        @AssociationOverride(name = "createdBy",
+                joinColumns = @JoinColumn(name = "user_create_user_id")),
+        @AssociationOverride(name = "lastModifiedBy",
+                joinColumns = @JoinColumn(name = "user_update_user_id")),
+        @AssociationOverride(name = "deletedBy",
+                joinColumns = @JoinColumn(name = "user_delete_user_id"))
 })
 public class User extends BaseEntityWithAudit implements UserDetails {
 
