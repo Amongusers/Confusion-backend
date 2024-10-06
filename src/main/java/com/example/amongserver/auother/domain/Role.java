@@ -48,4 +48,10 @@ public class Role extends BaseEntityWithAudit {
 
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     private Set<UserInGame> userInGameSet;
+
+    @OneToMany(mappedBy = "roleWinner", fetch = FetchType.LAZY)
+    private Set<GameStatistic> gameStatisticSet;
+
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    private Set<UserStatistic> userStatisticSet;
 }

@@ -2,6 +2,7 @@ package com.example.amongserver.registration.domain;
 
 import com.example.amongserver.auother.domain.BaseEntityWithAudit;
 import com.example.amongserver.auother.domain.UserInGame;
+import com.example.amongserver.auother.domain.UserStatistic;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,6 +56,9 @@ public class User extends BaseEntityWithAudit implements UserDetails {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<UserInGame> userInGameSet;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<UserStatistic> userStatisticSet;
 
     @Override
     public boolean isAccountNonExpired() {
