@@ -13,7 +13,8 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
-@Table(name = "game_statistic")
+@Table(name = "game_statistic", indexes = {
+        @Index(name = "idx_gs_winner_role_id_fk", columnList = "gs_winner_role_id")})
 @SequenceGenerator(name = "id_seq_base_with_id", sequenceName = "gs_id_sequence", allocationSize = 1)
 @EntityListeners({AuditingEntityListener.class})
 @AttributeOverrides({
