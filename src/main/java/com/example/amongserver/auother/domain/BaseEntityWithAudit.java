@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @SQLDelete(sql = "UPDATE #{entityName} SET is_deleted = true, delete_date = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "is_deleted = false")
-public class BaseEntityWithAudit extends BaseEntityWithId {
+public abstract class BaseEntityWithAudit extends BaseEntityWithId {
 
     @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
