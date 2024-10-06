@@ -25,8 +25,8 @@ public class Voting extends BaseEntityWithId {
 
 
     @Column(name = "vi_number", nullable = false, updatable = false, unique = true)
-    private int number;
+    private byte number;
 
-    @OneToMany(mappedBy = "voting", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "voting", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Vote> votes;
 }

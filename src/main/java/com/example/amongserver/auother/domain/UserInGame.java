@@ -29,7 +29,7 @@ public class UserInGame extends BaseEntityWithId {
     private User user;
 
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uig_role_id", nullable = false, updatable = false,
             foreignKey = @ForeignKey(name = "uig_role_id_fk"))
     private Role role;

@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Builder
 @NoArgsConstructor
@@ -37,5 +38,8 @@ public class Task extends BaseEntityWithAudit {
 
     @Column(name = "task_description", length = 2000)
     private String description;
+
+    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
+    private Set<TaskInRoom> taskInRoomSet;
 
 }
