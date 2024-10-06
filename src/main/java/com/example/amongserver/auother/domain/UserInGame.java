@@ -40,6 +40,12 @@ public class UserInGame extends BaseEntityWithId {
             foreignKey = @ForeignKey(name = "uig_room_id_fk"))
     private Room room;
 
+    @Column(name = "uig_is_admin", nullable = false)
+    private byte isAdmin;
+
+    @Column(name = "uig_connected_status", nullable = false)
+    private byte connectedStatus;
+
     @Column (name = "uig_latitude", nullable = false)
     private double latitude;
 
@@ -50,7 +56,6 @@ public class UserInGame extends BaseEntityWithId {
             columnDefinition = "boolean default false")
     private boolean isDead;
 
-    // TODO: надо добавить enum
     @Column (name = "uig_color", length = 100, nullable = false)
     private String color;
 
