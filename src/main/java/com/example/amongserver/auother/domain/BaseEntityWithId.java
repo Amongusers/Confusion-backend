@@ -7,7 +7,7 @@ import lombok.ToString;
 import javax.persistence.*;
 
 
-// TODO: возможно стоит переопредить методы object
+
 @Getter
 @Setter
 @ToString

@@ -33,11 +33,8 @@ import java.util.Set;
 })
 public class Role extends BaseEntityWithAudit {
 
-    @Column(name = "role_name", nullable = false)
+    @Column(name = "role_name", nullable = false, length = 50)
     private String name;
-
-    @Column(name = "role_short_name")
-    private String shortName;
 
     @Column(name = "role_description")
     private String description;
