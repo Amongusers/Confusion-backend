@@ -33,11 +33,21 @@ import java.util.Set;
 })
 public class Role extends BaseEntityWithAudit {
 
-    @Column(name = "role_class", nullable = false)
-    private String roleClass;
+    @Column(name = "role_name", nullable = false)
+    private String name;
 
-    @Column(name = "role_type", nullable = false)
-    private String type;
+    @Column(name = "role_short_name")
+    private String shortName;
+
+    @Column(name = "role_description")
+    private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_parent_id")
+    private Role parentRole;
+
+    @OneToMany(mappedBy = "parentRole", fetch = FetchType.LAZY)
+    private Set<Role> childrenRoles;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     private Set<UserInGame> userInGameSet;

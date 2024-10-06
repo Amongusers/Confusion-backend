@@ -47,6 +47,7 @@ public class BaseEntityWithAudit extends BaseEntityWithId {
     @Column(name = "deleted_date")
     private LocalDateTime deletedDate;
 
-    @Column(name = "is_deleted", nullable = false, columnDefinition = "boolean default false")
+    @Column(name = "is_deleted", nullable = false,
+            columnDefinition = "boolean default false")
     private boolean isDeleted;
 }
