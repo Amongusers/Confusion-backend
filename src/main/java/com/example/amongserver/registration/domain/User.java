@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter
 @ToString
 @Entity
-@Table(name = "app_user", uniqueConstraints = @UniqueConstraint(columnNames = "user_email"))
+@Table(name = "app_user")
 @SequenceGenerator(name = "id_seq_base_with_id", sequenceName = "user_id_sequence", allocationSize = 1)
 @EntityListeners({AuditingEntityListener.class})
 @AttributeOverrides({
@@ -37,13 +37,13 @@ import java.util.Set;
 })
 public class User extends BaseEntityWithAudit implements UserDetails {
 
-    @Column (name = "user_username", nullable = false)
+    @Column(name = "user_username", nullable = false)
     private String username;
 
-    @Column (name = "user_email", nullable = false, unique = true)
+    @Column(name = "user_email", nullable = false, unique = true)
     private String email;
 
-    @Column (name = "user_password", nullable = false)
+    @Column(name = "user_password", nullable = false)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
