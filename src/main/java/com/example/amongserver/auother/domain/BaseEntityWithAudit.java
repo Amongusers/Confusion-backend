@@ -24,20 +24,20 @@ public class BaseEntityWithAudit extends BaseEntityWithId {
 
     @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by_user_id")
+    @JoinColumn(name = "created_by_user_id", nullable = false, updatable = false)
     private User createdBy;
 
     @CreatedDate
-    @Column(name = "created_date")
+    @Column(name = "created_date", nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedBy
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "last_modified_by_user_id")
+    @JoinColumn(name = "last_modified_by_user_id", nullable = false)
     private User lastModifiedBy;
 
     @LastModifiedDate
-    @Column(name = "last_modified_date")
+    @Column(name = "last_modified_date", nullable = false)
     private LocalDateTime lastModifiedDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -47,6 +47,6 @@ public class BaseEntityWithAudit extends BaseEntityWithId {
     @Column(name = "deleted_date")
     private LocalDateTime deletedDate;
 
-    @Column(name = "is_deleted", columnDefinition = "boolean default false")
+    @Column(name = "is_deleted", nullable = false, columnDefinition = "boolean default false")
     private boolean isDeleted;
 }
