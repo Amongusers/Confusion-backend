@@ -1,6 +1,7 @@
 package com.example.amongserver.registration.domain;
 
 import com.example.amongserver.auother.domain.BaseEntityWithAudit;
+import com.example.amongserver.auother.domain.UserInGame;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,10 +48,13 @@ public class User extends BaseEntityWithAudit implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "app_user_authority",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "aut_id")
+            joinColumns = @JoinColumn(name = "ua_user_id"),
+            inverseJoinColumns = @JoinColumn(name = "ua_aut_id")
     )
     private Set<Authority> authorities;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<UserInGame> userInGameSet;
 
     @Override
     public boolean isAccountNonExpired() {
