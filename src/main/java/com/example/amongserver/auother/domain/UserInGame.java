@@ -1,5 +1,6 @@
 package com.example.amongserver.auother.domain;
 
+import com.example.amongserver.registration.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,6 +21,12 @@ import java.util.Set;
 @SequenceGenerator(name = "id_seq_base_with_id", sequenceName = "uig_id_sequence", allocationSize = 1)
 @AttributeOverride(name = "id", column = @Column(name = "uig_id"))
 public class UserInGame extends BaseEntityWithId {
+
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "uig_user_id", nullable = false, updatable = false,
+            foreignKey = @ForeignKey(name = "uig_user_id_fk"))
+    private User user;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.EAGER)

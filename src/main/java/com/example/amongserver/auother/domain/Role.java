@@ -18,11 +18,8 @@ import java.util.Set;
 @EntityListeners({AuditingEntityListener.class})
 @AttributeOverrides({
         @AttributeOverride(name = "id", column = @Column(name = "role_id")),
-//        @AttributeOverride(name = "createdByUserId", column = @Column(name = "role_create_user_id")),
         @AttributeOverride(name = "createdDate", column = @Column(name = "role_create_date")),
-//        @AttributeOverride(name = "lastModifiedByUserId", column = @Column(name = "role_update_user_id")),
         @AttributeOverride(name = "lastModifiedDate", column = @Column(name = "role_update_date")),
-//        @AttributeOverride(name = "deletedByUserId", column = @Column(name = "role_delete_user_id")),
         @AttributeOverride(name = "deletedDate", column = @Column(name = "role_delete_date")),
         @AttributeOverride(name = "isDeleted", column = @Column(name = "role_is_deleted"))
 })
