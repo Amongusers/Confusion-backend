@@ -13,7 +13,12 @@ import javax.persistence.*;
 @Setter
 @ToString
 @Entity
-@Table(name = "user_statistic")
+@Table(name = "user_statistic", indexes = {
+        @Index(name = "idx_us_user_id_fk", columnList = "us_user_id"),
+        @Index(name = "idx_us_gs_id_fk", columnList = "us_gs_id"),
+        @Index(name = "idx_us_role_id_fk", columnList = "us_role_id")
+},uniqueConstraints = @UniqueConstraint(name = "idx_unique_user_game",
+        columnNames = {"us_gs_id", "us_user_id"}))
 @SequenceGenerator(name = "id_seq_base_with_id", sequenceName = "us_id_sequence", allocationSize = 1)
 @EntityListeners({AuditingEntityListener.class})
 @AttributeOverrides({
