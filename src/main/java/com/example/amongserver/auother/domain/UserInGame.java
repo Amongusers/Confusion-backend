@@ -18,12 +18,15 @@ import java.util.Set;
                 @Index(name = "idx_uig_role_id_fk", columnList = "uig_role_id"),
                 @Index(name = "idx_uig_room_id_fk", columnList = "uig_room_id")
         })
-@SequenceGenerator(name = "id_seq_base_with_id", sequenceName = "uig_id_sequence", allocationSize = 1)
-@AttributeOverride(name = "id", column = @Column(name = "uig_id"))
-public class UserInGame extends BaseEntityWithId {
+public class UserInGame {
+
+    @Id
+    @Column(name = "uig_user_id")
+    private Long id;  // Используем id пользователя как id для UserInGame
 
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
     @JoinColumn(name = "uig_user_id", nullable = false, updatable = false,
             foreignKey = @ForeignKey(name = "uig_user_id_fk"))
     private User user;
