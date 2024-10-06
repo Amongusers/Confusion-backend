@@ -31,13 +31,12 @@ public class Room extends BaseEntityWithId {
             columnDefinition = "integer default 0")
     private int gameState;
 
-    // TODO: возможно не стоит изпользовать все операции
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<TaskInRoom> taskInRoomSet;
 
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<UserInGame> userInGameSet;
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Voting> votingSet;
 }

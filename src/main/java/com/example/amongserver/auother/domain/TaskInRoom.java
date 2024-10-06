@@ -23,13 +23,13 @@ import javax.persistence.*;
 public class TaskInRoom extends BaseEntityWithId {
 
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tir_task_id", nullable = false, updatable = false,
             foreignKey = @ForeignKey(name = "tir_task_id_fk"))
     private Task task;
 
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tir_room_id", nullable = false, updatable = false,
             foreignKey = @ForeignKey(name = "tir_room_id_fk"))
     private Room room;
