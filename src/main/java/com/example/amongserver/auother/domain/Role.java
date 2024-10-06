@@ -18,20 +18,28 @@ import java.util.Set;
 @EntityListeners({AuditingEntityListener.class})
 @AttributeOverrides({
         @AttributeOverride(name = "id", column = @Column(name = "role_id")),
-        @AttributeOverride(name = "createdBy", column = @Column(name = "role_create_user_id")),
+//        @AttributeOverride(name = "createdByUserId", column = @Column(name = "role_create_user_id")),
         @AttributeOverride(name = "createdDate", column = @Column(name = "role_create_date")),
-        @AttributeOverride(name = "lastModifiedBy", column = @Column(name = "role_update_user_id")),
+//        @AttributeOverride(name = "lastModifiedByUserId", column = @Column(name = "role_update_user_id")),
         @AttributeOverride(name = "lastModifiedDate", column = @Column(name = "role_update_date")),
-        @AttributeOverride(name = "deletedBy", column = @Column(name = "role_delete_user_id")),
+//        @AttributeOverride(name = "deletedByUserId", column = @Column(name = "role_delete_user_id")),
         @AttributeOverride(name = "deletedDate", column = @Column(name = "role_delete_date")),
         @AttributeOverride(name = "isDeleted", column = @Column(name = "role_is_deleted"))
 })
+@AssociationOverrides({
+        @AssociationOverride(name = "createdBy",
+                joinColumns = @JoinColumn(name = "role_create_user_id")),
+        @AssociationOverride(name = "lastModifiedBy",
+                joinColumns = @JoinColumn(name = "role_update_user_id")),
+        @AssociationOverride(name = "deletedBy",
+                joinColumns = @JoinColumn(name = "role_delete_user_id"))
+})
 public class Role extends BaseEntityWithAudit {
 
-    @Column (name = "role_class", nullable = false)
+    @Column(name = "role_class", nullable = false)
     private String roleClass;
 
-    @Column (name = "role_type", nullable = false)
+    @Column(name = "role_type", nullable = false)
     private String type;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
