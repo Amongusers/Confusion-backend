@@ -3,13 +3,13 @@ package com.example.amongserver.controller.websocketcontroller;
 import com.example.amongserver.dto.UserVoteDto;
 import com.example.amongserver.observer.UserVoteDtoObserver;
 import com.example.amongserver.service.UserVoteDtoService;
+import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
 
 import static com.example.amongserver.constant.Const.LINK_CHAT;
 import static com.example.amongserver.constant.Const.VOTE_TOPIC;
