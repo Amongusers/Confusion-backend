@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: among
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
