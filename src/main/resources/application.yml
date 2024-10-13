@@ -21,7 +21,7 @@ spring:
     show-sql: true
 
     # Своевременный запуск data.sql
-    defer-datasource-initialization: true
+#    defer-datasource-initialization: true
 
   security:
     jwt:

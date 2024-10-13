@@ -1,59 +1,64 @@
 package com.example.amongserver.registration.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.amongserver.auother.domain.BaseEntityWithAudit;
+import com.example.amongserver.auother.domain.UserInGame;
+import com.example.amongserver.auother.domain.UserStatistic;
+import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Set;
 
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
+@Getter
+@ToString
 @Entity
-@Table(name = "app_user", uniqueConstraints = @UniqueConstraint(columnNames = "user_email"))
-public class User implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name = "user_id")
-    private Long id;
+@Table(name = "app_user")
+@SequenceGenerator(name = "id_seq_base_with_id", sequenceName = "user_id_sequence", allocationSize = 1)
+@EntityListeners({AuditingEntityListener.class})
+@AttributeOverrides({
+        @AttributeOverride(name = "id", column = @Column(name = "user_id")),
+        @AttributeOverride(name = "createdDate", column = @Column(name = "user_create_date")),
+        @AttributeOverride(name = "lastModifiedDate", column = @Column(name = "user_update_date")),
+        @AttributeOverride(name = "deletedDate", column = @Column(name = "user_delete_date")),
+        @AttributeOverride(name = "isDeleted", column = @Column(name = "user_is_deleted"))
+})
+@AssociationOverrides({
+        @AssociationOverride(name = "createdBy",
+                joinColumns = @JoinColumn(name = "user_create_user_id")),
+        @AssociationOverride(name = "lastModifiedBy",
+                joinColumns = @JoinColumn(name = "user_update_user_id")),
+        @AssociationOverride(name = "deletedBy",
+                joinColumns = @JoinColumn(name = "user_delete_user_id"))
+})
+public class User extends BaseEntityWithAudit implements UserDetails {
 
-    @Column (name = "user_username", nullable = false)
+    @Column(name = "user_username", nullable = false)
     private String username;
 
-    @Column (name = "user_email", nullable = false, unique = true)
+    @Column(name = "user_email", nullable = false, unique = true)
     private String email;
 
-    @Column (name = "user_password", nullable = false)
+    @Column(name = "user_password", nullable = false)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "app_user_authority",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "aut_id")
+            joinColumns = @JoinColumn(name = "ua_user_id"),
+            inverseJoinColumns = @JoinColumn(name = "ua_aut_id")
     )
     private Set<Authority> authorities;
 
-    @Column(name = "created_user", nullable = false, updatable = false)
-    private LocalDateTime createdUser;
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private UserInGame userInGame;
 
-    @Column(name = "updated_user")
-    private LocalDateTime updatedUser;
-
-    @PrePersist
-    protected void onCreate() {
-        createdUser = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedUser = LocalDateTime.now();
-    }
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<UserStatistic> userStatisticSet;
 
     @Override
     public boolean isAccountNonExpired() {
@@ -74,4 +79,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

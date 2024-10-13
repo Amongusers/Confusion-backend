@@ -11,6 +11,9 @@ import com.example.amongserver.registration.repository.AuthorityRepository;
 import com.example.amongserver.registration.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +45,12 @@ public class UserRegisterServiceImpl implements UserRegisterService {
         Set<Authority> authorities = new HashSet<>();
         authorities.add(authority);
         user.setAuthorities(authorities);
+        // Устанавливаем пользователя в SecurityContext перед сохранением
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                user, null, user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        // Теперь сохраняем пользователя, чтобы заполнить аудиторные поля
         userRepository.save(user);
     }
 }
