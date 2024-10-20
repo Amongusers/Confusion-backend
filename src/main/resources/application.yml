@@ -1,7 +1,7 @@
 spring:
   datasource:
     # URL подключения к базе данных PostgreSQL
-    url: jdbc:postgresql://postgres:5432/amosus
+    url: jdbc:postgresql://194.87.161.240:5432/amosus
     # Имя пользователя базы данных PostgreSQL
     username: postgres
     # Пароль пользователя базы данных PostgreSQL
