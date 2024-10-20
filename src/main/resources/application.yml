@@ -12,11 +12,11 @@ spring:
   jpa:
 #    database-platform: org.hibernate.dialect.PostgreSQLDialect
     # Автогенерация схемы Hibernate
-    generate-ddl: false
+    generate-ddl: true
 
     hibernate:
       # Опция управления схемой базы данных
-      ddl-auto: none
+      ddl-auto: update
     # Показываем запросы SQL
     show-sql: true
 
