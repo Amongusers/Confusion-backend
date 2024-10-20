@@ -66,7 +66,7 @@ jobs:
 #        run: mvn test
 
   deploy:
-    runs-on: 3646279-lz34497 # Наш раннер на серваке
+    runs-on: self-hosted
 #    needs: prepare-environment
     steps:
       - name: checkout repo
