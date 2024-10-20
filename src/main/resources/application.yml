@@ -1,7 +1,7 @@
 spring:
   datasource:
     # URL подключения к базе данных PostgreSQL
-    url: jdbc:postgresql://194.87.161.240:5432/amosus
+    url: jdbc:postgresql://postgres:5432/amosus
     # Имя пользователя базы данных PostgreSQL
     username: postgres
     # Пароль пользователя базы данных PostgreSQL
@@ -25,6 +25,6 @@ spring:
 
   security:
     jwt:
-      secret: oRWjRjxejZKe  # Секретный ключ для подписи JWT токенов
+      secret: oRWjRjxejZKeoRWjRjxejZKeoRWjRjxejZKeoRWjRjxejZKe  # Секретный ключ для подписи JWT токенов
       access-token-validity: 1209600    # Время жизни access токена в секундах (2 часа)
 #      refresh-token-validity: 604800000  # Время жизни refresh токена в миллисекундах (7 дней)
