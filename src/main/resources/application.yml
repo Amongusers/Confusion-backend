@@ -1,16 +1,30 @@
 spring:
-
   datasource:
-    url: jdbc:h2:mem:serverAmong
-
-  h2:
-    console:
-      enabled: true
+    # URL подключения к базе данных PostgreSQL
+    url: jdbc:postgresql://postgres:5432/amosus
+    # Имя пользователя базы данных PostgreSQL
+    username: postgres
+    # Пароль пользователя базы данных PostgreSQL
+    password: XXgIjnFBahze
+    # Драйвер для подключения к PostgreSQL
+    driver-class-name: org.postgresql.Driver
 
   jpa:
-    generate-ddl: true
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    # Автогенерация схемы Hibernate
+    generate-ddl: false
 
     hibernate:
-      ddl-auto: create-drop
-
+      # Опция управления схемой базы данных
+      ddl-auto: none
+    # Показываем запросы SQL
     show-sql: true
+
+    # Своевременный запуск data.sql
+#    defer-datasource-initialization: true
+
+  security:
+    jwt:
+      secret: oRWjRjxejZKe  # Секретный ключ для подписи JWT токенов
+      access-token-validity: 1209600    # Время жизни access токена в секундах (2 часа)
+#      refresh-token-validity: 604800000  # Время жизни refresh токена в миллисекундах (7 дней)
