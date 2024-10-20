@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  app:
+    container_name: amosus
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - postgres
+
+  postgres:
+    container_name: psql
+    image: postgres:16.4-alpine3.20
+    restart: unless-stopped
+    command: postgres -c 'max-connections=50'
+    platform: linux/amd64
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: amosus
+      POSTGRES_PASSWORD: XXgIjnFBahze
+    volumes:
+      - ./migrations/statsdb.sql:/docker-entrypoint-initdb.d/stats.sql
+      - ./db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "-d", "db_prod" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge

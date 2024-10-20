@@ -1,22 +1,22 @@
 spring:
   datasource:
     # URL подключения к базе данных PostgreSQL
-    url: jdbc:postgresql://localhost:5432/CosmicIntrigueTest
+    url: jdbc:postgresql://postgres:5432/amosus
     # Имя пользователя базы данных PostgreSQL
-    username: ci_test
+    username: postgres
     # Пароль пользователя базы данных PostgreSQL
-    password: ci_testSQLPopov
+    password: XXgIjnFBahze
     # Драйвер для подключения к PostgreSQL
     driver-class-name: org.postgresql.Driver
 
   jpa:
 #    database-platform: org.hibernate.dialect.PostgreSQLDialect
     # Автогенерация схемы Hibernate
-    generate-ddl: true
+    generate-ddl: false
 
     hibernate:
       # Опция управления схемой базы данных
-      ddl-auto: create-drop
+      ddl-auto: none
     # Показываем запросы SQL
     show-sql: true
 
@@ -25,6 +25,6 @@ spring:
 
   security:
     jwt:
-      secret: 1234SecretKey1234567890SecretKeySecretKeySecretKeySecretKeySecretKey  # Секретный ключ для подписи JWT токенов
+      secret: oRWjRjxejZKe  # Секретный ключ для подписи JWT токенов
       access-token-validity: 1209600    # Время жизни access токена в секундах (2 часа)
 #      refresh-token-validity: 604800000  # Время жизни refresh токена в миллисекундах (7 дней)
