@@ -50,4 +50,4 @@
 
 Ссылки
 ------
-https://github.com/Towich/CosmicIntrigue - мобильная часть захватывающей игры о доверии и предательстве
+https://github.com/Towich/CosmicIntrigue - мобильная часть захватывающей игры о доверии и предательстве.
