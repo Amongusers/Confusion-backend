@@ -1,11 +1,11 @@
 package com.example.amongserver.registration.service.impl;
 
-import com.example.amongserver.registration.domain.Authority;
-import com.example.amongserver.registration.domain.User;
+import com.example.amongserver.domain.Authority;
+import com.example.amongserver.domain.User;
 import com.example.amongserver.registration.exception.AuthorityNotFoundException;
 import com.example.amongserver.registration.exception.UserAlreadyExistsException;
 import com.example.amongserver.registration.mapper.UserRegisterMapper;
-import com.example.amongserver.registration.dto.UserRegisterRequestDto;
+import com.example.amongserver.registration.controller.dto.UserRegisterRequestDto;
 import com.example.amongserver.registration.service.UserRegisterService;
 import com.example.amongserver.registration.repository.AuthorityRepository;
 import com.example.amongserver.registration.repository.UserRepository;

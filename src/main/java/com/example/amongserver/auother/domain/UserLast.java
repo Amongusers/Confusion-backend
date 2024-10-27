@@ -1,5 +1,6 @@
 package com.example.amongserver.auother.domain;
 
+import com.example.amongserver.auother.domain.GameState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.example.amongserver.registration.repository;
 
-import com.example.amongserver.registration.domain.Authority;
+import com.example.amongserver.domain.Authority;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

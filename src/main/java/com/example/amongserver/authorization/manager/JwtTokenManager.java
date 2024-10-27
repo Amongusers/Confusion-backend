@@ -1,7 +1,7 @@
 package com.example.amongserver.authorization.manager;
 
 
-import com.example.amongserver.registration.domain.User;
+import com.example.amongserver.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;

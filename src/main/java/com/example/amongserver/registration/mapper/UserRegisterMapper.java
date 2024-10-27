@@ -1,7 +1,7 @@
 package com.example.amongserver.registration.mapper;
 
-import com.example.amongserver.registration.domain.User;
-import com.example.amongserver.registration.dto.UserRegisterRequestDto;
+import com.example.amongserver.domain.User;
+import com.example.amongserver.registration.controller.dto.UserRegisterRequestDto;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

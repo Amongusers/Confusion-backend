@@ -1,6 +1,6 @@
 package com.example.amongserver.registration.service;
 
-import com.example.amongserver.registration.dto.UserRegisterRequestDto;
+import com.example.amongserver.registration.controller.dto.UserRegisterRequestDto;
 
 public interface UserRegisterService {
     // регестрация пользователя

@@ -1,8 +1,9 @@
-package com.example.amongserver.registration.domain;
+package com.example.amongserver.domain;
 
-import com.example.amongserver.auother.domain.BaseEntityWithAudit;
-import com.example.amongserver.auother.domain.UserInGame;
-import com.example.amongserver.auother.domain.UserStatistic;
+import com.example.amongserver.domain.Authority;
+import com.example.amongserver.domain.BaseEntityWithAudit;
+import com.example.amongserver.domain.UserInGame;
+import com.example.amongserver.domain.UserStatistic;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,7 +1,7 @@
 package com.example.amongserver.registration.controller;
 
-import com.example.amongserver.registration.dto.UserRegisterErrorResponseDto;
-import com.example.amongserver.registration.dto.UserRegisterRequestDto;
+import com.example.amongserver.registration.controller.dto.UserRegisterErrorResponseDto;
+import com.example.amongserver.registration.controller.dto.UserRegisterRequestDto;
 import com.example.amongserver.registration.service.UserRegisterService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;

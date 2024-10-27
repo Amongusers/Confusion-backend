@@ -1,6 +1,5 @@
-package com.example.amongserver.auother.domain;
+package com.example.amongserver.domain;
 
-import com.example.amongserver.registration.domain.User;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 

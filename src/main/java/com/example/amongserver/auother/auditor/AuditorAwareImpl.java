@@ -1,12 +1,11 @@
 package com.example.amongserver.auother.auditor;
 
-import com.example.amongserver.registration.domain.User;
+import com.example.amongserver.domain.User;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 

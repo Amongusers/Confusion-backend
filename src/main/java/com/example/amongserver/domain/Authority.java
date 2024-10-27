@@ -1,6 +1,6 @@
-package com.example.amongserver.registration.domain;
+package com.example.amongserver.domain;
 
-import com.example.amongserver.auother.domain.BaseEntityWithId;
+import com.example.amongserver.domain.BaseEntityWithId;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 

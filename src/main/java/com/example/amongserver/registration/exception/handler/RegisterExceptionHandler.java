@@ -1,7 +1,7 @@
 package com.example.amongserver.registration.exception.handler;
 
 import com.example.amongserver.registration.controller.UserRegisterController;
-import com.example.amongserver.registration.dto.UserRegisterErrorResponseDto;
+import com.example.amongserver.registration.controller.dto.UserRegisterErrorResponseDto;
 import com.example.amongserver.registration.exception.AuthorityNotFoundException;
 import com.example.amongserver.registration.exception.UserAlreadyExistsException;
 import com.example.amongserver.registration.exception.UserByEmailNotFoundException;

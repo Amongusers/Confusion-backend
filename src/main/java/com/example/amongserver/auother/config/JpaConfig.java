@@ -1,7 +1,7 @@
 package com.example.amongserver.auother.config;
 
 import com.example.amongserver.auother.auditor.AuditorAwareImpl;
-import com.example.amongserver.registration.domain.User;
+import com.example.amongserver.domain.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

@@ -1,4 +1,4 @@
-package com.example.amongserver.registration.dto;
+package com.example.amongserver.registration.controller.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

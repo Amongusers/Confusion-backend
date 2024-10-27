@@ -1,4 +1,4 @@
-package com.example.amongserver.auother.domain;
+package com.example.amongserver.domain;
 
 
 import lombok.*;

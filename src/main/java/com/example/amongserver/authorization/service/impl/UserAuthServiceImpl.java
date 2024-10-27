@@ -1,6 +1,6 @@
 package com.example.amongserver.authorization.service.impl;
 
-import com.example.amongserver.registration.domain.User;
+import com.example.amongserver.domain.User;
 import com.example.amongserver.authorization.dto.UserAuthRequestDto;
 import com.example.amongserver.authorization.dto.UserAuthResponseDto;
 import com.example.amongserver.authorization.manager.JwtTokenManager;
