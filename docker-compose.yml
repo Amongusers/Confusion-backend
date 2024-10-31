@@ -27,7 +27,7 @@ services:
       POSTGRES_DB: amosus
       POSTGRES_PASSWORD: XXgIjnFBahze
     volumes:
-      - ./db-data:/var/lib/postgresql/data
+      - pg-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
@@ -42,3 +42,6 @@ services:
 networks:
   postgres:
     driver: bridge
+
+volumes:
+  pg-data:
