@@ -3,7 +3,7 @@ version: "3.9"
 services:
   app:
     logging:
-      driver: local
+      driver: journald
       options:
         max-size: 10m
         max-file: 3
