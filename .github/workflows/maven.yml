@@ -28,9 +28,5 @@ jobs:
     steps:
       - name: checkout repo
         uses: actions/checkout@v4
-      - name: docker-compose
-        run: docker-compose up -d \
-          --log-driver=local \
-          --log-opt max-size=10m \
-          --log-opt max-file=3 \
-          --build app
+      - name: docker compose
+        run: docker compose up -d --build app

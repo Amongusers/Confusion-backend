@@ -2,6 +2,12 @@ version: "3.9"
 
 services:
   app:
+    logging:
+      driver: local
+      options:
+        max-size: 10m
+        max-file: 3
+        mode: non-blocking
     container_name: amosus
     platform: linux/amd64
     build:
@@ -10,9 +16,6 @@ services:
     restart: unless-stopped
     ports:
       - "8080:8080"
-    depends_on:
-      postgres:
-        condition: service_healthy
     networks:
       - postgres
 
