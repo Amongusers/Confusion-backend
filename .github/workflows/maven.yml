@@ -8,25 +8,29 @@ on:
 
 jobs:
 
-#  build:
-#    name: Build
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - name: set up Java and Maven
-#        uses: actions/setup-java@v4
-#        with:
-#          java-version: '17'
-#          distribution: 'temurin'
-#          cache: maven
-#      - name: run tests
-#        run: mvn test
+  #  build:
+  #    name: Build
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      - uses: actions/checkout@v4
+  #      - name: set up Java and Maven
+  #        uses: actions/setup-java@v4
+  #        with:
+  #          java-version: '17'
+  #          distribution: 'temurin'
+  #          cache: maven
+  #      - name: run tests
+  #        run: mvn test
 
   deploy:
     runs-on: self-hosted
-#    needs: prepare-environment
+    #    needs: prepare-environment
     steps:
       - name: checkout repo
         uses: actions/checkout@v4
       - name: docker-compose
-        run: docker-compose up -d --build app
+        run: docker-compose up -d \
+          --log-driver=local \
+          --log-opt max-size=10m \
+          --log-opt max-file=3 \
+          --build app
