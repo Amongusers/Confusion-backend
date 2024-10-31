@@ -31,6 +31,10 @@ public class Room extends BaseEntityWithId {
             columnDefinition = "integer default 0")
     private int gameState;
 
+    @Column (name = "room_secret_key", nullable = false, updatable = false,
+            unique = true, length = 100)
+    private String secretCode;
+
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<TaskInRoom> taskInRoomSet;
 
