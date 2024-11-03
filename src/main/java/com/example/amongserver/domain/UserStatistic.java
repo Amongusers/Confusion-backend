@@ -1,5 +1,6 @@
 package com.example.amongserver.domain;
 
+import com.example.amongserver.domain.base.BaseEntityWithAudit;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
