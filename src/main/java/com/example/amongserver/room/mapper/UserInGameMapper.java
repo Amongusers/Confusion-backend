@@ -13,6 +13,7 @@ import org.mapstruct.ReportingPolicy;
         builder = @Builder(disableBuilder = true))
 public interface UserInGameMapper {
 
+    // TODO: нужно получать username из User
     UserInGameAdminResponseDto toUserInGameAdminResponseDto(@Nullable final UserInGame userInGame);
 
     UserInGameResponseDto toUserInGameResponseDto(@Nullable final UserInGame userInGame);
