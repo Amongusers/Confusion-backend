@@ -1,4 +1,4 @@
-package com.example.amongserver.room;
+package com.example.amongserver.room.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JoinRoomRequestDto {
+public class JoinRoomErrorResponseDto {
 
-    private String secretCode;
+    private String errorMessage;
 
 }
