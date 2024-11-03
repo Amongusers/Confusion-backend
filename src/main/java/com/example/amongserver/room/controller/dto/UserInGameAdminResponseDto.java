@@ -15,7 +15,7 @@ public class UserInGameAdminResponseDto {
 
     private byte isAdmin;
 
-    private String username;
+//    private String username;
 
     private String color;
 }

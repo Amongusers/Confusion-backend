@@ -10,4 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInGameResponseDto {
+
+    private Long id;
+
+    private String username;
+
+    private String color;
 }
