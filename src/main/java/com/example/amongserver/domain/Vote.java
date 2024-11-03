@@ -1,6 +1,7 @@
 package com.example.amongserver.domain;
 
 
+import com.example.amongserver.domain.id.VoteId;
 import lombok.*;
 
 import javax.persistence.*;

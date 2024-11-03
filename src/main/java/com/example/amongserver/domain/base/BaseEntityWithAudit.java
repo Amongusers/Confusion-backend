@@ -1,5 +1,6 @@
-package com.example.amongserver.domain;
+package com.example.amongserver.domain.base;
 
+import com.example.amongserver.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

@@ -1,5 +1,6 @@
 package com.example.amongserver.domain;
 
+import com.example.amongserver.domain.base.BaseEntityWithId;
 import lombok.*;
 
 import javax.persistence.*;
