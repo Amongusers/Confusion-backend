@@ -1,7 +1,7 @@
 package com.example.amongserver.registration.service.impl;
 
 import com.example.amongserver.registration.exception.UserByEmailNotFoundException;
-import com.example.amongserver.registration.repository.UserRepository;
+import com.example.amongserver.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

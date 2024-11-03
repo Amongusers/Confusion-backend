@@ -6,8 +6,8 @@ import com.example.amongserver.registration.controller.dto.UserRegisterRequestDt
 import com.example.amongserver.registration.exception.AuthorityNotFoundException;
 import com.example.amongserver.registration.exception.UserAlreadyExistsException;
 import com.example.amongserver.registration.mapper.UserRegisterMapper;
-import com.example.amongserver.registration.repository.AuthorityRepository;
-import com.example.amongserver.registration.repository.UserRepository;
+import com.example.amongserver.repository.AuthorityRepository;
+import com.example.amongserver.repository.UserRepository;
 import com.example.amongserver.registration.service.impl.UserRegisterServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

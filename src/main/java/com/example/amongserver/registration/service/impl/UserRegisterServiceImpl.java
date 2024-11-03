@@ -7,8 +7,8 @@ import com.example.amongserver.registration.exception.UserAlreadyExistsException
 import com.example.amongserver.registration.mapper.UserRegisterMapper;
 import com.example.amongserver.registration.controller.dto.UserRegisterRequestDto;
 import com.example.amongserver.registration.service.UserRegisterService;
-import com.example.amongserver.registration.repository.AuthorityRepository;
-import com.example.amongserver.registration.repository.UserRepository;
+import com.example.amongserver.repository.AuthorityRepository;
+import com.example.amongserver.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

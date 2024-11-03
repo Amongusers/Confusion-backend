@@ -5,7 +5,7 @@ import com.example.amongserver.authorization.dto.UserAuthRequestDto;
 import com.example.amongserver.authorization.dto.UserAuthResponseDto;
 import com.example.amongserver.authorization.manager.JwtTokenManager;
 import com.example.amongserver.authorization.service.UserAuthService;
-import com.example.amongserver.registration.repository.UserRepository;
+import com.example.amongserver.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

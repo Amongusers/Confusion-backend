@@ -1,4 +1,4 @@
-package com.example.amongserver.registration.repository;
+package com.example.amongserver.repository;
 
 
 import com.example.amongserver.domain.User;
