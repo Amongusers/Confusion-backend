@@ -45,6 +45,7 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequests -> authorizeRequests
                         .antMatchers("/register").permitAll() // Доступен всем
                         .antMatchers("/auth").permitAll() // Доступен зарегестрированным пользователям
+                        .antMatchers("/h2-console/**").permitAll() // для возможно работы через h2
                         .anyRequest().authenticated()) // Остальные пути требуют JWT
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
